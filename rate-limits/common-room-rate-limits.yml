@@ -1,0 +1,38 @@
+name: Common Room API Rate Limits
+description: Rate limit information for the Common Room Core API and SCIM API. Specific numeric rate limits are not publicly documented; limits are enforced at the API token level and vary by plan tier.
+version: '0.1'
+url: https://api.commonroom.io/docs/community.html
+notes: Common Room does not publicly disclose specific numeric rate limit thresholds in their documentation. Rate limiting is enforced per API token. Contact Common Room support for plan-specific rate limit details.
+authentication:
+  type: Bearer Token
+  description: API tokens are created in Settings > API Tokens and used as JWT Bearer tokens in the Authorization header.
+  header: Authorization
+  format: 'Bearer <token>'
+  tokenStatusEndpoint: GET /api/v1/token/status
+apis:
+  - name: Common Room Core API
+    baseURL: https://api.commonroom.io
+    rateLimits:
+      - scope: token
+        description: Rate limits are enforced per API token. Specific thresholds are not publicly documented.
+        headers:
+          - name: x-ratelimit-limit
+            description: Maximum number of requests allowed in the current window (if returned)
+          - name: x-ratelimit-remaining
+            description: Number of requests remaining in the current window (if returned)
+          - name: x-ratelimit-reset
+            description: Unix timestamp when the rate limit window resets (if returned)
+        statusCode: 429
+        statusDescription: Too Many Requests — returned when rate limit is exceeded
+  - name: Common Room SCIM API
+    baseURL: https://api.commonroom.io
+    rateLimits:
+      - scope: token
+        description: Rate limits are enforced per API token. Specific thresholds are not publicly documented.
+        statusCode: 429
+        statusDescription: Too Many Requests — returned when rate limit is exceeded
+webhooks:
+  description: Webhook deliveries are triggered by workflow rules in Common Room. No explicit rate limits on webhook delivery frequency are documented, but webhook payloads are delivered based on event occurrence and daily workflow schedules.
+  secret:
+    header: x-commonroom-webhook-secret
+    description: Optional shared secret sent in webhook request header for payload verification

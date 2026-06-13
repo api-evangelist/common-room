@@ -1,0 +1,77 @@
+name: Common Room FinOps
+description: FOCUS-aligned FinOps framework for managing Common Room spend, covering cost allocation, optimization, and governance for community intelligence platform usage.
+version: '1.0'
+framework: FinOps FOCUS 1.0
+provider: Common Room
+website: https://www.commonroom.io/pricing/
+costAllocation:
+  dimensions:
+    - name: Plan Tier
+      description: Cost allocation by subscription plan (Essential, Advanced, Enterprise)
+      values:
+        - Essential
+        - Advanced
+        - Enterprise
+    - name: Seats
+      description: Per-seat cost allocation across team members
+      unit: seats
+    - name: Contact Volume
+      description: Cost allocation based on number of managed contacts
+      unit: contacts
+    - name: Credit Consumption
+      description: Allocation of AI research credits and prospector credits consumed
+      units:
+        - RoomieAI Research Credits
+        - Prospector Credits
+    - name: Add-ons
+      description: Optional add-on features such as DataAgent and product signal integration
+billing:
+  model: subscription
+  cycle: annual
+  currency: USD
+  notes: All plans billed annually. Advanced and Enterprise plans require custom quotes from sales.
+costs:
+  - tier: Essential
+    monthlyRate: 2500
+    annualRate: 30000
+    includedSeats: 5
+    additionalSeatCost: Contact sales
+    contactLimit: 100000
+  - tier: Advanced
+    monthlyRate: null
+    annualRate: null
+    notes: Custom pricing — contact sales
+    includedSeats: 15
+    contactLimit: 250000
+  - tier: Enterprise
+    monthlyRate: null
+    annualRate: null
+    notes: Custom pricing; typically $50,000–$80,000+ per year
+    includedSeats: 30
+    contactLimit: 750000
+optimization:
+  recommendations:
+    - name: Right-size Contact Volume
+      description: Monitor actual contact utilization against plan limits to avoid paying for unused capacity or unexpected overage costs. Audit and remove inactive contacts regularly.
+    - name: Optimize Credit Consumption
+      description: Track RoomieAI research credits and Prospector credits usage. Prioritize high-value accounts for AI enrichment to maximize ROI per credit consumed.
+    - name: Seat Utilization Review
+      description: Regularly audit active seat usage and remove inactive users. Unused seats represent direct wasted spend on per-seat subscription plans.
+    - name: Integration Overlap Assessment
+      description: Evaluate overlapping signal sources (e.g., GitHub, LinkedIn, Discord) against actual GTM workflow needs to ensure integrations are actively driving value.
+    - name: Website Enrichment IP Quota Management
+      description: Monitor annual IP enrichment quota consumption to ensure high-value website traffic is being enriched and credits are not exhausted before year end.
+    - name: Annual vs Multi-year Contracts
+      description: Negotiate multi-year contracts at Enterprise tier for additional discounts, particularly if contact volume requirements are stable and predictable.
+governance:
+  policies:
+    - name: API Token Management
+      description: Rotate API tokens regularly and limit token issuance to authorized integrations only. Revoke tokens for deprecated integrations promptly.
+    - name: Webhook Secret Rotation
+      description: Rotate webhook secrets on a scheduled basis and update receiving endpoints accordingly to maintain security.
+    - name: Data Retention and GDPR Compliance
+      description: Use the Contact Anonymization API endpoint to comply with GDPR right-to-be-forgotten requests. Maintain a process for timely data deletion requests.
+    - name: Budget Alerts
+      description: Set budget alerts for credit consumption approaching plan limits. Monitor usage dashboards monthly to anticipate upgrade or downgrade needs.
+    - name: Renewal Planning
+      description: Begin contract renewal negotiations 90 days before annual renewal to allow time for usage review, plan adjustments, and competitive evaluation.

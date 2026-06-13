@@ -1,0 +1,147 @@
+name: Common Room Plans and Pricing
+description: Pricing plans for Common Room community intelligence platform, offering tiered access to contact management, AI research credits, prospecting, integrations, and enterprise features.
+version: '0.1'
+url: https://www.commonroom.io/pricing/
+plans:
+  - name: Essential
+    description: Entry-level plan for growing go-to-market teams needing community intelligence and contact management.
+    price: 2500
+    unit: month
+    billingCycle: annual
+    seats: 5
+    features:
+      - name: Contacts
+        description: Up to 100,000 contacts
+        limit: 100000
+        unit: contacts
+      - name: RoomieAI Research Credits
+        description: AI-powered research credits for contact and account enrichment
+        limit: 5000
+        unit: credits
+      - name: Prospector Credits
+        description: Credits for identifying and prospecting new contacts
+        limit: 2500
+        unit: credits
+      - name: Bombora Company Surge Topics
+        description: Intent data topics from Bombora
+        limit: 5
+        unit: topics
+      - name: Website Activity Enrichment
+        description: Annual IP enrichment for website visitor identification
+        limit: 240000
+        unit: IPs/year
+      - name: Premium Phone Number Enrichment
+        description: Credits for phone number enrichment
+        limit: 100
+        unit: credits
+      - name: Website Deanonymization
+        description: Annual deanonymization credits
+        limit: 1000
+        unit: visits/year
+      - name: Support
+        description: Ticketed support
+        value: Ticketed
+      - name: Person360 Enrichment
+        description: Unified person profile enrichment
+        value: Included
+      - name: Account and Contact Scoring
+        description: AI-powered scoring for accounts and contacts
+        value: Included
+      - name: Spark Notifications and Briefs
+        description: Real-time signal notifications and briefs
+        value: Included
+      - name: Job Change Tracking
+        description: Track job changes for contacts
+        value: Included
+      - name: CRM Integration
+        description: Integration with CRM platforms
+        value: Included
+      - name: Sales Engagement Integration
+        description: Integration with sales engagement platforms
+        value: Included
+      - name: Slack Integration
+        description: Integration with Slack
+        value: Included
+  - name: Advanced
+    description: Advanced plan for scaling GTM teams needing deeper contact intelligence and expanded signal coverage.
+    price: 0
+    unit: month
+    billingCycle: annual
+    notes: Custom pricing — contact sales
+    seats: 15
+    features:
+      - name: Contacts
+        description: Up to 250,000 contacts
+        limit: 250000
+        unit: contacts
+      - name: RoomieAI Research Credits
+        description: AI-powered research credits
+        limit: 7500
+        unit: credits
+      - name: Prospector Credits
+        description: Credits for prospecting new contacts
+        limit: 7500
+        unit: credits
+      - name: Bombora Company Surge Topics
+        description: Intent data topics from Bombora
+        limit: 10
+        unit: topics
+      - name: Website Activity Enrichment
+        description: Annual IP enrichment
+        limit: 480000
+        unit: IPs/year
+      - name: Premium Phone Number Enrichment
+        description: Credits for phone number enrichment
+        limit: 100
+        unit: credits
+      - name: Website Deanonymization
+        description: Annual deanonymization credits
+        limit: 1000
+        unit: visits/year
+      - name: Support
+        description: Ticketed support
+        value: Ticketed
+  - name: Enterprise
+    description: Enterprise plan for large organizations requiring maximum scale, dedicated support, and full platform access.
+    price: 0
+    unit: month
+    billingCycle: annual
+    notes: Custom pricing — contact sales; typically $50,000–$80,000+/year
+    seats: 30
+    features:
+      - name: Contacts
+        description: Up to 750,000 contacts
+        limit: 750000
+        unit: contacts
+      - name: RoomieAI Research Credits
+        description: AI-powered research credits
+        limit: 10000
+        unit: credits
+      - name: Prospector Credits
+        description: Credits for prospecting new contacts
+        limit: 15000
+        unit: credits
+      - name: Bombora Company Surge Topics
+        description: Intent data topics from Bombora
+        limit: 25
+        unit: topics
+      - name: Website Activity Enrichment
+        description: Annual IP enrichment
+        limit: 960000
+        unit: IPs/year
+      - name: Premium Phone Number Enrichment
+        description: Credits for phone number enrichment
+        limit: 200
+        unit: credits
+      - name: Website Deanonymization
+        description: Unlimited deanonymization
+        value: Unlimited
+      - name: Support
+        description: Dedicated account management
+        value: Dedicated Account Management
+      - name: DataAgent
+        description: AI data agent capabilities (included, add-on for lower tiers)
+        value: Included
+      - name: Product Signal Integration
+        description: Native product usage signal integration
+        value: Included
