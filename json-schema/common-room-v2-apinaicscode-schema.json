@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://api.commonroom.io/schemas/v2/apinaicscode",
+  "title": "ApiNaicsCode",
+  "type": "object",
+  "required": [
+    "id",
+    "code",
+    "name"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Prefixed NAICS code ID (format `naics_<number>`)"
+    },
+    "code": {
+      "type": "integer",
+      "description": "The numeric NAICS code"
+    },
+    "name": {
+      "type": "string",
+      "description": "Industry name"
+    }
+  }
+}

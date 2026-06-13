@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://api.commonroom.io/schemas/v2/apilocation",
+  "title": "ApiLocation",
+  "type": "object",
+  "description": "A best-effort location, with each component populated when known.",
+  "properties": {
+    "city": {
+      "type": "string",
+      "description": "City name"
+    },
+    "region": {
+      "type": "string",
+      "description": "State, province, or region name"
+    },
+    "country": {
+      "type": "string",
+      "description": "Country name"
+    }
+  }
+}

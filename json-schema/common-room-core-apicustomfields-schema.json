@@ -1,0 +1,89 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://api.commonroom.io/schemas/core/apicustomfields",
+  "title": "ApiCustomFields",
+  "type": "object",
+  "description": "Optional list of custom fields to update",
+  "properties": {
+    "id": {
+      "description": "ID of the custom field to update which you can retrieve using the /members/customFields endpoint.",
+      "type": "number"
+    },
+    "value": {
+      "type": "object",
+      "description": "The value of the custom field. Important: Omitting this field will clear the custom field value and cannot be undone.",
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "The defined type of the custom field",
+          "enum": [
+            "enum",
+            "string",
+            "date",
+            "int",
+            "number",
+            "url",
+            "boolean"
+          ],
+          "example": "boolean"
+        },
+        "value": {
+          "description": "The updated value of the custom field.",
+          "example": true,
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "number"
+            },
+            {
+              "type": "url"
+            },
+            {
+              "type": "date",
+              "description": "Only supports ISO 8601 date format (YYYY-MM-DD)."
+            },
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "array",
+              "items": {
+                "oneOf": [
+                  {
+                    "type": "string",
+                    "description": "Only applicable for multivalue string custom fields."
+                  },
+                  {
+                    "type": "number",
+                    "description": "Only applicable for multi-value number custom fields."
+                  },
+                  {
+                    "type": "date",
+                    "description": "Only applicable for multivalue date custom fields."
+                  },
+                  {
+                    "type": "url",
+                    "description": "Only applicable for multivalue URL custom fields."
+                  },
+                  {
+                    "type": "boolean",
+                    "description": "Only applicable for multivalue boolean custom fields."
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "required": [
+        "type",
+        "value"
+      ]
+    }
+  },
+  "required": [
+    "id"
+  ]
+}

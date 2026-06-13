@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://api.commonroom.io/schemas/core/apitagassignmentbyname",
+  "title": "ApiTagAssignmentByName",
+  "type": "object",
+  "properties": {
+    "type": {
+      "type": "string",
+      "enum": [
+        "name"
+      ]
+    },
+    "name": {
+      "description": "Name of the tag to assign.\n\nThis will assign an existing label if a matching one is found by name, otherwise a new label will be created and assigned.\n",
+      "type": "string"
+    }
+  },
+  "required": [
+    "type",
+    "name"
+  ]
+}

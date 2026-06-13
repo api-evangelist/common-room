@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://api.commonroom.io/schemas/v2/apiactivitytype",
+  "title": "ApiActivityType",
+  "type": "object",
+  "required": [
+    "id",
+    "displayName"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Activity type identifier (e.g. `tweet`, `pr_comment`)"
+    },
+    "displayName": {
+      "type": "string",
+      "description": "Human-readable display name for the activity type"
+    }
+  }
+}

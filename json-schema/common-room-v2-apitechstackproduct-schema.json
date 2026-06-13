@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://api.commonroom.io/schemas/v2/apitechstackproduct",
+  "title": "ApiTechStackProduct",
+  "type": "object",
+  "required": [
+    "id",
+    "product",
+    "vendor"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Prefixed product ID (format `p_<number>`)"
+    },
+    "product": {
+      "type": "string",
+      "description": "Product name"
+    },
+    "vendor": {
+      "type": "string",
+      "description": "Vendor name"
+    }
+  }
+}

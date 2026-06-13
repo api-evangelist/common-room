@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://api.commonroom.io/schemas/scim/user",
+  "title": "User",
+  "type": "object",
+  "description": "Represents the user account in the Common Room community\nThis account is used for identity mangement via SCIM\nSpecification can be found at https://datatracker.ietf.org/doc/html/rfc7643#section-4.1\n",
+  "properties": {
+    "id": {
+      "type": "string",
+      "example": "user@domain.com"
+    },
+    "userName": {
+      "type": "string",
+      "example": "user@domain.com"
+    },
+    "name": {
+      "type": "object",
+      "properties": {
+        "givenName": {
+          "type": "string",
+          "example": "John"
+        },
+        "familyName": {
+          "type": "string",
+          "example": "Doe"
+        }
+      }
+    },
+    "emails": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "string",
+            "example": "user@domain.com"
+          },
+          "primary": {
+            "type": "boolean",
+            "example": true
+          },
+          "type": {
+            "type": "string",
+            "example": "work"
+          }
+        }
+      }
+    },
+    "active": {
+      "type": "boolean",
+      "example": true,
+      "description": "Indicates whether the user has a login account in the community"
+    },
+    "schemas": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "example": "urn:ietf:params:scim:api:messages:2.0:User"
+      }
+    }
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://api.commonroom.io/schemas/v2/apiprovider",
+  "title": "ApiProvider",
+  "type": "object",
+  "required": [
+    "id",
+    "name",
+    "serviceName"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Prefixed signal source ID (format `sig_<number>`)"
+    },
+    "name": {
+      "type": "string",
+      "nullable": true,
+      "description": "User-defined display name for this source"
+    },
+    "serviceName": {
+      "type": "string",
+      "description": "The provider service type (e.g. `slack`, `github`, `salesforce`)"
+    }
+  }
+}

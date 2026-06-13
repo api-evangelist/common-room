@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://api.commonroom.io/schemas/v2/apitoken",
+  "title": "ApiToken",
+  "type": "object",
+  "properties": {
+    "jti": {
+      "type": "string",
+      "example": "tcpgph92"
+    },
+    "communityName": {
+      "type": "string",
+      "example": "Uncommon"
+    },
+    "communityId": {
+      "type": "string",
+      "example": "8p980hdo0"
+    }
+  }
+}

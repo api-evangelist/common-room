@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://api.commonroom.io/schemas/core/communitymember",
+  "title": "CommunityMember",
+  "CommunityMember": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "integer",
+        "example": 147920
+      }
+    }
+  }
+}

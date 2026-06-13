@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://api.commonroom.io/schemas/v2/apisegment",
+  "title": "ApiSegment",
+  "type": "object",
+  "required": [
+    "id",
+    "name",
+    "entityType"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Prefixed segment ID (format `s_<number>`)"
+    },
+    "name": {
+      "type": "string",
+      "description": "The segment's display name"
+    },
+    "entityType": {
+      "type": "string",
+      "enum": [
+        "contact",
+        "object",
+        "organization"
+      ],
+      "description": "The type of entity this segment contains"
+    },
+    "entityCount": {
+      "type": "integer",
+      "description": "Number of entities in this segment"
+    },
+    "url": {
+      "type": "string",
+      "format": "uri",
+      "description": "Common Room URL for this segment"
+    }
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://api.commonroom.io/schemas/v2/apiv2error",
+  "title": "ApiV2Error",
+  "type": "object",
+  "required": [
+    "code",
+    "message"
+  ],
+  "properties": {
+    "code": {
+      "type": "string",
+      "description": "A machine-readable error code identifying the failure.",
+      "enum": [
+        "invalid_parameters",
+        "invalid_organization_id",
+        "org_not_found",
+        "invalid_contact_id",
+        "contact_not_found",
+        "invalid_object_id",
+        "object_not_found",
+        "invalid_object_type_id",
+        "object_type_not_found",
+        "invalid_segment_id",
+        "segment_not_found",
+        "invalid_activity_id",
+        "activity_not_found",
+        "conflict",
+        "internal_server_error",
+        "invalid_custom_field_id",
+        "custom_field_not_found",
+        "invalid_prospector_contact_id",
+        "prospector_contact_not_found",
+        "invalid_prospector_company_id",
+        "prospector_company_not_found"
+      ]
+    },
+    "message": {
+      "type": "string",
+      "description": "A human-readable description of the error."
+    }
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://api.commonroom.io/schemas/v2/apileadscoredefinition",
+  "title": "ApiLeadScoreDefinition",
+  "type": "object",
+  "required": [
+    "id",
+    "name",
+    "enabled",
+    "entityType",
+    "isPrimaryScore"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Prefixed lead score ID (format `ls_<number>`)"
+    },
+    "name": {
+      "type": "string",
+      "description": "The lead score's display name"
+    },
+    "enabled": {
+      "type": "boolean",
+      "description": "Whether this lead score is currently enabled"
+    },
+    "entityType": {
+      "type": "string",
+      "enum": [
+        "contact",
+        "organization",
+        "object"
+      ],
+      "description": "The type of entity this lead score applies to"
+    },
+    "isPrimaryScore": {
+      "type": "boolean",
+      "description": "Whether this is the primary score for its entity type"
+    }
+  }
+}

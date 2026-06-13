@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://api.commonroom.io/schemas/v2/apiactivitycategory",
+  "title": "ApiActivityCategory",
+  "type": "object",
+  "required": [
+    "id",
+    "name",
+    "value"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Prefixed label ID (format `l_<number>`)"
+    },
+    "name": {
+      "type": "string",
+      "description": "Display name for the category"
+    },
+    "value": {
+      "type": "string",
+      "description": "Machine-readable category value"
+    }
+  }
+}

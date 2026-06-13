@@ -1,0 +1,81 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://api.commonroom.io/schemas/v2/apiprospectorcompany",
+  "title": "ApiProspectorCompany",
+  "type": "object",
+  "required": [
+    "id",
+    "name"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Prospector company ID"
+    },
+    "name": {
+      "type": "string",
+      "description": "The company's display name"
+    },
+    "description": {
+      "type": "string",
+      "nullable": true
+    },
+    "employees": {
+      "type": "number",
+      "nullable": true
+    },
+    "linkedInHandles": {
+      "type": "array",
+      "nullable": true,
+      "items": {
+        "type": "string"
+      }
+    },
+    "location": {
+      "allOf": [
+        {
+          "$ref": "#/components/schemas/ApiProspectorCompanyLocation"
+        }
+      ],
+      "nullable": true
+    },
+    "logoUrl": {
+      "type": "string",
+      "format": "uri",
+      "nullable": true
+    },
+    "primaryWebsite": {
+      "type": "string",
+      "nullable": true
+    },
+    "raised": {
+      "type": "number",
+      "nullable": true,
+      "description": "Total capital raised"
+    },
+    "revenueRange": {
+      "type": "object",
+      "nullable": true,
+      "properties": {
+        "min": {
+          "type": "number"
+        },
+        "max": {
+          "type": "number",
+          "nullable": true
+        }
+      }
+    },
+    "subIndustry": {
+      "type": "string",
+      "nullable": true
+    },
+    "technologies": {
+      "type": "array",
+      "nullable": true,
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

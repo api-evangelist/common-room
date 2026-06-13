@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://api.commonroom.io/schemas/core/apitagassignment",
+  "title": "ApiTagAssignment",
+  "type": "object",
+  "description": "Optional List of tags to assign",
+  "oneOf": [
+    {
+      "$ref": "#/components/schemas/ApiTagAssignmentById"
+    },
+    {
+      "$ref": "#/components/schemas/ApiTagAssignmentByName"
+    }
+  ],
+  "discriminator": {
+    "propertyName": "type",
+    "mapping": {
+      "id": "#/components/schemas/ApiTagAssignmentById",
+      "name": "#/components/schemas/ApiTagAssignmentByName"
+    }
+  }
+}

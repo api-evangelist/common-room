@@ -1,0 +1,129 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://api.commonroom.io/schemas/v2/meresponse",
+  "title": "MeResponse",
+  "type": "object",
+  "required": [
+    "success",
+    "data"
+  ],
+  "properties": {
+    "success": {
+      "type": "boolean",
+      "enum": [
+        true
+      ]
+    },
+    "data": {
+      "type": "object",
+      "required": [
+        "id",
+        "communityId",
+        "name",
+        "role"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Prefixed contact ID (format `c_<number>`)"
+        },
+        "communityId": {
+          "type": "string",
+          "description": "Prefixed community ID (format `com_<number>`)"
+        },
+        "name": {
+          "type": "string",
+          "description": "The authenticated user's display name"
+        },
+        "title": {
+          "type": "string",
+          "nullable": true,
+          "description": "The user's job title"
+        },
+        "role": {
+          "type": "string",
+          "description": "The user's role in the community"
+        },
+        "loginEmail": {
+          "type": "string",
+          "nullable": true,
+          "description": "The user's login email address"
+        },
+        "profiles": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "type",
+              "handle"
+            ],
+            "properties": {
+              "type": {
+                "type": "string"
+              },
+              "handle": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "segments": {
+          "type": "array",
+          "description": "Segments bookmarked by this user",
+          "items": {
+            "type": "object",
+            "required": [
+              "id",
+              "name"
+            ],
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "personas": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "id",
+              "name"
+            ],
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "company": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "nullable": true
+            },
+            "domains": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "summary": {
+              "type": "string",
+              "nullable": true
+            }
+          }
+        }
+      }
+    }
+  }
+}

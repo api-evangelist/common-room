@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://api.commonroom.io/schemas/v2/apileadscore",
+  "title": "ApiLeadScore",
+  "type": "object",
+  "required": [
+    "scoreId",
+    "score",
+    "percentile"
+  ],
+  "properties": {
+    "scoreId": {
+      "type": "integer",
+      "description": "The numeric ID of the lead-score definition"
+    },
+    "score": {
+      "type": "number",
+      "description": "The raw score for this contact or organization"
+    },
+    "percentile": {
+      "type": "number",
+      "description": "The percentile rank of the score within the community"
+    }
+  }
+}

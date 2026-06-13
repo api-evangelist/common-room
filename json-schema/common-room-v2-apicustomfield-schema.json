@@ -1,0 +1,79 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://api.commonroom.io/schemas/v2/apicustomfield",
+  "title": "ApiCustomField",
+  "type": "object",
+  "required": [
+    "id",
+    "name",
+    "entityTypes",
+    "keyField",
+    "valueType"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Prefixed custom field ID (format `cf_<number>`)"
+    },
+    "name": {
+      "type": "string",
+      "description": "The custom field's display name"
+    },
+    "entityTypes": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "contact",
+          "object",
+          "organization"
+        ]
+      },
+      "description": "Entity types this field applies to"
+    },
+    "keyField": {
+      "type": "boolean",
+      "description": "Whether this is a key field used for deduplication"
+    },
+    "valueType": {
+      "type": "string",
+      "enum": [
+        "string",
+        "url",
+        "int",
+        "number",
+        "date",
+        "boolean"
+      ],
+      "description": "The data type of field values"
+    },
+    "sampleValues": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/ApiFieldValue"
+      },
+      "description": "Example values for this field"
+    },
+    "description": {
+      "type": "string",
+      "nullable": true,
+      "description": "Human-readable description of the field"
+    },
+    "targetSubTypes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Sub-types this field targets"
+    },
+    "providedBy": {
+      "type": "string",
+      "nullable": true,
+      "description": "Name of the provider that owns this field, if any"
+    },
+    "objectTypeId": {
+      "type": "string",
+      "description": "Prefixed object type ID (format `cot_<number>`), if this field belongs to a specific object type"
+    }
+  }
+}

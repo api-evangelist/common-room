@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://api.commonroom.io/schemas/v2/apilocationitem",
+  "title": "ApiLocationItem",
+  "type": "object",
+  "required": [
+    "id",
+    "name",
+    "type"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Prefixed location ID"
+    },
+    "name": {
+      "type": "string",
+      "description": "Display name for the location"
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "city",
+        "country",
+        "country_region",
+        "world_region"
+      ],
+      "description": "The granularity of this location"
+    },
+    "city": {
+      "type": "string"
+    },
+    "region": {
+      "type": "string"
+    },
+    "country": {
+      "type": "string"
+    }
+  }
+}

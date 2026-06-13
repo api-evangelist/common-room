@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://api.commonroom.io/schemas/v2/apiobjecttype",
+  "title": "ApiObjectType",
+  "type": "object",
+  "required": [
+    "id",
+    "name"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Prefixed object type ID (format `cot_<number>`)"
+    },
+    "name": {
+      "type": "string",
+      "description": "The object type's display name"
+    },
+    "assocs": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/ApiObjectTypeAssoc"
+      },
+      "description": "Associations to other entity types"
+    }
+  }
+}

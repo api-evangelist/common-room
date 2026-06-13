@@ -1,0 +1,37 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://api.commonroom.io/schemas/v2/apitag",
+  "title": "ApiTag",
+  "type": "object",
+  "required": [
+    "id",
+    "name"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Prefixed tag ID (format `l_<number>`)"
+    },
+    "name": {
+      "type": "string",
+      "description": "The tag's display name"
+    },
+    "description": {
+      "type": "string",
+      "nullable": true,
+      "description": "Human-readable description of the tag"
+    },
+    "entityTypes": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "contact",
+          "organization",
+          "activity"
+        ]
+      },
+      "description": "Entity types this tag can be applied to"
+    }
+  }
+}

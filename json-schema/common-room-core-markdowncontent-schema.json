@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://api.commonroom.io/schemas/core/markdowncontent",
+  "title": "MarkdownContent",
+  "type": "object",
+  "properties": {
+    "type": {
+      "type": "string",
+      "enum": [
+        "markdown"
+      ]
+    },
+    "value": {
+      "type": "string",
+      "description": "Markdown content of the activity"
+    }
+  },
+  "required": [
+    "type",
+    "value"
+  ]
+}

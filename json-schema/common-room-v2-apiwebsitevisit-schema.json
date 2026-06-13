@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://api.commonroom.io/schemas/v2/apiwebsitevisit",
+  "title": "ApiWebsiteVisit",
+  "type": "object",
+  "required": [
+    "id",
+    "visitTime"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Prefixed website visit cursor (format `w_<cursor>`)"
+    },
+    "visitTime": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the visit occurred"
+    },
+    "url": {
+      "type": "string",
+      "format": "uri",
+      "description": "The visited page URL"
+    },
+    "contactId": {
+      "type": "string",
+      "description": "Prefixed contact ID (format `c_<number>`)"
+    },
+    "organizationId": {
+      "type": "string",
+      "description": "Prefixed organization ID (format `o_<number>`)"
+    }
+  }
+}

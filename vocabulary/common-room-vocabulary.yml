@@ -1,0 +1,182 @@
+vocabulary:
+  name: Common Room Vocabulary
+  description: Domain vocabulary for the Common Room community intelligence platform APIs, covering members, contacts, organizations, activities, segments, tags, and SCIM provisioning.
+  version: '1.0'
+  created: '2026-06-13'
+  source: https://api.commonroom.io/docs/
+
+terms:
+  - term: Member
+    definition: A person tracked in a Common Room community workspace, identified by email or social identifiers, with associated activity history, tags, and custom fields.
+    relatedEndpoints:
+      - POST /community/v1/source/{destinationSourceId}/user
+      - GET /community/v1/user/{email}
+      - GET /community/v1/members
+    schemas:
+      - CommunityMember
+      - ApiUser
+
+  - term: Contact
+    definition: A V2 representation of a person in Common Room, enriched with company affiliation, lead score, segment membership, and custom field values.
+    relatedEndpoints:
+      - GET /community/v2/contacts
+      - GET /community/v2/contacts/{id}
+    schemas:
+      - Contact
+      - ContactResponse
+      - ContactList
+
+  - term: Organization
+    definition: A company or entity associated with contacts in Common Room, including firmographic data such as industry, employee count, and technology stack.
+    relatedEndpoints:
+      - GET /community/v2/organizations
+      - GET /community/v2/organizations/{id}
+    schemas:
+      - Organization
+      - OrganizationResponse
+      - OrganizationList
+
+  - term: Activity
+    definition: A discrete signal or action recorded to a member's timeline, such as a GitHub pull request, Slack message, Discord post, or custom event. Activities have a type, timestamp, and optional body text.
+    relatedEndpoints:
+      - POST /community/v1/source/{destinationSourceId}/activity
+      - GET /community/v2/activities
+      - GET /community/v2/activities/{id}
+    schemas:
+      - ApiActivity
+
+  - term: ActivityType
+    definition: A categorized classification for an activity (e.g., github:pullRequestOpened, slack:message), defining the source platform and action kind.
+    relatedEndpoints:
+      - GET /community/v1/activityTypes
+      - GET /community/v2/activity-types
+    schemas:
+      - ApiActivityType
+      - ActivityTypeList
+
+  - term: Segment
+    definition: A dynamic or static grouping of members or contacts based on criteria such as activity patterns, firmographics, or manual assignment. Segments power targeting and outreach automation.
+    relatedEndpoints:
+      - GET /community/v1/segments
+      - GET /community/v2/segments
+      - GET /community/v2/segments/{id}
+    schemas:
+      - ApiSegment
+      - SegmentList
+      - CreateSegmentRequest
+
+  - term: Tag
+    definition: A label applied to a member or contact to categorize or annotate them for filtering, routing, or reporting purposes.
+    relatedEndpoints:
+      - GET /community/v1/tags
+      - POST /community/v1/tags
+      - GET /community/v2/tags
+    schemas:
+      - ApiTag
+      - ApiTagCreationProperties
+      - ApiTagUpdateProperties
+      - ApiTagAssignment
+      - ApiTagAssignmentById
+      - ApiTagAssignmentByName
+
+  - term: CustomField
+    definition: A user-defined metadata field on a member or contact record, allowing teams to store arbitrary structured data such as CRM stage, product plan, or survey responses.
+    relatedEndpoints:
+      - GET /community/v1/members/customFields
+      - GET /community/v2/custom-fields
+    schemas:
+      - ApiCustomFields
+      - ApiCustomField
+
+  - term: LeadScore
+    definition: A numeric score assigned to a contact or organization representing their engagement level and fit for go-to-market outreach, computed from activity signals and firmographic data.
+    relatedEndpoints:
+      - GET /community/v2/lead-scores
+      - GET /community/v2/lead-scores/{id}
+    schemas:
+      - ApiLeadScore
+      - ApiLeadScoreDefinition
+
+  - term: ApiToken
+    definition: A bearer JWT credential used to authenticate requests to the Common Room API. Tokens are created by room Admins in the Common Room settings and passed via the Authorization header.
+    relatedEndpoints:
+      - GET /community/v1/api-token-status
+      - GET /community/v2/api-token-status
+    schemas:
+      - ApiToken
+      - Status
+
+  - term: DestinationSource
+    definition: A named integration source (e.g., a custom CRM or data pipeline) registered in Common Room that provides the namespace for member and activity ingestion via the Core API.
+    relatedEndpoints:
+      - POST /community/v1/source/{destinationSourceId}/user
+      - POST /community/v1/source/{destinationSourceId}/activity
+
+  - term: SCIM
+    definition: System for Cross-domain Identity Management — a standard protocol used by Common Room to manage user provisioning and deprovisioning of room owners and admins via identity providers.
+    relatedEndpoints:
+      - GET /scim/v2/users
+      - POST /scim/v2/users
+      - GET /scim/v2/users/{email}
+      - PATCH /scim/v2/users/{email}
+    schemas:
+      - User
+
+  - term: WebsiteVisit
+    definition: A recorded event capturing an anonymous or identified visitor's interaction with a tracked web property, enriched with company identification for account-level intent signals.
+    relatedEndpoints:
+      - GET /community/v2/website-visits
+    schemas:
+      - ApiWebsiteVisit
+
+  - term: ProspectorContact
+    definition: A prospective contact discovered through Common Room's prospector feature, representing individuals at target companies who match defined ideal customer profile criteria.
+    relatedEndpoints:
+      - GET /community/v2/prospector-contacts
+    schemas:
+      - ApiProspectorContact
+
+  - term: ProspectorCompany
+    definition: A target company surfaced through Common Room's prospector, enriched with firmographic data, location, employee count, and technology stack for outbound targeting.
+    relatedEndpoints:
+      - GET /community/v2/prospector-companies
+    schemas:
+      - ApiProspectorCompany
+
+  - term: TechStack
+    definition: A list of technology products used by an organization, surfaced in Common Room to help prioritize outreach to contacts at companies using complementary or competitive tools.
+    relatedEndpoints:
+      - GET /community/v2/tech-stack-products
+
+  - term: Provider
+    definition: An integration source connected to Common Room (e.g., GitHub, Slack, Discord, LinkedIn) that feeds member signals and activities into the community intelligence platform.
+    relatedEndpoints:
+      - GET /community/v2/providers
+    schemas:
+      - ApiProvider
+
+  - term: Topic
+    definition: A content or interest theme automatically detected or manually assigned within Common Room to categorize member discussions and signals.
+    relatedEndpoints:
+      - GET /community/v2/topics
+    schemas:
+      - ApiTopic
+
+  - term: CustomObject
+    definition: A user-defined data object type within Common Room that extends the platform's data model to accommodate domain-specific entities and relationships.
+    relatedEndpoints:
+      - GET /community/v2/objects
+      - GET /community/v2/object-types
+    schemas:
+      - ApiCustomObject
+      - ApiObjectType
+
+  - term: Anonymize
+    definition: A GDPR-compliant operation that removes personally identifiable information from a contact record while preserving aggregated analytics, fulfilling right-to-erasure requests.
+    relatedEndpoints:
+      - DELETE /community/v1/user/{email}
+
+  - term: DataAvailable
+    definition: An endpoint indicating whether new data is available in Common Room for polling-based integrations.
+    relatedEndpoints:
+      - GET /community/v2/data-available

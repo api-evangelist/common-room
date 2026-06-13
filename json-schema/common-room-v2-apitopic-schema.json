@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://api.commonroom.io/schemas/v2/apitopic",
+  "title": "ApiTopic",
+  "type": "object",
+  "required": [
+    "id",
+    "name"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Prefixed topic ID (format `tp_<number>`)"
+    },
+    "name": {
+      "type": "string",
+      "description": "The topic's display name"
+    }
+  }
+}

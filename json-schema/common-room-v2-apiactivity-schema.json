@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://api.commonroom.io/schemas/v2/apiactivity",
+  "title": "ApiActivity",
+  "type": "object",
+  "required": [
+    "id",
+    "type",
+    "activityTime"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Prefixed activity ID (format `a_<number>`)"
+    },
+    "type": {
+      "type": "string",
+      "description": "Activity type identifier (e.g. `tweet`, `pr_comment`)"
+    },
+    "activityTime": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the activity occurred"
+    },
+    "contactId": {
+      "type": "string",
+      "description": "Prefixed contact ID (format `c_<number>`)"
+    },
+    "content": {
+      "type": "string",
+      "nullable": true
+    },
+    "isUserInitiated": {
+      "type": "boolean"
+    },
+    "participantCount": {
+      "type": "integer"
+    },
+    "providerId": {
+      "type": "string",
+      "description": "Prefixed signal source ID (format `sig_<number>`)"
+    },
+    "providerName": {
+      "type": "string",
+      "nullable": true
+    },
+    "replyCount": {
+      "type": "integer"
+    },
+    "sentiment": {
+      "type": "string",
+      "nullable": true
+    },
+    "subSourceNames": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "url": {
+      "type": "string",
+      "format": "uri"
+    }
+  }
+}

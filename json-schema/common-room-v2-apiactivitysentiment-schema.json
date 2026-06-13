@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://api.commonroom.io/schemas/v2/apiactivitysentiment",
+  "title": "ApiActivitySentiment",
+  "type": "object",
+  "required": [
+    "id",
+    "name"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Prefixed label ID (format `l_<number>`)"
+    },
+    "name": {
+      "type": "string",
+      "description": "Display name for the sentiment (e.g. positive, negative, neutral)"
+    }
+  }
+}

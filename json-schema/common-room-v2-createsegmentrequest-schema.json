@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://api.commonroom.io/schemas/v2/createsegmentrequest",
+  "title": "CreateSegmentRequest",
+  "type": "object",
+  "required": [
+    "name"
+  ],
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "The name for the new segment (max 500 characters)"
+    },
+    "description": {
+      "type": "string",
+      "description": "Optional description for the segment (markdown supported)"
+    },
+    "entityType": {
+      "type": "string",
+      "enum": [
+        "contact",
+        "object",
+        "organization"
+      ],
+      "default": "contact",
+      "description": "The type of entity this segment will contain"
+    },
+    "objectTypeId": {
+      "type": "string",
+      "description": "Required when entityType is `object`. Prefixed object type ID (format `cot_<number>`)"
+    }
+  }
+}

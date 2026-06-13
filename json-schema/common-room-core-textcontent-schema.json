@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://api.commonroom.io/schemas/core/textcontent",
+  "title": "TextContent",
+  "type": "object",
+  "properties": {
+    "type": {
+      "type": "string",
+      "enum": [
+        "text"
+      ]
+    },
+    "value": {
+      "type": "string",
+      "description": "Plain text content of the activity"
+    }
+  },
+  "required": [
+    "type",
+    "value"
+  ]
+}

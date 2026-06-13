@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://api.commonroom.io/schemas/core/apitagassignmentbyid",
+  "title": "ApiTagAssignmentById",
+  "type": "object",
+  "properties": {
+    "type": {
+      "type": "string",
+      "enum": [
+        "id"
+      ]
+    },
+    "id": {
+      "description": "ID of the tag to assign, taken from the tag API",
+      "type": "string"
+    }
+  },
+  "required": [
+    "type",
+    "id"
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://api.commonroom.io/schemas/v2/apiobjecttypeassoc",
+  "title": "ApiObjectTypeAssoc",
+  "type": "object",
+  "required": [
+    "objectAssocType",
+    "targetEntity",
+    "targetObjectTypeId"
+  ],
+  "properties": {
+    "objectAssocType": {
+      "type": "string",
+      "description": "The relationship type"
+    },
+    "targetEntity": {
+      "type": "string",
+      "description": "The target entity name (e.g. `Contact`, `Organization`, or a custom object type name)"
+    },
+    "targetObjectTypeId": {
+      "type": "string",
+      "nullable": true,
+      "description": "Prefixed target object type ID (format `cot_<number>`), or null for standard entities"
+    }
+  }
+}

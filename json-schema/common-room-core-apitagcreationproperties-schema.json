@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://api.commonroom.io/schemas/core/apitagcreationproperties",
+  "title": "ApiTagCreationProperties",
+  "allOf": [
+    {
+      "$ref": "#/components/schemas/ApiTagUpdateProperties"
+    },
+    {
+      "type": "object",
+      "properties": {
+        "entityTypes": {
+          "description": "The list of entity types the tag may be assigned to",
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "member",
+              "activity",
+              "company"
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "required": [
+    "name",
+    "entityTypes"
+  ]
+}

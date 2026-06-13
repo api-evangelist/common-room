@@ -1,0 +1,238 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://api.commonroom.io/schemas/v2/contact",
+  "title": "Contact",
+  "type": "object",
+  "required": [
+    "id",
+    "name"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Prefixed contact ID (format `c_<number>`)"
+    },
+    "name": {
+      "type": "string",
+      "description": "The contact's display name"
+    },
+    "avatarUrl": {
+      "type": "string",
+      "format": "uri",
+      "nullable": true
+    },
+    "fullName": {
+      "type": "string",
+      "nullable": true
+    },
+    "location": {
+      "allOf": [
+        {
+          "$ref": "#/components/schemas/ApiLocation"
+        }
+      ],
+      "nullable": true
+    },
+    "primaryEmail": {
+      "type": "string",
+      "nullable": true
+    },
+    "phoneNumbers": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "type",
+          "value"
+        ],
+        "properties": {
+          "type": {
+            "type": "string"
+          },
+          "value": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "title": {
+      "type": "string",
+      "nullable": true
+    },
+    "companyName": {
+      "type": "string",
+      "nullable": true
+    },
+    "companyWebsite": {
+      "type": "string",
+      "nullable": true
+    },
+    "connectedCustomObjects": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "objectType"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Prefixed custom object ID (format `co_<number>`)"
+          },
+          "name": {
+            "type": "string"
+          },
+          "objectType": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "customFields": {
+      "type": "object",
+      "description": "Map of custom-field ID (format `cf_<number>`) to its typed value.",
+      "additionalProperties": {
+        "$ref": "#/components/schemas/ApiFieldValue"
+      }
+    },
+    "profiles": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "type",
+          "value"
+        ],
+        "properties": {
+          "type": {
+            "type": "string"
+          },
+          "value": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "jobHistory": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "company",
+          "title",
+          "startDate",
+          "endDate"
+        ],
+        "properties": {
+          "company": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string",
+            "nullable": true
+          },
+          "startDate": {
+            "type": "string"
+          },
+          "endDate": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      }
+    },
+    "leadScores": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/ApiLeadScore"
+      }
+    },
+    "segments": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "name"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Prefixed segment ID (format `s_<number>`)"
+          },
+          "name": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "recentWebPages": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "url",
+          "numVisits"
+        ],
+        "properties": {
+          "url": {
+            "type": "string"
+          },
+          "numVisits": {
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "recentWebVisitsNumber": {
+      "type": "integer"
+    },
+    "recentActivities": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/ApiActivity"
+      }
+    },
+    "activateMessage": {
+      "type": "object",
+      "nullable": true,
+      "required": [
+        "title",
+        "message"
+      ],
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string",
+          "nullable": true
+        }
+      }
+    },
+    "sparkSummary": {
+      "type": "string",
+      "nullable": true
+    },
+    "recentSparkSummaries": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "tags": {
+      "type": "array",
+      "description": "Prefixed label IDs (format `l_<number>`)",
+      "items": {
+        "type": "string"
+      }
+    },
+    "url": {
+      "type": "string",
+      "format": "uri",
+      "description": "Common Room URL for this contact"
+    }
+  }
+}

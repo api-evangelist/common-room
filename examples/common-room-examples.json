@@ -1,0 +1,102 @@
+{
+  "core-member": {
+    "description": "Example Community Member object",
+    "value": {
+      "id": "member_abc123",
+      "email": "jane@example.com",
+      "name": "Jane Smith",
+      "createdAt": "2024-01-15T10:30:00Z",
+      "updatedAt": "2024-06-01T08:00:00Z",
+      "tags": [
+        "prospect",
+        "github-contributor"
+      ],
+      "customFields": {
+        "companySize": "51-200",
+        "plan": "pro"
+      }
+    }
+  },
+  "core-add-edit-user-request": {
+    "description": "Request body for adding or editing a user",
+    "value": {
+      "email": "jane@example.com",
+      "name": "Jane Smith",
+      "source": "github",
+      "sourceId": "gh_user_12345",
+      "tags": [
+        "prospect"
+      ],
+      "customFields": [
+        {
+          "fieldName": "companySize",
+          "value": "51-200"
+        }
+      ]
+    }
+  },
+  "core-activity": {
+    "description": "Example activity posted to a member timeline",
+    "value": {
+      "type": "github:pullRequestOpened",
+      "occurredAt": "2024-06-10T14:25:00Z",
+      "body": "Opened PR #42: Fix authentication bug",
+      "url": "https://github.com/org/repo/pull/42",
+      "sourceId": "pr_42_org_repo"
+    }
+  },
+  "v2-contact": {
+    "description": "Example Contact object from V2 API",
+    "value": {
+      "id": "contact_xyz789",
+      "email": "john@acmecorp.com",
+      "name": "John Doe",
+      "title": "Senior Engineer",
+      "company": {
+        "id": "org_acme",
+        "name": "Acme Corp"
+      },
+      "leadScore": 85,
+      "segments": [
+        "enterprise-prospects"
+      ],
+      "createdAt": "2024-03-01T00:00:00Z"
+    }
+  },
+  "v2-organization": {
+    "description": "Example Organization object from V2 API",
+    "value": {
+      "id": "org_acme",
+      "name": "Acme Corp",
+      "domain": "acmecorp.com",
+      "industry": "Software",
+      "employeeCount": 500,
+      "techStack": [
+        "Kubernetes",
+        "React",
+        "PostgreSQL"
+      ],
+      "leadScore": 92
+    }
+  },
+  "scim-user": {
+    "description": "Example SCIM User for provisioning",
+    "value": {
+      "schemas": [
+        "urn:ietf:params:scim:schemas:core:2.0:User"
+      ],
+      "userName": "jane@example.com",
+      "name": {
+        "givenName": "Jane",
+        "familyName": "Smith"
+      },
+      "emails": [
+        {
+          "value": "jane@example.com",
+          "primary": true
+        }
+      ],
+      "active": true
+    }
+  }
+}

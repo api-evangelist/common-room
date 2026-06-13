@@ -1,0 +1,200 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "cr": "https://api.commonroom.io/vocabulary/",
+    "schema": "https://schema.org/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "oas": "https://spec.openapis.org/oas/3.0/vocab/",
+
+    "Member": {
+      "@id": "cr:Member",
+      "@type": "@id",
+      "comment": "A person tracked in a Common Room community workspace."
+    },
+    "Contact": {
+      "@id": "cr:Contact",
+      "@type": "@id",
+      "comment": "A V2 enriched person record with company affiliation and lead score."
+    },
+    "Organization": {
+      "@id": "cr:Organization",
+      "@type": "@id",
+      "comment": "A company or entity associated with contacts in Common Room."
+    },
+    "Activity": {
+      "@id": "cr:Activity",
+      "@type": "@id",
+      "comment": "A discrete signal or action recorded on a member timeline."
+    },
+    "ActivityType": {
+      "@id": "cr:ActivityType",
+      "@type": "@id",
+      "comment": "A classification of activity by platform and action kind."
+    },
+    "Segment": {
+      "@id": "cr:Segment",
+      "@type": "@id",
+      "comment": "A dynamic or static grouping of members or contacts."
+    },
+    "Tag": {
+      "@id": "cr:Tag",
+      "@type": "@id",
+      "comment": "A label applied to a member or contact for categorization."
+    },
+    "CustomField": {
+      "@id": "cr:CustomField",
+      "@type": "@id",
+      "comment": "A user-defined metadata field on a member or contact record."
+    },
+    "LeadScore": {
+      "@id": "cr:LeadScore",
+      "@type": "@id",
+      "comment": "A numeric engagement and fit score for go-to-market outreach."
+    },
+    "ApiToken": {
+      "@id": "cr:ApiToken",
+      "@type": "@id",
+      "comment": "A bearer JWT credential for authenticating Common Room API requests."
+    },
+    "DestinationSource": {
+      "@id": "cr:DestinationSource",
+      "@type": "@id",
+      "comment": "A named integration source namespace for data ingestion."
+    },
+    "WebsiteVisit": {
+      "@id": "cr:WebsiteVisit",
+      "@type": "@id",
+      "comment": "A recorded web property interaction event with company identification."
+    },
+    "ProspectorContact": {
+      "@id": "cr:ProspectorContact",
+      "@type": "@id",
+      "comment": "A prospective contact discovered via Common Room's prospector feature."
+    },
+    "ProspectorCompany": {
+      "@id": "cr:ProspectorCompany",
+      "@type": "@id",
+      "comment": "A target company surfaced by Common Room's prospector."
+    },
+    "Provider": {
+      "@id": "cr:Provider",
+      "@type": "@id",
+      "comment": "An integration source feeding member signals into Common Room."
+    },
+    "Topic": {
+      "@id": "cr:Topic",
+      "@type": "@id",
+      "comment": "A content or interest theme categorizing member discussions."
+    },
+    "CustomObject": {
+      "@id": "cr:CustomObject",
+      "@type": "@id",
+      "comment": "A user-defined data object type extending the Common Room data model."
+    },
+
+    "id": "@id",
+    "name": "schema:name",
+    "email": "schema:email",
+    "description": "schema:description",
+    "url": "schema:url",
+    "createdAt": {
+      "@id": "schema:dateCreated",
+      "@type": "xsd:dateTime"
+    },
+    "updatedAt": {
+      "@id": "schema:dateModified",
+      "@type": "xsd:dateTime"
+    },
+    "occurredAt": {
+      "@id": "cr:occurredAt",
+      "@type": "xsd:dateTime"
+    },
+    "title": "schema:jobTitle",
+    "company": {
+      "@id": "schema:worksFor",
+      "@type": "@id"
+    },
+    "domain": "schema:url",
+    "industry": "schema:industry",
+    "employeeCount": "schema:numberOfEmployees",
+    "tags": {
+      "@id": "cr:tags",
+      "@container": "@set"
+    },
+    "segments": {
+      "@id": "cr:segments",
+      "@container": "@set"
+    },
+    "customFields": {
+      "@id": "cr:customFields",
+      "@container": "@set"
+    },
+    "leadScore": {
+      "@id": "cr:leadScore",
+      "@type": "xsd:integer"
+    },
+    "source": "cr:source",
+    "sourceId": "cr:sourceId",
+    "body": "schema:text",
+    "active": {
+      "@id": "cr:active",
+      "@type": "xsd:boolean"
+    },
+    "status": "cr:status",
+    "startIndex": {
+      "@id": "cr:startIndex",
+      "@type": "xsd:integer"
+    },
+    "count": {
+      "@id": "cr:count",
+      "@type": "xsd:integer"
+    },
+    "filter": "cr:filter",
+    "techStack": {
+      "@id": "cr:techStack",
+      "@container": "@set"
+    },
+    "fieldName": "cr:fieldName",
+    "fieldValue": "cr:fieldValue",
+    "type": "cr:type",
+    "categories": {
+      "@id": "cr:categories",
+      "@container": "@set"
+    },
+    "sentiment": "cr:sentiment",
+    "location": {
+      "@id": "schema:location",
+      "@type": "@id"
+    },
+    "topics": {
+      "@id": "cr:topics",
+      "@container": "@set"
+    }
+  },
+  "@graph": [
+    {
+      "@id": "https://api.commonroom.io/",
+      "@type": "schema:WebAPI",
+      "schema:name": "Common Room API",
+      "schema:description": "Community intelligence platform REST APIs for tracking member signals across GitHub, Slack, Discord, LinkedIn, and social platforms.",
+      "schema:url": "https://www.commonroom.io/developers/",
+      "schema:documentation": "https://api.commonroom.io/docs/community.html",
+      "schema:version": "2.0.0",
+      "schema:provider": {
+        "@type": "schema:Organization",
+        "schema:name": "Common Room",
+        "schema:url": "https://www.commonroom.io/",
+        "schema:sameAs": [
+          "https://twitter.com/commonroomhq",
+          "https://www.linkedin.com/company/common-room-hq",
+          "https://github.com/common-room"
+        ]
+      },
+      "schema:termsOfService": "https://www.commonroom.io/docs/",
+      "schema:offers": {
+        "@type": "schema:Offer",
+        "schema:url": "https://www.commonroom.io/pricing/"
+      }
+    }
+  ]
+}

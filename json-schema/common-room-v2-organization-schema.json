@@ -1,0 +1,213 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://api.commonroom.io/schemas/v2/organization",
+  "title": "Organization",
+  "type": "object",
+  "required": [
+    "id",
+    "name",
+    "primaryDomain"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Prefixed organization ID (format `o_<number>`)"
+    },
+    "name": {
+      "type": "string",
+      "description": "The organization's name"
+    },
+    "primaryDomain": {
+      "type": "string",
+      "description": "The organization's primary domain name"
+    },
+    "about": {
+      "type": "string",
+      "nullable": true
+    },
+    "contactsCount": {
+      "type": "integer",
+      "nullable": true
+    },
+    "employees": {
+      "type": "integer",
+      "nullable": true
+    },
+    "linkedInUrl": {
+      "type": "string",
+      "nullable": true
+    },
+    "profiles": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "name",
+          "type",
+          "url"
+        ],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string",
+            "format": "uri",
+            "nullable": true
+          }
+        }
+      }
+    },
+    "revenueRangeMax": {
+      "type": "integer",
+      "nullable": true
+    },
+    "revenueRangeMin": {
+      "type": "integer",
+      "nullable": true
+    },
+    "subIndustry": {
+      "type": "string",
+      "nullable": true
+    },
+    "location": {
+      "allOf": [
+        {
+          "$ref": "#/components/schemas/ApiLocation"
+        }
+      ],
+      "nullable": true
+    },
+    "customFields": {
+      "type": "object",
+      "description": "Map of custom-field ID (format `cf_<number>`) to its typed value.",
+      "additionalProperties": {
+        "$ref": "#/components/schemas/ApiFieldValue"
+      }
+    },
+    "leadScores": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/ApiLeadScore"
+      }
+    },
+    "researchResults": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "promptId",
+          "answer",
+          "isPrimaryPrompt"
+        ],
+        "properties": {
+          "promptId": {
+            "type": "string"
+          },
+          "answer": {
+            "type": "string"
+          },
+          "isPrimaryPrompt": {
+            "type": "boolean"
+          }
+        }
+      }
+    },
+    "recentJobOpenings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "jobTitle",
+          "url",
+          "firstSeenAt",
+          "isClosed",
+          "location"
+        ],
+        "properties": {
+          "jobTitle": {
+            "type": "string"
+          },
+          "jobDescription": {
+            "type": "string",
+            "nullable": true
+          },
+          "url": {
+            "type": "string",
+            "format": "uri"
+          },
+          "firstSeenAt": {
+            "type": "string"
+          },
+          "isClosed": {
+            "type": "boolean"
+          },
+          "location": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      }
+    },
+    "recentNews": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "title",
+          "url",
+          "publishedAt",
+          "category",
+          "articleSentence"
+        ],
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string",
+            "format": "uri"
+          },
+          "publishedAt": {
+            "type": "string"
+          },
+          "category": {
+            "type": "string"
+          },
+          "articleSentence": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      }
+    },
+    "surgingTopics": {
+      "type": "array",
+      "description": "Bombora surging topic names this organization is showing buyer intent for. Empty unless the Bombora integration is enabled.",
+      "items": {
+        "type": "string"
+      }
+    },
+    "tags": {
+      "type": "array",
+      "description": "Prefixed label IDs (format `l_<number>`)",
+      "items": {
+        "type": "string"
+      }
+    },
+    "topContacts": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/Contact"
+      }
+    },
+    "url": {
+      "type": "string",
+      "format": "uri",
+      "description": "Common Room URL for this organization"
+    }
+  }
+}

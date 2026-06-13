@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://api.commonroom.io/schemas/v2/apicustomobject",
+  "title": "ApiCustomObject",
+  "type": "object",
+  "required": [
+    "id",
+    "name"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Prefixed custom object ID (format `co_<number>`)"
+    },
+    "name": {
+      "type": "string",
+      "description": "The object's display name"
+    },
+    "recordKey": {
+      "type": "string",
+      "description": "External record key for this object"
+    },
+    "customFields": {
+      "type": "object",
+      "description": "Map of custom-field ID (format `cf_<number>`) to its typed value.",
+      "additionalProperties": {
+        "$ref": "#/components/schemas/ApiFieldValue"
+      }
+    }
+  }
+}

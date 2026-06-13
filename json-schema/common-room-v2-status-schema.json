@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://api.commonroom.io/schemas/v2/status",
+  "title": "Status",
+  "type": "object",
+  "properties": {
+    "status": {
+      "type": "string",
+      "enum": [
+        "ok",
+        "failure",
+        "not-found"
+      ],
+      "example": "success"
+    },
+    "reason": {
+      "type": "string"
+    },
+    "errors": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "required": [
+        "status"
+      ]
+    }
+  },
+  "example": {
+    "status": "not created",
+    "errors": [
+      "name is missing"
+    ]
+  }
+}
