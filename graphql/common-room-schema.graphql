@@ -1,0 +1,1170 @@
+"""
+Common Room GraphQL Schema
+Conceptual GraphQL projection of the Common Room community intelligence and GTM platform.
+Derived from: https://docs.commonroom.io/ and https://api.commonroom.io/docs/community.html
+"""
+
+# ─── Scalars ───────────────────────────────────────────────────────────────────
+
+scalar DateTime
+scalar URL
+scalar JSON
+
+# ─── Enums ─────────────────────────────────────────────────────────────────────
+
+enum SignalTypeEnum {
+  GITHUB_STAR
+  GITHUB_FORK
+  GITHUB_PR_OPENED
+  GITHUB_PR_MERGED
+  GITHUB_ISSUE_OPENED
+  GITHUB_ISSUE_COMMENTED
+  SLACK_MESSAGE
+  DISCORD_MESSAGE
+  TWITTER_MENTION
+  TWITTER_REPLY
+  LINKEDIN_COMMENT
+  COMMUNITY_POST
+  COMMUNITY_REPLY
+  PRODUCT_SIGNUP
+  PRODUCT_USAGE
+  CUSTOM
+}
+
+enum SignalSourceEnum {
+  GITHUB
+  SLACK
+  DISCORD
+  TWITTER
+  LINKEDIN
+  HUBSPOT
+  SALESFORCE
+  CUSTOM
+  MANUAL
+}
+
+enum ChannelTypeEnum {
+  SLACK_WORKSPACE
+  GITHUB_REPOSITORY
+  GITHUB_ORG
+  DISCORD_SERVER
+  TWITTER_HANDLE
+  LINKEDIN_PAGE
+  CUSTOM_SOURCE
+}
+
+enum ActivityTypeEnum {
+  POST
+  REPLY
+  REACTION
+  MENTION
+  FOLLOW
+  STAR
+  FORK
+  PULL_REQUEST
+  ISSUE
+  REVIEW
+  COMMIT
+  CUSTOM_EVENT
+}
+
+enum MemberTierEnum {
+  CHAMPION
+  ACTIVE
+  ENGAGED
+  OCCASIONAL
+  DORMANT
+  NEW
+  UNKNOWN
+}
+
+enum ContactRoleEnum {
+  DECISION_MAKER
+  INFLUENCER
+  CHAMPION
+  END_USER
+  EXECUTIVE
+  TECHNICAL
+  ECONOMIC_BUYER
+  UNKNOWN
+}
+
+enum WorkflowTriggerTypeEnum {
+  SIGNAL_DETECTED
+  MEMBER_CREATED
+  MEMBER_TIER_CHANGED
+  SEGMENT_JOINED
+  SEGMENT_LEFT
+  SCORE_THRESHOLD
+  SCHEDULED
+  MANUAL
+}
+
+enum WorkflowActionTypeEnum {
+  SEND_SLACK_MESSAGE
+  SEND_EMAIL
+  ADD_TO_SEGMENT
+  REMOVE_FROM_SEGMENT
+  UPDATE_MEMBER_TAG
+  CREATE_SALESFORCE_TASK
+  CREATE_HUBSPOT_TASK
+  SEND_WEBHOOK
+  NOTIFY_USER
+}
+
+enum AlertConditionTypeEnum {
+  SIGNAL_SPIKE
+  MEMBER_COUNT_CHANGE
+  SCORE_THRESHOLD
+  SEGMENT_SIZE_CHANGE
+  NEW_CHAMPION
+  CHURNING_MEMBER
+}
+
+enum IntegrationStatusEnum {
+  ACTIVE
+  INACTIVE
+  ERROR
+  PENDING
+}
+
+enum ReportTypeEnum {
+  COMMUNITY_HEALTH
+  MEMBER_ENGAGEMENT
+  GTM_PIPELINE
+  CHANNEL_ACTIVITY
+  SEGMENT_GROWTH
+  SIGNAL_SUMMARY
+}
+
+# ─── Pagination & Filters ──────────────────────────────────────────────────────
+
+input PaginationInput {
+  page: Int
+  perPage: Int
+  cursor: String
+}
+
+input DateRangeInput {
+  startDate: DateTime!
+  endDate: DateTime!
+}
+
+input MemberFilter {
+  tierIn: [MemberTierEnum]
+  tagIds: [ID]
+  segmentIds: [ID]
+  organizationId: ID
+  hasSignalType: SignalTypeEnum
+  createdAfter: DateTime
+  createdBefore: DateTime
+  searchQuery: String
+}
+
+input SignalFilter {
+  typeIn: [SignalTypeEnum]
+  sourceIn: [SignalSourceEnum]
+  memberId: ID
+  channelId: ID
+  dateRange: DateRangeInput
+}
+
+type PageInfo {
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+  startCursor: String
+  endCursor: String
+  totalCount: Int!
+}
+
+# ─── Member Types ─────────────────────────────────────────────────────────────
+
+"""
+A community member tracked across one or more channels.
+"""
+type Member {
+  id: ID!
+  displayName: String
+  email: String
+  avatarUrl: URL
+  profile: MemberProfile
+  details: MemberDetails
+  tier: MemberTier
+  sentiment: MemberSentiment
+  tags: [MemberTag!]!
+  activities(pagination: PaginationInput): MemberActivityConnection!
+  signals(filter: SignalFilter, pagination: PaginationInput): SignalConnection!
+  organization: Organization
+  segments: [Segment!]!
+  contactInfo: Contact
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  anonymizedAt: DateTime
+}
+
+"""
+Extended profile information for a member pulled from enrichment sources.
+"""
+type MemberProfile {
+  id: ID!
+  memberId: ID!
+  bio: String
+  location: String
+  country: String
+  timezone: String
+  githubHandle: String
+  twitterHandle: String
+  linkedinUrl: URL
+  discordHandle: String
+  slackHandle: String
+  websiteUrl: URL
+  company: String
+  jobTitle: String
+  skills: [String!]!
+  languages: [String!]!
+  updatedAt: DateTime!
+}
+
+"""
+Detailed computed metadata for a member.
+"""
+type MemberDetails {
+  id: ID!
+  memberId: ID!
+  totalSignals: Int!
+  totalActivities: Int!
+  firstSeenAt: DateTime
+  lastActiveAt: DateTime
+  primaryChannel: Channel
+  engagementScore: Float
+  reachScore: Float
+  influenceScore: Float
+  customFields: JSON
+}
+
+"""
+A single activity event on a member's timeline.
+"""
+type MemberActivity {
+  id: ID!
+  memberId: ID!
+  activityType: ActivityType!
+  channel: Channel
+  occurredAt: DateTime!
+  url: URL
+  summary: String
+  rawData: JSON
+}
+
+type MemberActivityConnection {
+  nodes: [MemberActivity!]!
+  pageInfo: PageInfo!
+}
+
+"""
+Sentiment analysis data for a member based on their community interactions.
+"""
+type MemberSentiment {
+  id: ID!
+  memberId: ID!
+  overallScore: Float!
+  positiveCount: Int!
+  negativeCount: Int!
+  neutralCount: Int!
+  lastCalculatedAt: DateTime!
+  trend: String
+}
+
+"""
+Tier classification for a member based on engagement thresholds.
+"""
+type MemberTier {
+  id: ID!
+  memberId: ID!
+  tier: MemberTierEnum!
+  score: Float!
+  assignedAt: DateTime!
+  previousTier: MemberTierEnum
+  tierChangedAt: DateTime
+}
+
+"""
+A label or tag applied to a member for categorization.
+"""
+type MemberTag {
+  id: ID!
+  name: String!
+  color: String
+  description: String
+  createdAt: DateTime!
+  memberCount: Int!
+}
+
+# ─── Signal Types ─────────────────────────────────────────────────────────────
+
+"""
+A behavioral signal detected from a member across an integrated platform.
+"""
+type Signal {
+  id: ID!
+  member: Member!
+  signalType: SignalType!
+  signalSource: SignalSource!
+  details: SignalDetails!
+  channel: Channel
+  occurredAt: DateTime!
+  url: URL
+  metadata: JSON
+}
+
+type SignalConnection {
+  nodes: [Signal!]!
+  pageInfo: PageInfo!
+}
+
+"""
+The classification of a signal by behavior category.
+"""
+type SignalType {
+  id: ID!
+  type: SignalTypeEnum!
+  displayName: String!
+  description: String
+  weight: Float!
+  isCustom: Boolean!
+}
+
+"""
+The originating platform or integration for a signal.
+"""
+type SignalSource {
+  id: ID!
+  source: SignalSourceEnum!
+  displayName: String!
+  integration: Integration
+}
+
+"""
+Detailed content and metadata associated with a specific signal.
+"""
+type SignalDetails {
+  id: ID!
+  signalId: ID!
+  title: String
+  body: String
+  reactionCount: Int
+  commentCount: Int
+  starCount: Int
+  forkCount: Int
+  repoName: String
+  prNumber: Int
+  issueNumber: Int
+  rawPayload: JSON
+}
+
+# ─── Organization Types ───────────────────────────────────────────────────────
+
+"""
+A company or organization that community members are associated with.
+"""
+type Organization {
+  id: ID!
+  name: String!
+  domain: String
+  logoUrl: URL
+  details: OrganizationDetails
+  members(pagination: PaginationInput): MemberConnection!
+  account: Account
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type MemberConnection {
+  nodes: [Member!]!
+  pageInfo: PageInfo!
+}
+
+"""
+Enriched firmographic data for an organization.
+"""
+type OrganizationDetails {
+  id: ID!
+  organizationId: ID!
+  industry: String
+  subIndustry: String
+  employeeCount: Int
+  annualRevenue: Float
+  headquartersCity: String
+  headquartersCountry: String
+  fundingStage: String
+  totalFunding: Float
+  techStack: [String!]!
+  linkedinUrl: URL
+  twitterHandle: String
+  description: String
+  enrichedAt: DateTime
+  enrichmentSource: String
+}
+
+# ─── Community Types ──────────────────────────────────────────────────────────
+
+"""
+A Common Room workspace representing a managed community.
+"""
+type Community {
+  id: ID!
+  name: String!
+  details: CommunityDetails!
+  channels: [CommunityChannel!]!
+  members(filter: MemberFilter, pagination: PaginationInput): MemberConnection!
+  segments: [Segment!]!
+  integrations: [Integration!]!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+"""
+Metadata and statistics for a community.
+"""
+type CommunityDetails {
+  id: ID!
+  communityId: ID!
+  totalMembers: Int!
+  activeMembers30d: Int!
+  totalActivities30d: Int!
+  totalSignals30d: Int!
+  healthScore: Float
+  createdAt: DateTime!
+  planName: String
+}
+
+"""
+A channel that is part of a community (e.g., a specific Slack workspace or GitHub repo).
+"""
+type CommunityChannel {
+  id: ID!
+  community: Community!
+  channel: Channel!
+  addedAt: DateTime!
+  isActive: Boolean!
+  memberCount: Int!
+  activityCount30d: Int!
+}
+
+# ─── Channel Types ────────────────────────────────────────────────────────────
+
+"""
+An external platform channel tracked within Common Room.
+"""
+type Channel {
+  id: ID!
+  name: String!
+  channelType: ChannelType!
+  details: ChannelDetails!
+  integration: Integration
+  isActive: Boolean!
+  createdAt: DateTime!
+}
+
+"""
+Metadata for a channel including activity statistics.
+"""
+type ChannelDetails {
+  id: ID!
+  channelId: ID!
+  externalId: String
+  url: URL
+  description: String
+  memberCount: Int!
+  totalPosts: Int!
+  totalReplies: Int!
+  lastActivityAt: DateTime
+  language: String
+}
+
+"""
+The platform type of a channel.
+"""
+type ChannelType {
+  id: ID!
+  type: ChannelTypeEnum!
+  displayName: String!
+  iconUrl: URL
+}
+
+# ─── Activity Types ───────────────────────────────────────────────────────────
+
+"""
+A recorded interaction or event within the community.
+"""
+type Activity {
+  id: ID!
+  member: Member!
+  activityType: ActivityType!
+  channel: Channel
+  details: ActivityDetails!
+  occurredAt: DateTime!
+  url: URL
+  isPublic: Boolean!
+}
+
+"""
+Extended metadata for an activity.
+"""
+type ActivityDetails {
+  id: ID!
+  activityId: ID!
+  title: String
+  body: String
+  language: String
+  sentiment: String
+  sentimentScore: Float
+  reactionCount: Int
+  replyCount: Int
+  viewCount: Int
+  rawContent: JSON
+}
+
+"""
+Classification of an activity by interaction type.
+"""
+type ActivityType {
+  id: ID!
+  type: ActivityTypeEnum!
+  displayName: String!
+  description: String
+  contributesTo: [SignalTypeEnum!]!
+}
+
+# ─── Post, Thread, Reply Types ────────────────────────────────────────────────
+
+"""
+A community post authored by a member.
+"""
+type Post {
+  id: ID!
+  author: Member!
+  channel: Channel!
+  details: PostDetails!
+  thread: Thread
+  reactions: [PostReaction!]!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  url: URL
+}
+
+"""
+Detailed content of a post.
+"""
+type PostDetails {
+  id: ID!
+  postId: ID!
+  title: String
+  body: String!
+  bodyHtml: String
+  language: String
+  sentiment: String
+  sentimentScore: Float
+  wordCount: Int
+  containsCode: Boolean!
+  tags: [String!]!
+}
+
+"""
+A reaction on a post (emoji or upvote).
+"""
+type PostReaction {
+  id: ID!
+  post: Post!
+  member: Member!
+  emoji: String
+  reactionType: String!
+  createdAt: DateTime!
+}
+
+"""
+A threaded conversation starting from a post.
+"""
+type Thread {
+  id: ID!
+  rootPost: Post!
+  details: ThreadDetails!
+  replies: [Reply!]!
+  createdAt: DateTime!
+  lastReplyAt: DateTime
+}
+
+"""
+Metadata for a thread including engagement statistics.
+"""
+type ThreadDetails {
+  id: ID!
+  threadId: ID!
+  title: String
+  replyCount: Int!
+  participantCount: Int!
+  isResolved: Boolean!
+  resolvedAt: DateTime
+  resolvedBy: Member
+  viewCount: Int!
+}
+
+"""
+A reply within a thread.
+"""
+type Reply {
+  id: ID!
+  thread: Thread!
+  author: Member!
+  body: String!
+  bodyHtml: String
+  reactions: [PostReaction!]!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  url: URL
+}
+
+# ─── Segment Types ────────────────────────────────────────────────────────────
+
+"""
+A dynamic or static list of members matching defined criteria.
+"""
+type Segment {
+  id: ID!
+  name: String!
+  description: String
+  details: SegmentDetails!
+  members(pagination: PaginationInput): SegmentMemberConnection!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  isActive: Boolean!
+}
+
+"""
+Configuration and statistics for a segment.
+"""
+type SegmentDetails {
+  id: ID!
+  segmentId: ID!
+  isDynamic: Boolean!
+  filterCriteria: JSON
+  memberCount: Int!
+  growthRate30d: Float
+  avgEngagementScore: Float
+  lastRefreshedAt: DateTime
+}
+
+"""
+A member's association with a segment.
+"""
+type SegmentMember {
+  id: ID!
+  segment: Segment!
+  member: Member!
+  joinedAt: DateTime!
+  addedBy: String
+  matchedCriteria: JSON
+}
+
+type SegmentMemberConnection {
+  nodes: [SegmentMember!]!
+  pageInfo: PageInfo!
+}
+
+# ─── Account and Contact Types ────────────────────────────────────────────────
+
+"""
+A sales account record linked to an organization.
+"""
+type Account {
+  id: ID!
+  organization: Organization!
+  details: AccountDetails!
+  score: AccountScore!
+  contacts: [Contact!]!
+  crmExternalId: String
+  crmSource: String
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+"""
+Extended CRM and pipeline data for an account.
+"""
+type AccountDetails {
+  id: ID!
+  accountId: ID!
+  tier: String
+  arrValue: Float
+  renewalDate: DateTime
+  contractType: String
+  ownerName: String
+  ownerEmail: String
+  stage: String
+  customFields: JSON
+}
+
+"""
+GTM health and engagement score for an account.
+"""
+type AccountScore {
+  id: ID!
+  accountId: ID!
+  overallScore: Float!
+  communityScore: Float!
+  productScore: Float
+  engagementTrend: String
+  championCount: Int!
+  activeUserCount: Int!
+  calculatedAt: DateTime!
+}
+
+"""
+A contact (person) associated with a sales account.
+"""
+type Contact {
+  id: ID!
+  member: Member
+  account: Account!
+  details: ContactDetails!
+  role: ContactRole!
+  crmExternalId: String
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+"""
+Detailed CRM information for a contact.
+"""
+type ContactDetails {
+  id: ID!
+  contactId: ID!
+  firstName: String
+  lastName: String
+  email: String
+  phone: String
+  jobTitle: String
+  department: String
+  linkedinUrl: URL
+  twitterHandle: String
+  customFields: JSON
+}
+
+"""
+The role or persona of a contact within their organization.
+"""
+type ContactRole {
+  id: ID!
+  contactId: ID!
+  role: ContactRoleEnum!
+  isPrimary: Boolean!
+  assignedAt: DateTime!
+  assignedBy: String
+}
+
+# ─── Workflow Types ───────────────────────────────────────────────────────────
+
+"""
+An automated workflow that responds to community signals.
+"""
+type Workflow {
+  id: ID!
+  name: String!
+  description: String
+  details: WorkflowDetails!
+  triggers: [WorkflowTrigger!]!
+  actions: [WorkflowAction!]!
+  isActive: Boolean!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  lastRunAt: DateTime
+  runCount: Int!
+}
+
+"""
+Configuration and statistics for a workflow.
+"""
+type WorkflowDetails {
+  id: ID!
+  workflowId: ID!
+  version: Int!
+  isTemplate: Boolean!
+  templateName: String
+  successCount: Int!
+  errorCount: Int!
+  avgRunDurationMs: Float
+  targetSegment: Segment
+}
+
+"""
+A condition that starts a workflow execution.
+"""
+type WorkflowTrigger {
+  id: ID!
+  workflow: Workflow!
+  triggerType: WorkflowTriggerTypeEnum!
+  configuration: JSON!
+  description: String
+  isActive: Boolean!
+}
+
+"""
+An action taken by a workflow upon trigger.
+"""
+type WorkflowAction {
+  id: ID!
+  workflow: Workflow!
+  actionType: WorkflowActionTypeEnum!
+  configuration: JSON!
+  description: String
+  order: Int!
+  isActive: Boolean!
+}
+
+# ─── Alert Types ──────────────────────────────────────────────────────────────
+
+"""
+A notification alert configured by a user to monitor community conditions.
+"""
+type Alert {
+  id: ID!
+  name: String!
+  description: String
+  details: AlertDetails!
+  conditions: [AlertCondition!]!
+  isActive: Boolean!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  lastTriggeredAt: DateTime
+  triggerCount: Int!
+}
+
+"""
+Delivery and configuration metadata for an alert.
+"""
+type AlertDetails {
+  id: ID!
+  alertId: ID!
+  notificationChannels: [String!]!
+  recipientEmails: [String!]!
+  slackChannelId: String
+  frequency: String!
+  cooldownMinutes: Int!
+  isEmailEnabled: Boolean!
+  isSlackEnabled: Boolean!
+}
+
+"""
+A specific condition evaluated by an alert.
+"""
+type AlertCondition {
+  id: ID!
+  alert: Alert!
+  conditionType: AlertConditionTypeEnum!
+  threshold: Float
+  operator: String
+  targetSegment: Segment
+  configuration: JSON!
+}
+
+# ─── Playbook Types ───────────────────────────────────────────────────────────
+
+"""
+A curated workflow template for common GTM community plays.
+"""
+type Playbook {
+  id: ID!
+  name: String!
+  description: String
+  details: PlaybookDetails!
+  workflowTemplates: [Workflow!]!
+  isPublished: Boolean!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+"""
+Metadata and categorization for a playbook.
+"""
+type PlaybookDetails {
+  id: ID!
+  playbookId: ID!
+  category: String!
+  useCase: String
+  estimatedImpact: String
+  difficultyLevel: String
+  estimatedSetupMinutes: Int
+  tags: [String!]!
+  authorName: String
+}
+
+# ─── Integration Types ────────────────────────────────────────────────────────
+
+"""
+Base type for all external platform integrations in Common Room.
+"""
+type Integration {
+  id: ID!
+  name: String!
+  status: IntegrationStatusEnum!
+  connectedAt: DateTime
+  lastSyncAt: DateTime
+  errorMessage: String
+  channelCount: Int!
+  memberCount: Int!
+}
+
+"""
+Slack workspace integration for team messaging signals.
+"""
+type SlackIntegration {
+  id: ID!
+  integration: Integration!
+  workspaceName: String!
+  workspaceId: String!
+  channelCount: Int!
+  botUserId: String
+  scopes: [String!]!
+}
+
+"""
+GitHub organization or repository integration for developer signals.
+"""
+type GitHubIntegration {
+  id: ID!
+  integration: Integration!
+  organizationName: String
+  repositoryCount: Int!
+  installationId: String
+  permissions: [String!]!
+}
+
+"""
+Discord server integration for community messaging signals.
+"""
+type DiscordIntegration {
+  id: ID!
+  integration: Integration!
+  serverName: String!
+  serverId: String!
+  channelCount: Int!
+  botId: String
+}
+
+"""
+Twitter/X handle integration for social listening signals.
+"""
+type TwitterIntegration {
+  id: ID!
+  integration: Integration!
+  handleName: String!
+  handleId: String!
+  trackingKeywords: [String!]!
+  followersCount: Int
+}
+
+"""
+Salesforce CRM integration for syncing accounts, contacts, and activities.
+"""
+type SalesforceIntegration {
+  id: ID!
+  integration: Integration!
+  instanceUrl: URL!
+  orgId: String!
+  syncedObjectTypes: [String!]!
+  fieldMappings: JSON
+  lastFullSyncAt: DateTime
+}
+
+"""
+HubSpot CRM integration for syncing contacts, companies, and activities.
+"""
+type HubSpotIntegration {
+  id: ID!
+  integration: Integration!
+  portalId: String!
+  syncedObjectTypes: [String!]!
+  fieldMappings: JSON
+  lastFullSyncAt: DateTime
+}
+
+# ─── Report Types ─────────────────────────────────────────────────────────────
+
+"""
+A generated analytics report for a community or segment.
+"""
+type Report {
+  id: ID!
+  name: String!
+  reportType: ReportTypeEnum!
+  details: ReportDetails!
+  generatedAt: DateTime!
+  dateRange: String!
+  createdBy: String
+}
+
+"""
+Data payload and configuration for a report.
+"""
+type ReportDetails {
+  id: ID!
+  reportId: ID!
+  summary: String
+  metrics: JSON!
+  chartData: JSON
+  topMembers: [Member!]!
+  topChannels: [Channel!]!
+  topSegments: [Segment!]!
+  exportUrl: URL
+  expiresAt: DateTime
+}
+
+# ─── API Access Types ─────────────────────────────────────────────────────────
+
+"""
+An API key for authenticating programmatic access to Common Room.
+"""
+type APIKey {
+  id: ID!
+  name: String!
+  prefix: String!
+  scopes: [String!]!
+  createdAt: DateTime!
+  lastUsedAt: DateTime
+  expiresAt: DateTime
+  isActive: Boolean!
+  createdBy: String!
+}
+
+"""
+A short-lived access token derived from an API key.
+"""
+type Token {
+  id: ID!
+  apiKey: APIKey!
+  token: String!
+  expiresAt: DateTime!
+  issuedAt: DateTime!
+  scopes: [String!]!
+}
+
+"""
+A webhook endpoint for receiving outbound events from Common Room.
+"""
+type Webhook {
+  id: ID!
+  name: String!
+  url: URL!
+  secret: String
+  events: [String!]!
+  isActive: Boolean!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  lastDeliveredAt: DateTime
+  deliveryCount: Int!
+  failureCount: Int!
+}
+
+# ─── Root Types ───────────────────────────────────────────────────────────────
+
+type Query {
+  community(id: ID!): Community
+  member(id: ID!): Member
+  members(filter: MemberFilter, pagination: PaginationInput): MemberConnection!
+  signal(id: ID!): Signal
+  signals(filter: SignalFilter, pagination: PaginationInput): SignalConnection!
+  organization(id: ID!): Organization
+  organizations(pagination: PaginationInput): [Organization!]!
+  channel(id: ID!): Channel
+  channels(pagination: PaginationInput): [Channel!]!
+  segment(id: ID!): Segment
+  segments(pagination: PaginationInput): [Segment!]!
+  account(id: ID!): Account
+  accounts(pagination: PaginationInput): [Account!]!
+  contact(id: ID!): Contact
+  workflow(id: ID!): Workflow
+  workflows(pagination: PaginationInput): [Workflow!]!
+  alert(id: ID!): Alert
+  alerts(pagination: PaginationInput): [Alert!]!
+  playbook(id: ID!): Playbook
+  playbooks(pagination: PaginationInput): [Playbook!]!
+  integration(id: ID!): Integration
+  integrations: [Integration!]!
+  report(id: ID!): Report
+  reports(reportType: ReportTypeEnum, pagination: PaginationInput): [Report!]!
+  apiKeys: [APIKey!]!
+  webhooks: [Webhook!]!
+}
+
+input CreateMemberInput {
+  displayName: String!
+  email: String
+  githubHandle: String
+  twitterHandle: String
+  linkedinUrl: URL
+  discordHandle: String
+  slackHandle: String
+  company: String
+  jobTitle: String
+  customFields: JSON
+}
+
+input UpdateMemberInput {
+  displayName: String
+  email: String
+  githubHandle: String
+  twitterHandle: String
+  linkedinUrl: URL
+  discordHandle: String
+  slackHandle: String
+  company: String
+  jobTitle: String
+  customFields: JSON
+}
+
+input ActivityInput {
+  channelId: ID
+  activityType: ActivityTypeEnum!
+  occurredAt: DateTime!
+  url: URL
+  title: String
+  body: String
+  metadata: JSON
+}
+
+input WorkflowInput {
+  name: String!
+  description: String
+  triggers: [WorkflowTriggerInput!]!
+  actions: [WorkflowActionInput!]!
+  targetSegmentId: ID
+}
+
+input WorkflowTriggerInput {
+  triggerType: WorkflowTriggerTypeEnum!
+  configuration: JSON!
+}
+
+input WorkflowActionInput {
+  actionType: WorkflowActionTypeEnum!
+  configuration: JSON!
+  order: Int!
+}
+
+type Mutation {
+  createMember(input: CreateMemberInput!): Member!
+  updateMember(id: ID!, input: UpdateMemberInput!): Member!
+  anonymizeMember(id: ID!): Boolean!
+  addActivity(memberId: ID!, input: ActivityInput!): Activity!
+  addMemberTag(memberId: ID!, tagId: ID!): Member!
+  removeMemberTag(memberId: ID!, tagId: ID!): Member!
+  addMemberToSegment(memberId: ID!, segmentId: ID!): SegmentMember!
+  removeMemberFromSegment(memberId: ID!, segmentId: ID!): Boolean!
+  createWorkflow(input: WorkflowInput!): Workflow!
+  activateWorkflow(id: ID!): Workflow!
+  deactivateWorkflow(id: ID!): Workflow!
+  triggerWorkflow(workflowId: ID!, memberId: ID!): Boolean!
+  createWebhook(name: String!, url: URL!, events: [String!]!): Webhook!
+  deleteWebhook(id: ID!): Boolean!
+  generateToken(apiKeyId: ID!): Token!
+}

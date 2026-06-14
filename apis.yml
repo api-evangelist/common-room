@@ -1,5 +1,7 @@
 name: Common Room
-description: Common Room is a community intelligence platform with a REST API for tracking member signals across GitHub, Slack, Discord, LinkedIn, and social platforms, managing segments, and automating outreach for go-to-market teams.
+description: Common Room is a community intelligence platform with a REST API for
+  tracking member signals across GitHub, Slack, Discord, LinkedIn, and social platforms,
+  managing segments, and automating outreach for go-to-market teams.
 image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
 url: https://raw.githubusercontent.com/api-evangelist/common-room/refs/heads/main/apis.yml
 created: '2026-06-13'
@@ -7,69 +9,74 @@ modified: '2026-06-13'
 specificationVersion: '0.19'
 aid: common-room
 tags:
-  - Community Intelligence
-  - Go-to-Market
-  - Member Signals
-  - GitHub
-  - Slack
-  - Discord
-  - LinkedIn
-  - Sales Intelligence
-  - Contact Management
-  - Webhooks
+- Community Intelligence
+- Go-to-Market
+- Member Signals
+- GitHub
+- Slack
+- Discord
+- LinkedIn
+- Sales Intelligence
+- Contact Management
+- Webhooks
 apis:
-  - name: Common Room Core API
-    description: REST API for creating and updating members, recording activity to member timelines, retrieving member information, and anonymizing member data with GDPR compliance.
-    image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
-    humanURL: https://www.commonroom.io/developers/
-    baseURL: https://api.commonroom.io
-    tags:
-      - Members
-      - Contacts
-      - Activity
-      - GDPR
-    properties:
-      - type: Documentation
-        url: https://api.commonroom.io/docs/community.html
-      - type: OpenAPI
-        url: https://api.commonroom.io/docs/community.html
-  - name: Common Room SCIM API
-    description: SCIM REST API for accessing community-scoped resources and managing user provisioning and deprovisioning.
-    image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
-    humanURL: https://www.commonroom.io/developers/
-    baseURL: https://api.commonroom.io
-    tags:
-      - SCIM
-      - User Provisioning
-      - Identity Management
-    properties:
-      - type: Documentation
-        url: https://api.commonroom.io/docs/scim.html
-common:
-  - type: Website
-    url: https://www.commonroom.io/
+- name: Common Room Core API
+  description: REST API for creating and updating members, recording activity to member
+    timelines, retrieving member information, and anonymizing member data with GDPR
+    compliance.
+  image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+  humanURL: https://www.commonroom.io/developers/
+  baseURL: https://api.commonroom.io
+  tags:
+  - Members
+  - Contacts
+  - Activity
+  - GDPR
+  properties:
   - type: Documentation
-    url: https://www.commonroom.io/docs/
-  - type: GitHubOrg
-    url: https://github.com/common-room
-  - type: LinkedIn
-    url: https://www.linkedin.com/company/common-room-hq
-  - type: Blog
-    url: https://www.commonroom.io/blog/
-  - type: Pricing
-    url: https://www.commonroom.io/pricing/
-  - type: X
-    url: https://twitter.com/commonroomhq
-  - type: Webhooks
-    url: https://www.commonroom.io/docs/set-preferences/webhooks/
-  - type: Authentication
-    url: https://www.commonroom.io/docs/set-preferences/api-tokens/
-  - type: Plans
-    url: plans/common-room-plans-pricing.yml
-  - type: RateLimits
-    url: rate-limits/common-room-rate-limits.yml
-  - type: FinOps
-    url: finops/common-room-finops.yml
+    url: https://api.commonroom.io/docs/community.html
+  - type: OpenAPI
+    url: https://api.commonroom.io/docs/community.html
+  - url: graphql/common-room-graphql.md
+    type: GraphQL
+- name: Common Room SCIM API
+  description: SCIM REST API for accessing community-scoped resources and managing
+    user provisioning and deprovisioning.
+  image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+  humanURL: https://www.commonroom.io/developers/
+  baseURL: https://api.commonroom.io
+  tags:
+  - SCIM
+  - User Provisioning
+  - Identity Management
+  properties:
+  - type: Documentation
+    url: https://api.commonroom.io/docs/scim.html
+common:
+- type: Website
+  url: https://www.commonroom.io/
+- type: Documentation
+  url: https://www.commonroom.io/docs/
+- type: GitHubOrg
+  url: https://github.com/common-room
+- type: LinkedIn
+  url: https://www.linkedin.com/company/common-room-hq
+- type: Blog
+  url: https://www.commonroom.io/blog/
+- type: Pricing
+  url: https://www.commonroom.io/pricing/
+- type: X
+  url: https://twitter.com/commonroomhq
+- type: Webhooks
+  url: https://www.commonroom.io/docs/set-preferences/webhooks/
+- type: Authentication
+  url: https://www.commonroom.io/docs/set-preferences/api-tokens/
+- type: Plans
+  url: plans/common-room-plans-pricing.yml
+- type: RateLimits
+  url: rate-limits/common-room-rate-limits.yml
+- type: FinOps
+  url: finops/common-room-finops.yml
 maintainers:
-  - FN: Kin Lane
-    email: kin@apievangelist.com
+- FN: Kin Lane
+  email: kin@apievangelist.com
