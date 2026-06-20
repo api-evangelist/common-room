@@ -2,7 +2,7 @@ name: Common Room
 description: Common Room is a community intelligence platform with a REST API for
   tracking member signals across GitHub, Slack, Discord, LinkedIn, and social platforms,
   managing segments, and automating outreach for go-to-market teams.
-image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
 url: https://raw.githubusercontent.com/api-evangelist/common-room/refs/heads/main/apis.yml
 created: '2026-06-13'
 modified: '2026-06-13'
@@ -24,7 +24,7 @@ apis:
   description: REST API for creating and updating members, recording activity to member
     timelines, retrieving member information, and anonymizing member data with GDPR
     compliance.
-  image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
   humanURL: https://www.commonroom.io/developers/
   baseURL: https://api.commonroom.io
   tags:
@@ -42,7 +42,7 @@ apis:
 - name: Common Room SCIM API
   description: SCIM REST API for accessing community-scoped resources and managing
     user provisioning and deprovisioning.
-  image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
   humanURL: https://www.commonroom.io/developers/
   baseURL: https://api.commonroom.io
   tags:
