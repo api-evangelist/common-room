@@ -1,0 +1,26 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/common-room-core-openapi.yml, openapi/common-room-scim-openapi.yml, openapi/common-room-v2-openapi.yml
+summary:
+  types:
+  - http
+schemes:
+- name: BearerAuth
+  type: http
+  scheme: bearer
+  bearerFormat: JWT
+  description: |-
+    Use a Core API JWT as a Bearer token in the Authentication header.
+
+    Tokens can be created by room Admins through https://app.commonroom.io/
+
+    Example:
+
+    ```
+    curl -H "Authorization: Bearer abcd123.xzy" \
+      https://api.commonroom.io/community/v1/api-token-status
+    ````
+  sources:
+  - openapi/common-room-core-openapi.yml
+  - openapi/common-room-scim-openapi.yml
+  - openapi/common-room-v2-openapi.yml

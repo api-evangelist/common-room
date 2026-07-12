@@ -53,6 +53,12 @@ apis:
   - type: Documentation
     url: https://api.commonroom.io/docs/scim.html
 common:
+- type: VulnerabilityDisclosure
+  url: security/common-room-vulnerability-disclosure.yml
+- type: DomainSecurity
+  url: security/common-room-domain-security.yml
+- type: Authentication
+  url: authentication/common-room-authentication.yml
 - type: Website
   url: https://www.commonroom.io/
 - type: Documentation
