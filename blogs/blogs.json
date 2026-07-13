@@ -5,17 +5,14 @@
       "source": "https://www.commonroom.io/rss.xml",
       "feed_url": "https://www.commonroom.io/rss.xml",
       "title": "",
-      "saved": 3,
+      "saved": 0,
       "method": "feed"
     },
     {
       "source": "https://www.linkedin.com/company/common-room-hq",
-      "feed_url": "https://www.linkedin.com/company/common-room-hq",
-      "title": "",
-      "saved": 0,
-      "method": "none"
+      "error": "HTTPError"
     }
   ],
-  "post_count": 6,
-  "fetched": "2026-06-27T12:03:07Z"
+  "post_count": 55,
+  "fetched": "2026-07-11T11:50:51Z"
 }
