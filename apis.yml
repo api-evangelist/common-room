@@ -53,6 +53,8 @@ apis:
   - type: Documentation
     url: https://api.commonroom.io/docs/scim.html
 common:
+- type: AgenticAccess
+  url: agentic-access/common-room-agentic-access.yml
 - type: VulnerabilityDisclosure
   url: security/common-room-vulnerability-disclosure.yml
 - type: DomainSecurity
