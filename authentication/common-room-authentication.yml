@@ -17,7 +17,7 @@ schemes:
     Example:
 
     ```
-    curl -H "Authorization: Bearer abcd123.xzy" \
+    curl -H "Authorization: Bearer [example key]" \
       https://api.commonroom.io/community/v1/api-token-status
     ````
   sources:
