@@ -1,0 +1,264 @@
+openapi: 3.0.0
+info:
+  title: Common Room Core Activities Lead Scores API
+  version: 1.0.0
+  description: "Common Room Core REST APIs for getting data in to Common Room.\n<br/><br/>\nFor SCIM APIs <a href=\"./scim.html\">see the SCIM documentation</a>.\n<br/><br/>\nFor New, V2 APIs <a href=\"./api-v2.html\">see the V2 API documentation</a>.\n<br/><br/>\nTo use the Common Room API, or get started with the Common Room Zapier integration, you will need to create an API token.\nTo create an API token:\n<ol>\n  <li>Navigate to Setting | API tokens\n  <li>Create a “New Token\"\n</ol>\n\n# Authentication\n\n<!-- ReDoc-Inject: <security-definitions> -->"
+  x-logo:
+    url: /common-room-api-logo.svg
+servers:
+- url: https://api.commonroom.io/community/v1
+  description: Common Room Core API v1
+tags:
+- name: Lead Scores
+  description: Operations related to lead score definitions
+paths:
+  /lead-scores/{id}:
+    get:
+      summary: Get a lead score definition by ID
+      description: Retrieve a specific lead score definition by its unique identifier.
+      tags:
+      - Lead Scores
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: The prefixed lead score ID (format `ls_<number>`)
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-RateLimit-Limit:
+              $ref: '#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: '#/components/headers/X-RateLimit-Remaining'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LeadScoreDefinitionResponse'
+        '400':
+          description: Bad Request (e.g. invalid lead score ID)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiV2ErrorResponse'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        '404':
+          description: Lead score not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiV2ErrorResponse'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+  /lead-scores:
+    get:
+      summary: List lead score definitions
+      description: Retrieve all lead score definitions for the community.
+      tags:
+      - Lead Scores
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-RateLimit-Limit:
+              $ref: '#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: '#/components/headers/X-RateLimit-Remaining'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LeadScoreDefinitionList'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+components:
+  headers:
+    X-RateLimit-Remaining:
+      description: The total amount of requests remaining within the interval
+      schema:
+        type: integer
+    X-RateLimit-Limit:
+      description: The total amount of requests permitted within the interval
+      schema:
+        type: integer
+  schemas:
+    ApiV2Error:
+      type: object
+      required:
+      - code
+      - message
+      properties:
+        code:
+          type: string
+          description: A machine-readable error code identifying the failure.
+          enum:
+          - invalid_parameters
+          - invalid_organization_id
+          - org_not_found
+          - invalid_contact_id
+          - contact_not_found
+          - invalid_object_id
+          - object_not_found
+          - invalid_object_type_id
+          - object_type_not_found
+          - invalid_segment_id
+          - segment_not_found
+          - invalid_activity_id
+          - activity_not_found
+          - conflict
+          - internal_server_error
+          - invalid_custom_field_id
+          - custom_field_not_found
+          - invalid_prospector_contact_id
+          - prospector_contact_not_found
+          - invalid_prospector_company_id
+          - prospector_company_not_found
+        message:
+          type: string
+          description: A human-readable description of the error.
+    ApiV2ErrorResponse:
+      type: object
+      required:
+      - success
+      - error
+      properties:
+        success:
+          type: boolean
+          enum:
+          - false
+        error:
+          $ref: '#/components/schemas/ApiV2Error'
+    ApiLeadScoreDefinition:
+      type: object
+      required:
+      - id
+      - name
+      - enabled
+      - entityType
+      - isPrimaryScore
+      properties:
+        id:
+          type: string
+          description: Prefixed lead score ID (format `ls_<number>`)
+        name:
+          type: string
+          description: The lead score's display name
+        enabled:
+          type: boolean
+          description: Whether this lead score is currently enabled
+        entityType:
+          type: string
+          enum:
+          - contact
+          - organization
+          - object
+          description: The type of entity this lead score applies to
+        isPrimaryScore:
+          type: boolean
+          description: Whether this is the primary score for its entity type
+    LeadScoreDefinitionResponse:
+      type: object
+      required:
+      - success
+      - data
+      properties:
+        success:
+          type: boolean
+          enum:
+          - true
+        data:
+          $ref: '#/components/schemas/ApiLeadScoreDefinition'
+    LeadScoreDefinitionList:
+      type: object
+      required:
+      - success
+      - data
+      properties:
+        success:
+          type: boolean
+          enum:
+          - true
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiLeadScoreDefinition'
+    Status:
+      type: object
+      properties:
+        status:
+          type: string
+          enum:
+          - ok
+          - failure
+          - not-found
+          example: success
+        reason:
+          type: string
+        errors:
+          type: array
+          items:
+            type: string
+          required:
+          - status
+      example:
+        status: not created
+        errors:
+        - name is missing
+  responses:
+    RateLimited:
+      description: Rate Limited
+      headers:
+        X-RateLimit-Limit:
+          $ref: '#/components/headers/X-RateLimit-Limit'
+        X-RateLimit-Remaining:
+          $ref: '#/components/headers/X-RateLimit-Remaining'
+        X-RateLimit-Reset:
+          description: The datetime in epoch seconds when the interval resets
+          schema:
+            type: integer
+        Retry-After:
+          description: The UTC datetime when the interval resets
+          schema:
+            type: string
+            format: date-time
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              reason:
+                type: string
+              rateLimit:
+                type: object
+                description: A summary of the rate limit encountered, additional information is available in the headers.
+                properties:
+                  intervalLimit:
+                    type: number
+                    description: The total amount of requests permitted within the interval
+                  intervalRemaining:
+                    type: number
+                    description: The amount of requests remaining within the interval
+                  intervalResetSeconds:
+                    type: number
+                    description: The amount of time in seconds representing a single interval
+                  waitMs:
+                    type: number
+                    description: The amount of time to wait until the next interval
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: "Use a Core API JWT as a Bearer token in the Authentication header.\n\nTokens can be created by room Admins through https://app.commonroom.io/\n\nExample:\n\n```\ncurl -H \"Authorization: Bearer abcd123.xzy\" \\\n  https://api.commonroom.io/community/v1/api-token-status\n````\n"

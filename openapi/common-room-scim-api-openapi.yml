@@ -1,76 +1,13 @@
 openapi: 3.0.0
 info:
-  title: Common Room SCIM API
+  title: Common Room Core Activities SCIM API
   version: 1.0.0
-  description: "Common Room SCIM REST APIs for accessing Community scoped resources.\n\
-    <br/><br/>\nTo use the Common Room API, or get started with the Common Room Zapier\
-    \ integration, you will need to create an API token.\nTo create an API token:\n\
-    <ol>\n  <li>Navigate to Setting | API tokens\n  <li>Create a “New Token\"\n</ol>\n\
-    \n# Authentication\n\n<!-- ReDoc-Inject: <security-definitions> -->"
+  description: "Common Room Core REST APIs for getting data in to Common Room.\n<br/><br/>\nFor SCIM APIs <a href=\"./scim.html\">see the SCIM documentation</a>.\n<br/><br/>\nFor New, V2 APIs <a href=\"./api-v2.html\">see the V2 API documentation</a>.\n<br/><br/>\nTo use the Common Room API, or get started with the Common Room Zapier integration, you will need to create an API token.\nTo create an API token:\n<ol>\n  <li>Navigate to Setting | API tokens\n  <li>Create a “New Token\"\n</ol>\n\n# Authentication\n\n<!-- ReDoc-Inject: <security-definitions> -->"
   x-logo:
     url: /common-room-api-logo.svg
-components:
-  securitySchemes:
-    BearerAuth:
-      type: http
-      scheme: bearer
-      bearerFormat: JWT
-      description: "Use a Core API JWT as a Bearer token in the Authentication header.\n\
-        \nTokens can be created by room Admins through https://app.commonroom.io/\n\
-        \nExample:\n\n```\ncurl -H \"Authorization: Bearer abcd123.xzy\" \\\n  https://api.commonroom.io/community/v1/api-token-status\n\
-        ````\n"
-  schemas:
-    User:
-      type: object
-      description: 'Represents the user account in the Common Room community
-
-        This account is used for identity mangement via SCIM
-
-        Specification can be found at https://datatracker.ietf.org/doc/html/rfc7643#section-4.1
-
-        '
-      properties:
-        id:
-          type: string
-          example: user@domain.com
-        userName:
-          type: string
-          example: user@domain.com
-        name:
-          type: object
-          properties:
-            givenName:
-              type: string
-              example: John
-            familyName:
-              type: string
-              example: Doe
-        emails:
-          type: array
-          items:
-            type: object
-            properties:
-              value:
-                type: string
-                example: user@domain.com
-              primary:
-                type: boolean
-                example: true
-              type:
-                type: string
-                example: work
-        active:
-          type: boolean
-          example: true
-          description: Indicates whether the user has a login account in the community
-        schemas:
-          type: array
-          items:
-            type: string
-            example: urn:ietf:params:scim:api:messages:2.0:User
 servers:
-- url: https://api.commonroom.io/scim/v2
-  description: Common Room SCIM API v2
+- url: https://api.commonroom.io/community/v1
+  description: Common Room Core API v1
 tags:
 - name: SCIM
 paths:
@@ -98,8 +35,7 @@ paths:
         example: userName eq 'test.user@domain.io'
     get:
       summary: Active contacts by role
-      description: Returns the list of active owners, filtered based on the query
-        parameters
+      description: Returns the list of active owners, filtered based on the query parameters
       tags:
       - SCIM
       responses:
@@ -174,8 +110,7 @@ paths:
                 active:
                   type: boolean
                   example: true
-                  description: Indicates whether the user has a login account in the
-                    community
+                  description: Indicates whether the user has a login account in the community
       responses:
         '201':
           description: Created
@@ -267,8 +202,7 @@ paths:
                           active:
                             type: boolean
                             example: true
-                            description: 'Will upgrade or downgrade user account''s
-                              role based on this property. When set to false
+                            description: 'Will upgrade or downgrade user account''s role based on this property. When set to false
 
                               user account is downgraded
 
@@ -296,3 +230,59 @@ paths:
                   detail:
                     type: string
                     example: 'No user found for user: {userName}'
+components:
+  schemas:
+    User:
+      type: object
+      description: 'Represents the user account in the Common Room community
+
+        This account is used for identity mangement via SCIM
+
+        Specification can be found at https://datatracker.ietf.org/doc/html/rfc7643#section-4.1
+
+        '
+      properties:
+        id:
+          type: string
+          example: user@domain.com
+        userName:
+          type: string
+          example: user@domain.com
+        name:
+          type: object
+          properties:
+            givenName:
+              type: string
+              example: John
+            familyName:
+              type: string
+              example: Doe
+        emails:
+          type: array
+          items:
+            type: object
+            properties:
+              value:
+                type: string
+                example: user@domain.com
+              primary:
+                type: boolean
+                example: true
+              type:
+                type: string
+                example: work
+        active:
+          type: boolean
+          example: true
+          description: Indicates whether the user has a login account in the community
+        schemas:
+          type: array
+          items:
+            type: string
+            example: urn:ietf:params:scim:api:messages:2.0:User
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: "Use a Core API JWT as a Bearer token in the Authentication header.\n\nTokens can be created by room Admins through https://app.commonroom.io/\n\nExample:\n\n```\ncurl -H \"Authorization: Bearer abcd123.xzy\" \\\n  https://api.commonroom.io/community/v1/api-token-status\n````\n"

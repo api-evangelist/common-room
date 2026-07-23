@@ -1,0 +1,318 @@
+openapi: 3.0.0
+info:
+  title: Common Room Core Activities Tags API
+  version: 1.0.0
+  description: "Common Room Core REST APIs for getting data in to Common Room.\n<br/><br/>\nFor SCIM APIs <a href=\"./scim.html\">see the SCIM documentation</a>.\n<br/><br/>\nFor New, V2 APIs <a href=\"./api-v2.html\">see the V2 API documentation</a>.\n<br/><br/>\nTo use the Common Room API, or get started with the Common Room Zapier integration, you will need to create an API token.\nTo create an API token:\n<ol>\n  <li>Navigate to Setting | API tokens\n  <li>Create a “New Token\"\n</ol>\n\n# Authentication\n\n<!-- ReDoc-Inject: <security-definitions> -->"
+  x-logo:
+    url: /common-room-api-logo.svg
+servers:
+- url: https://api.commonroom.io/community/v1
+  description: Common Room Core API v1
+tags:
+- name: Tags
+paths:
+  /tags:
+    get:
+      description: 'Returns the list of user defined tags
+
+        '
+      summary: List Tags
+      tags:
+      - Tags
+      operationId: listTags
+      responses:
+        '200':
+          description: List of non-deleted user defined tags
+          headers:
+            X-RateLimit-Limit:
+              $ref: '#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: '#/components/headers/X-RateLimit-Remaining'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  labels:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ApiTag'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+    post:
+      description: 'Creates a new tag if no matching tag already exists, otherwise returns the existing tag.
+
+        '
+      summary: Add Tag
+      tags:
+      - Tags
+      operationId: createTag
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ApiTagCreationProperties'
+      responses:
+        '200':
+          description: Tag created
+          headers:
+            X-RateLimit-Limit:
+              $ref: '#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: '#/components/headers/X-RateLimit-Remaining'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiTag'
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+  /tags/{id}:
+    get:
+      description: 'Returns the tag for a given id
+
+        '
+      summary: Get Tag
+      tags:
+      - Tags
+      operationId: getTag
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
+        description: The Tag ID to fetch
+      responses:
+        '200':
+          description: Matching tag
+          headers:
+            X-RateLimit-Limit:
+              $ref: '#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: '#/components/headers/X-RateLimit-Remaining'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiTag'
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '404':
+          description: Tag Not Found
+          headers:
+            X-RateLimit-Limit:
+              $ref: '#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: '#/components/headers/X-RateLimit-Remaining'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+    post:
+      description: 'Updates the name or description for a given id.
+
+
+        If the tag is deleted, it will be undeleted on update.
+
+        '
+      summary: Update Tag
+      tags:
+      - Tags
+      operationId: updateTag
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
+        description: The Tag ID to fetch
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ApiTagUpdateProperties'
+      responses:
+        '200':
+          description: Updated tag
+          headers:
+            X-RateLimit-Limit:
+              $ref: '#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: '#/components/headers/X-RateLimit-Remaining'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiTag'
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '404':
+          description: Tag Not Found
+          headers:
+            X-RateLimit-Limit:
+              $ref: '#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: '#/components/headers/X-RateLimit-Remaining'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+    delete:
+      description: 'Deletes the tag for a given id.
+
+
+        Deleting the tag will remove it from everywhere you added it, and might break alerts or workflows that depend on it.
+
+        '
+      summary: Delete Tag
+      tags:
+      - Tags
+      operationId: deleteTag
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
+        description: The Tag ID to fetch
+      responses:
+        '200':
+          description: OK - Tag deleted
+          headers:
+            X-RateLimit-Limit:
+              $ref: '#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: '#/components/headers/X-RateLimit-Remaining'
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '404':
+          description: Tag Not Found
+          headers:
+            X-RateLimit-Limit:
+              $ref: '#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: '#/components/headers/X-RateLimit-Remaining'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+components:
+  headers:
+    X-RateLimit-Remaining:
+      description: The total amount of requests remaining within the interval
+      schema:
+        type: integer
+    X-RateLimit-Limit:
+      description: The total amount of requests permitted within the interval
+      schema:
+        type: integer
+  schemas:
+    ApiTag:
+      allOf:
+      - $ref: '#/components/schemas/ApiTagCreationProperties'
+      - type: object
+        properties:
+          id:
+            description: Unique identifier for this tag
+            type: string
+          createdAt:
+            description: The date-time the tag was created in ISO8601 format
+            type: string
+            format: date-time
+          deletedAt:
+            description: The date-time the tag was deleted in ISO8601 format
+            type: string
+            format: date-time
+            nullable: true
+      required:
+      - id
+      - createdAt
+    ApiTagCreationProperties:
+      allOf:
+      - $ref: '#/components/schemas/ApiTagUpdateProperties'
+      - type: object
+        properties:
+          entityTypes:
+            description: The list of entity types the tag may be assigned to
+            type: array
+            items:
+              type: string
+              enum:
+              - member
+              - activity
+              - company
+      required:
+      - name
+      - entityTypes
+    ApiTagUpdateProperties:
+      type: object
+      properties:
+        name:
+          description: Name of the tag
+          type: string
+        description:
+          description: Optional description of the tag
+          type: string
+          nullable: true
+      required:
+      - name
+  responses:
+    InvalidRequest:
+      description: Invalid Request
+      headers:
+        X-RateLimit-Limit:
+          $ref: '#/components/headers/X-RateLimit-Limit'
+        X-RateLimit-Remaining:
+          $ref: '#/components/headers/X-RateLimit-Remaining'
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              reason:
+                type: string
+                description: A reason of `invalid-request-body` indicates that the request body did not match the schema required by our API docs. Please double-check that your request body matches the schema above, and contact us for help if you continue to experience issues.
+              docs:
+                type: string
+                description: A link to this API documentation
+    RateLimited:
+      description: Rate Limited
+      headers:
+        X-RateLimit-Limit:
+          $ref: '#/components/headers/X-RateLimit-Limit'
+        X-RateLimit-Remaining:
+          $ref: '#/components/headers/X-RateLimit-Remaining'
+        X-RateLimit-Reset:
+          description: The datetime in epoch seconds when the interval resets
+          schema:
+            type: integer
+        Retry-After:
+          description: The UTC datetime when the interval resets
+          schema:
+            type: string
+            format: date-time
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              reason:
+                type: string
+              rateLimit:
+                type: object
+                description: A summary of the rate limit encountered, additional information is available in the headers.
+                properties:
+                  intervalLimit:
+                    type: number
+                    description: The total amount of requests permitted within the interval
+                  intervalRemaining:
+                    type: number
+                    description: The amount of requests remaining within the interval
+                  intervalResetSeconds:
+                    type: number
+                    description: The amount of time in seconds representing a single interval
+                  waitMs:
+                    type: number
+                    description: The amount of time to wait until the next interval
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: "Use a Core API JWT as a Bearer token in the Authentication header.\n\nTokens can be created by room Admins through https://app.commonroom.io/\n\nExample:\n\n```\ncurl -H \"Authorization: Bearer abcd123.xzy\" \\\n  https://api.commonroom.io/community/v1/api-token-status\n````\n"

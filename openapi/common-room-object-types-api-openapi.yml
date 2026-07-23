@@ -1,0 +1,171 @@
+openapi: 3.0.0
+info:
+  title: Common Room Core Activities Object Types API
+  version: 1.0.0
+  description: "Common Room Core REST APIs for getting data in to Common Room.\n<br/><br/>\nFor SCIM APIs <a href=\"./scim.html\">see the SCIM documentation</a>.\n<br/><br/>\nFor New, V2 APIs <a href=\"./api-v2.html\">see the V2 API documentation</a>.\n<br/><br/>\nTo use the Common Room API, or get started with the Common Room Zapier integration, you will need to create an API token.\nTo create an API token:\n<ol>\n  <li>Navigate to Setting | API tokens\n  <li>Create a “New Token\"\n</ol>\n\n# Authentication\n\n<!-- ReDoc-Inject: <security-definitions> -->"
+  x-logo:
+    url: /common-room-api-logo.svg
+servers:
+- url: https://api.commonroom.io/community/v1
+  description: Common Room Core API v1
+tags:
+- name: Object Types
+  description: Operations related to custom object type definitions
+paths:
+  /object-types:
+    get:
+      summary: List object types
+      description: 'Retrieve all custom object type definitions for the community, including
+
+        their associations to other entity types.
+
+        '
+      tags:
+      - Object Types
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-RateLimit-Limit:
+              $ref: '#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: '#/components/headers/X-RateLimit-Remaining'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ObjectTypeList'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+components:
+  schemas:
+    ApiObjectTypeAssoc:
+      type: object
+      required:
+      - objectAssocType
+      - targetEntity
+      - targetObjectTypeId
+      properties:
+        objectAssocType:
+          type: string
+          description: The relationship type
+        targetEntity:
+          type: string
+          description: The target entity name (e.g. `Contact`, `Organization`, or a custom object type name)
+        targetObjectTypeId:
+          type: string
+          nullable: true
+          description: Prefixed target object type ID (format `cot_<number>`), or null for standard entities
+    ApiObjectType:
+      type: object
+      required:
+      - id
+      - name
+      properties:
+        id:
+          type: string
+          description: Prefixed object type ID (format `cot_<number>`)
+        name:
+          type: string
+          description: The object type's display name
+        assocs:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiObjectTypeAssoc'
+          description: Associations to other entity types
+    ObjectTypeList:
+      type: object
+      required:
+      - success
+      - data
+      properties:
+        success:
+          type: boolean
+          enum:
+          - true
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiObjectType'
+    Status:
+      type: object
+      properties:
+        status:
+          type: string
+          enum:
+          - ok
+          - failure
+          - not-found
+          example: success
+        reason:
+          type: string
+        errors:
+          type: array
+          items:
+            type: string
+          required:
+          - status
+      example:
+        status: not created
+        errors:
+        - name is missing
+  headers:
+    X-RateLimit-Remaining:
+      description: The total amount of requests remaining within the interval
+      schema:
+        type: integer
+    X-RateLimit-Limit:
+      description: The total amount of requests permitted within the interval
+      schema:
+        type: integer
+  responses:
+    RateLimited:
+      description: Rate Limited
+      headers:
+        X-RateLimit-Limit:
+          $ref: '#/components/headers/X-RateLimit-Limit'
+        X-RateLimit-Remaining:
+          $ref: '#/components/headers/X-RateLimit-Remaining'
+        X-RateLimit-Reset:
+          description: The datetime in epoch seconds when the interval resets
+          schema:
+            type: integer
+        Retry-After:
+          description: The UTC datetime when the interval resets
+          schema:
+            type: string
+            format: date-time
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              reason:
+                type: string
+              rateLimit:
+                type: object
+                description: A summary of the rate limit encountered, additional information is available in the headers.
+                properties:
+                  intervalLimit:
+                    type: number
+                    description: The total amount of requests permitted within the interval
+                  intervalRemaining:
+                    type: number
+                    description: The amount of requests remaining within the interval
+                  intervalResetSeconds:
+                    type: number
+                    description: The amount of time in seconds representing a single interval
+                  waitMs:
+                    type: number
+                    description: The amount of time to wait until the next interval
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: "Use a Core API JWT as a Bearer token in the Authentication header.\n\nTokens can be created by room Admins through https://app.commonroom.io/\n\nExample:\n\n```\ncurl -H \"Authorization: Bearer abcd123.xzy\" \\\n  https://api.commonroom.io/community/v1/api-token-status\n````\n"

@@ -1,0 +1,449 @@
+openapi: 3.0.0
+info:
+  title: Common Room Core Activities Segments API
+  version: 1.0.0
+  description: "Common Room Core REST APIs for getting data in to Common Room.\n<br/><br/>\nFor SCIM APIs <a href=\"./scim.html\">see the SCIM documentation</a>.\n<br/><br/>\nFor New, V2 APIs <a href=\"./api-v2.html\">see the V2 API documentation</a>.\n<br/><br/>\nTo use the Common Room API, or get started with the Common Room Zapier integration, you will need to create an API token.\nTo create an API token:\n<ol>\n  <li>Navigate to Setting | API tokens\n  <li>Create a “New Token\"\n</ol>\n\n# Authentication\n\n<!-- ReDoc-Inject: <security-definitions> -->"
+  x-logo:
+    url: /common-room-api-logo.svg
+servers:
+- url: https://api.commonroom.io/community/v1
+  description: Common Room Core API v1
+tags:
+- name: Segments
+paths:
+  /segments:
+    get:
+      description: 'Gets all segments in a room
+
+        '
+      summary: Get segments in a room
+      tags:
+      - Segments
+      operationId: getSegments
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-RateLimit-Limit:
+              $ref: '#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: '#/components/headers/X-RateLimit-Remaining'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: number
+                      description: Segment id
+                    name:
+                      type: string
+                      description: Display name of segment
+        '429':
+          $ref: '#/components/responses/RateLimited'
+    post:
+      summary: Create a segment
+      description: Create a new segment in the community.
+      tags:
+      - Segments
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateSegmentRequest'
+      responses:
+        '201':
+          description: Created
+          headers:
+            X-RateLimit-Limit:
+              $ref: '#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: '#/components/headers/X-RateLimit-Remaining'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateSegmentResponse'
+        '400':
+          description: Bad Request (e.g. invalid parameters or missing required fields)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiV2ErrorResponse'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        '409':
+          description: Conflict (a segment with this name already exists)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiV2ErrorResponse'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+  /segments/{id}/status:
+    get:
+      description: 'Gets all status for a segment
+
+        '
+      summary: Gets all status for a segment
+      tags:
+      - Segments
+      operationId: getSegmentStatuses
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-RateLimit-Limit:
+              $ref: '#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: '#/components/headers/X-RateLimit-Remaining'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: number
+                      description: Status id
+                    name:
+                      type: string
+                      description: Display text of status
+        '429':
+          $ref: '#/components/responses/RateLimited'
+  /segments/{id}:
+    post:
+      description: 'Add existing contacts to an existing segment
+
+        '
+      summary: Add Contact(s) to Segment
+      deprecated: true
+      tags:
+      - Segments
+      operationId: addContactsToSegment
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                socialType:
+                  type: string
+                  example: email
+                  description: Must be email, twitter, github, or linkedin
+                value:
+                  type: string
+                  example: email@domail.com, email2@domain.org
+                  description: Comma separated list of values corresponding to socialType
+                statusId:
+                  type: number
+                  example: 1234
+              required:
+              - socialType
+              - value
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-RateLimit-Limit:
+              $ref: '#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: '#/components/headers/X-RateLimit-Remaining'
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '404':
+          description: Not Found
+          headers:
+            X-RateLimit-Limit:
+              $ref: '#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: '#/components/headers/X-RateLimit-Remaining'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+    get:
+      summary: Get a segment by ID
+      description: Retrieve a specific segment by its unique identifier.
+      tags:
+      - Segments
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: The prefixed segment ID (format `s_<number>`)
+      - name: cols
+        in: query
+        required: false
+        schema:
+          type: string
+        description: 'Comma-separated list of additional columns to include in the response.
+
+          Valid values: `entityCount`, `url`.
+
+          '
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-RateLimit-Limit:
+              $ref: '#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: '#/components/headers/X-RateLimit-Remaining'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SegmentResponse'
+        '400':
+          description: Bad Request (e.g. invalid segment ID or invalid parameters)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiV2ErrorResponse'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        '404':
+          description: Segment not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiV2ErrorResponse'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+components:
+  headers:
+    X-RateLimit-Remaining:
+      description: The total amount of requests remaining within the interval
+      schema:
+        type: integer
+    X-RateLimit-Limit:
+      description: The total amount of requests permitted within the interval
+      schema:
+        type: integer
+  schemas:
+    ApiV2Error:
+      type: object
+      required:
+      - code
+      - message
+      properties:
+        code:
+          type: string
+          description: A machine-readable error code identifying the failure.
+          enum:
+          - invalid_parameters
+          - invalid_organization_id
+          - org_not_found
+          - invalid_contact_id
+          - contact_not_found
+          - invalid_object_id
+          - object_not_found
+          - invalid_object_type_id
+          - object_type_not_found
+          - invalid_segment_id
+          - segment_not_found
+          - invalid_activity_id
+          - activity_not_found
+          - conflict
+          - internal_server_error
+          - invalid_custom_field_id
+          - custom_field_not_found
+          - invalid_prospector_contact_id
+          - prospector_contact_not_found
+          - invalid_prospector_company_id
+          - prospector_company_not_found
+        message:
+          type: string
+          description: A human-readable description of the error.
+    ApiV2ErrorResponse:
+      type: object
+      required:
+      - success
+      - error
+      properties:
+        success:
+          type: boolean
+          enum:
+          - false
+        error:
+          $ref: '#/components/schemas/ApiV2Error'
+    SegmentResponse:
+      type: object
+      required:
+      - success
+      - data
+      properties:
+        success:
+          type: boolean
+          enum:
+          - true
+        data:
+          $ref: '#/components/schemas/ApiSegment'
+    CreateSegmentRequest:
+      type: object
+      required:
+      - name
+      properties:
+        name:
+          type: string
+          description: The name for the new segment (max 500 characters)
+        description:
+          type: string
+          description: Optional description for the segment (markdown supported)
+        entityType:
+          type: string
+          enum:
+          - contact
+          - object
+          - organization
+          default: contact
+          description: The type of entity this segment will contain
+        objectTypeId:
+          type: string
+          description: Required when entityType is `object`. Prefixed object type ID (format `cot_<number>`)
+    CreateSegmentResponse:
+      type: object
+      required:
+      - success
+      - data
+      properties:
+        success:
+          type: boolean
+          enum:
+          - true
+        data:
+          type: object
+          required:
+          - id
+          - name
+          properties:
+            id:
+              type: string
+              description: Prefixed segment ID (format `s_<number>`)
+            name:
+              type: string
+    ApiSegment:
+      type: object
+      required:
+      - id
+      - name
+      - entityType
+      properties:
+        id:
+          type: string
+          description: Prefixed segment ID (format `s_<number>`)
+        name:
+          type: string
+          description: The segment's display name
+        entityType:
+          type: string
+          enum:
+          - contact
+          - object
+          - organization
+          description: The type of entity this segment contains
+        entityCount:
+          type: integer
+          description: Number of entities in this segment
+        url:
+          type: string
+          format: uri
+          description: Common Room URL for this segment
+    Status:
+      type: object
+      properties:
+        status:
+          type: string
+          enum:
+          - ok
+          - failure
+          - not-found
+          example: success
+        reason:
+          type: string
+        errors:
+          type: array
+          items:
+            type: string
+          required:
+          - status
+      example:
+        status: not created
+        errors:
+        - name is missing
+  responses:
+    InvalidRequest:
+      description: Invalid Request
+      headers:
+        X-RateLimit-Limit:
+          $ref: '#/components/headers/X-RateLimit-Limit'
+        X-RateLimit-Remaining:
+          $ref: '#/components/headers/X-RateLimit-Remaining'
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              reason:
+                type: string
+                description: A reason of `invalid-request-body` indicates that the request body did not match the schema required by our API docs. Please double-check that your request body matches the schema above, and contact us for help if you continue to experience issues.
+              docs:
+                type: string
+                description: A link to this API documentation
+    RateLimited:
+      description: Rate Limited
+      headers:
+        X-RateLimit-Limit:
+          $ref: '#/components/headers/X-RateLimit-Limit'
+        X-RateLimit-Remaining:
+          $ref: '#/components/headers/X-RateLimit-Remaining'
+        X-RateLimit-Reset:
+          description: The datetime in epoch seconds when the interval resets
+          schema:
+            type: integer
+        Retry-After:
+          description: The UTC datetime when the interval resets
+          schema:
+            type: string
+            format: date-time
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              reason:
+                type: string
+              rateLimit:
+                type: object
+                description: A summary of the rate limit encountered, additional information is available in the headers.
+                properties:
+                  intervalLimit:
+                    type: number
+                    description: The total amount of requests permitted within the interval
+                  intervalRemaining:
+                    type: number
+                    description: The amount of requests remaining within the interval
+                  intervalResetSeconds:
+                    type: number
+                    description: The amount of time in seconds representing a single interval
+                  waitMs:
+                    type: number
+                    description: The amount of time to wait until the next interval
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: "Use a Core API JWT as a Bearer token in the Authentication header.\n\nTokens can be created by room Admins through https://app.commonroom.io/\n\nExample:\n\n```\ncurl -H \"Authorization: Bearer abcd123.xzy\" \\\n  https://api.commonroom.io/community/v1/api-token-status\n````\n"

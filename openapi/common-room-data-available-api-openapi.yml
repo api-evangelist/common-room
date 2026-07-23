@@ -1,0 +1,174 @@
+openapi: 3.0.0
+info:
+  title: Common Room Core Activities Data Available API
+  version: 1.0.0
+  description: "Common Room Core REST APIs for getting data in to Common Room.\n<br/><br/>\nFor SCIM APIs <a href=\"./scim.html\">see the SCIM documentation</a>.\n<br/><br/>\nFor New, V2 APIs <a href=\"./api-v2.html\">see the V2 API documentation</a>.\n<br/><br/>\nTo use the Common Room API, or get started with the Common Room Zapier integration, you will need to create an API token.\nTo create an API token:\n<ol>\n  <li>Navigate to Setting | API tokens\n  <li>Create a “New Token\"\n</ol>\n\n# Authentication\n\n<!-- ReDoc-Inject: <security-definitions> -->"
+  x-logo:
+    url: /common-room-api-logo.svg
+servers:
+- url: https://api.commonroom.io/community/v1
+  description: Common Room Core API v1
+tags:
+- name: Data Available
+  description: Notify Common Room that data is available for import
+paths:
+  /data-available:
+    post:
+      summary: Notify data available
+      description: 'Notify Common Room that new data is available for import from a connected
+
+        data source. This triggers import and augmentation workflows for the
+
+        specified provider.
+
+        '
+      tags:
+      - Data Available
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - sourceId
+              properties:
+                sourceId:
+                  type: integer
+                  description: The numeric provider ID of the data source
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-RateLimit-Limit:
+              $ref: '#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: '#/components/headers/X-RateLimit-Remaining'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    enum:
+                    - true
+        '400':
+          description: Bad Request (e.g. invalid or missing sourceId)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    enum:
+                    - false
+                  message:
+                    type: string
+                required:
+                - success
+                - message
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        '404':
+          description: Source does not belong to your community
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    enum:
+                    - false
+                  message:
+                    type: string
+                required:
+                - success
+                - message
+        '429':
+          $ref: '#/components/responses/RateLimited'
+components:
+  headers:
+    X-RateLimit-Limit:
+      description: The total amount of requests permitted within the interval
+      schema:
+        type: integer
+    X-RateLimit-Remaining:
+      description: The total amount of requests remaining within the interval
+      schema:
+        type: integer
+  responses:
+    RateLimited:
+      description: Rate Limited
+      headers:
+        X-RateLimit-Limit:
+          $ref: '#/components/headers/X-RateLimit-Limit'
+        X-RateLimit-Remaining:
+          $ref: '#/components/headers/X-RateLimit-Remaining'
+        X-RateLimit-Reset:
+          description: The datetime in epoch seconds when the interval resets
+          schema:
+            type: integer
+        Retry-After:
+          description: The UTC datetime when the interval resets
+          schema:
+            type: string
+            format: date-time
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              reason:
+                type: string
+              rateLimit:
+                type: object
+                description: A summary of the rate limit encountered, additional information is available in the headers.
+                properties:
+                  intervalLimit:
+                    type: number
+                    description: The total amount of requests permitted within the interval
+                  intervalRemaining:
+                    type: number
+                    description: The amount of requests remaining within the interval
+                  intervalResetSeconds:
+                    type: number
+                    description: The amount of time in seconds representing a single interval
+                  waitMs:
+                    type: number
+                    description: The amount of time to wait until the next interval
+  schemas:
+    Status:
+      type: object
+      properties:
+        status:
+          type: string
+          enum:
+          - ok
+          - failure
+          - not-found
+          example: success
+        reason:
+          type: string
+        errors:
+          type: array
+          items:
+            type: string
+          required:
+          - status
+      example:
+        status: not created
+        errors:
+        - name is missing
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: "Use a Core API JWT as a Bearer token in the Authentication header.\n\nTokens can be created by room Admins through https://app.commonroom.io/\n\nExample:\n\n```\ncurl -H \"Authorization: Bearer abcd123.xzy\" \\\n  https://api.commonroom.io/community/v1/api-token-status\n````\n"
