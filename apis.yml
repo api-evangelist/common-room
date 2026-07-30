@@ -2,7 +2,20 @@ name: Common Room
 description: Common Room is a community intelligence platform with a REST API for
   tracking member signals across GitHub, Slack, Discord, LinkedIn, and social platforms,
   managing segments, and automating outreach for go-to-market teams.
-image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+accessModel:
+  pricing: freemium
+  onboarding: self-serve
+  trial: false
+  try_now: true
+  public: false
+  label: Freemium · Self-serve signup
+  confidence: high
+  source:
+  - plans
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/common-room.png
 url: https://raw.githubusercontent.com/api-evangelist/common-room/refs/heads/main/apis.yml
 created: '2026-06-13'
 modified: '2026-06-13'
@@ -20,28 +33,9 @@ tags:
 - Contact Management
 - Webhooks
 apis:
-- name: Common Room Core API
-  description: REST API for creating and updating members, recording activity to member
-    timelines, retrieving member information, and anonymizing member data with GDPR
-    compliance.
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://www.commonroom.io/developers/
-  baseURL: https://api.commonroom.io
-  tags:
-  - Members
-  - Contacts
-  - Activity
-  - GDPR
-  properties:
-  - type: Documentation
-    url: https://api.commonroom.io/docs/community.html
-  - type: OpenAPI
-    url: https://api.commonroom.io/docs/community.html
-  - url: graphql/common-room-graphql.md
-    type: GraphQL
 - name: Common Room SCIM API
-  description: SCIM REST API for accessing community-scoped resources and managing
-    user provisioning and deprovisioning.
+  description: >-
+    SCIM REST API for accessing community-scoped resources and managing user provisioning and deprovisioning.
   image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
   humanURL: https://www.commonroom.io/developers/
   baseURL: https://api.commonroom.io
@@ -52,6 +46,315 @@ apis:
   properties:
   - type: Documentation
     url: https://api.commonroom.io/docs/scim.html
+- aid: common-room:common-room-activities-api
+  name: Common Room Activities API
+  description: The Activities API from Common Room — 7 operation(s) for activities.
+  humanURL: https://www.commonroom.io/developers/
+  baseURL: https://api.commonroom.io
+  tags:
+  - Activities
+  properties:
+  - type: OpenAPI
+    url: openapi/common-room-activities-api-openapi.yml
+  - type: Documentation
+    url: https://api.commonroom.io/docs/community.html
+  - type: GraphQL
+    url: graphql/common-room-graphql.md
+- aid: common-room:common-room-contacts-api
+  name: Common Room Contacts API
+  description: The Contacts API from Common Room — 6 operation(s) for contacts.
+  humanURL: https://www.commonroom.io/developers/
+  baseURL: https://api.commonroom.io
+  tags:
+  - Contacts
+  properties:
+  - type: OpenAPI
+    url: openapi/common-room-contacts-api-openapi.yml
+  - type: Documentation
+    url: https://api.commonroom.io/docs/community.html
+  - type: GraphQL
+    url: graphql/common-room-graphql.md
+- aid: common-room:common-room-custom-fields-api
+  name: Common Room Custom Fields API
+  description: Operations related to custom field definitions
+  humanURL: https://www.commonroom.io/developers/
+  baseURL: https://api.commonroom.io
+  tags:
+  - Custom Fields
+  properties:
+  - type: OpenAPI
+    url: openapi/common-room-custom-fields-api-openapi.yml
+  - type: Documentation
+    url: https://api.commonroom.io/docs/community.html
+  - type: GraphQL
+    url: graphql/common-room-graphql.md
+- aid: common-room:common-room-data-available-api
+  name: Common Room Data Available API
+  description: Notify Common Room that data is available for import
+  humanURL: https://www.commonroom.io/developers/
+  baseURL: https://api.commonroom.io
+  tags:
+  - Data Available
+  properties:
+  - type: OpenAPI
+    url: openapi/common-room-data-available-api-openapi.yml
+  - type: Documentation
+    url: https://api.commonroom.io/docs/community.html
+  - type: GraphQL
+    url: graphql/common-room-graphql.md
+- aid: common-room:common-room-industries-api
+  name: Common Room Industries API
+  description: Operations related to NAICS industry codes
+  humanURL: https://www.commonroom.io/developers/
+  baseURL: https://api.commonroom.io
+  tags:
+  - Industries
+  properties:
+  - type: OpenAPI
+    url: openapi/common-room-industries-api-openapi.yml
+  - type: Documentation
+    url: https://api.commonroom.io/docs/community.html
+  - type: GraphQL
+    url: graphql/common-room-graphql.md
+- aid: common-room:common-room-lead-scores-api
+  name: Common Room Lead Scores API
+  description: Operations related to lead score definitions
+  humanURL: https://www.commonroom.io/developers/
+  baseURL: https://api.commonroom.io
+  tags:
+  - Lead Scores
+  properties:
+  - type: OpenAPI
+    url: openapi/common-room-lead-scores-api-openapi.yml
+  - type: Documentation
+    url: https://api.commonroom.io/docs/community.html
+  - type: GraphQL
+    url: graphql/common-room-graphql.md
+- aid: common-room:common-room-locations-api
+  name: Common Room Locations API
+  description: Operations related to location data
+  humanURL: https://www.commonroom.io/developers/
+  baseURL: https://api.commonroom.io
+  tags:
+  - Locations
+  properties:
+  - type: OpenAPI
+    url: openapi/common-room-locations-api-openapi.yml
+  - type: Documentation
+    url: https://api.commonroom.io/docs/community.html
+  - type: GraphQL
+    url: graphql/common-room-graphql.md
+- aid: common-room:common-room-me-api
+  name: Common Room Me API
+  description: Information about the authenticated user
+  humanURL: https://www.commonroom.io/developers/
+  baseURL: https://api.commonroom.io
+  tags:
+  - Me
+  properties:
+  - type: OpenAPI
+    url: openapi/common-room-me-api-openapi.yml
+  - type: Documentation
+    url: https://api.commonroom.io/docs/community.html
+  - type: GraphQL
+    url: graphql/common-room-graphql.md
+- aid: common-room:common-room-object-types-api
+  name: Common Room Object Types API
+  description: Operations related to custom object type definitions
+  humanURL: https://www.commonroom.io/developers/
+  baseURL: https://api.commonroom.io
+  tags:
+  - Object Types
+  properties:
+  - type: OpenAPI
+    url: openapi/common-room-object-types-api-openapi.yml
+  - type: Documentation
+    url: https://api.commonroom.io/docs/community.html
+  - type: GraphQL
+    url: graphql/common-room-graphql.md
+- aid: common-room:common-room-objects-api
+  name: Common Room Objects API
+  description: Operations related to custom objects
+  humanURL: https://www.commonroom.io/developers/
+  baseURL: https://api.commonroom.io
+  tags:
+  - Objects
+  properties:
+  - type: OpenAPI
+    url: openapi/common-room-objects-api-openapi.yml
+  - type: Documentation
+    url: https://api.commonroom.io/docs/community.html
+  - type: GraphQL
+    url: graphql/common-room-graphql.md
+- aid: common-room:common-room-organizations-api
+  name: Common Room Organizations API
+  description: Operations related to organization management
+  humanURL: https://www.commonroom.io/developers/
+  baseURL: https://api.commonroom.io
+  tags:
+  - Organizations
+  properties:
+  - type: OpenAPI
+    url: openapi/common-room-organizations-api-openapi.yml
+  - type: Documentation
+    url: https://api.commonroom.io/docs/community.html
+  - type: GraphQL
+    url: graphql/common-room-graphql.md
+- aid: common-room:common-room-prospector-companies-api
+  name: Common Room Prospector Companies API
+  description: Operations related to prospector company discovery
+  humanURL: https://www.commonroom.io/developers/
+  baseURL: https://api.commonroom.io
+  tags:
+  - Prospector Companies
+  properties:
+  - type: OpenAPI
+    url: openapi/common-room-prospector-companies-api-openapi.yml
+  - type: Documentation
+    url: https://api.commonroom.io/docs/community.html
+  - type: GraphQL
+    url: graphql/common-room-graphql.md
+- aid: common-room:common-room-prospector-contacts-api
+  name: Common Room Prospector Contacts API
+  description: Operations related to prospector contact discovery
+  humanURL: https://www.commonroom.io/developers/
+  baseURL: https://api.commonroom.io
+  tags:
+  - Prospector Contacts
+  properties:
+  - type: OpenAPI
+    url: openapi/common-room-prospector-contacts-api-openapi.yml
+  - type: Documentation
+    url: https://api.commonroom.io/docs/community.html
+  - type: GraphQL
+    url: graphql/common-room-graphql.md
+- aid: common-room:common-room-providers-api
+  name: Common Room Providers API
+  description: Operations related to signal sources (integrations)
+  humanURL: https://www.commonroom.io/developers/
+  baseURL: https://api.commonroom.io
+  tags:
+  - Providers
+  properties:
+  - type: OpenAPI
+    url: openapi/common-room-providers-api-openapi.yml
+  - type: Documentation
+    url: https://api.commonroom.io/docs/community.html
+  - type: GraphQL
+    url: graphql/common-room-graphql.md
+- aid: common-room:common-room-right-to-be-forgotten-api
+  name: Common Room Right to be Forgotten API
+  description: >-
+    The Right to be Forgotten API from Common Room — 1 operation(s) for right to be forgotten.
+  humanURL: https://www.commonroom.io/developers/
+  baseURL: https://api.commonroom.io
+  tags:
+  - Right to be Forgotten
+  properties:
+  - type: OpenAPI
+    url: openapi/common-room-right-to-be-forgotten-api-openapi.yml
+  - type: Documentation
+    url: https://api.commonroom.io/docs/community.html
+  - type: GraphQL
+    url: graphql/common-room-graphql.md
+- aid: common-room:common-room-scim-api
+  name: Common Room SCIM API
+  description: The SCIM API from Common Room — 2 operation(s) for scim.
+  humanURL: https://www.commonroom.io/developers/
+  baseURL: https://api.commonroom.io
+  tags:
+  - SCIM
+  properties:
+  - type: OpenAPI
+    url: openapi/common-room-scim-api-openapi.yml
+  - type: Documentation
+    url: https://api.commonroom.io/docs/community.html
+  - type: GraphQL
+    url: graphql/common-room-graphql.md
+- aid: common-room:common-room-segments-api
+  name: Common Room Segments API
+  description: The Segments API from Common Room — 3 operation(s) for segments.
+  humanURL: https://www.commonroom.io/developers/
+  baseURL: https://api.commonroom.io
+  tags:
+  - Segments
+  properties:
+  - type: OpenAPI
+    url: openapi/common-room-segments-api-openapi.yml
+  - type: Documentation
+    url: https://api.commonroom.io/docs/community.html
+  - type: GraphQL
+    url: graphql/common-room-graphql.md
+- aid: common-room:common-room-tags-api
+  name: Common Room Tags API
+  description: The Tags API from Common Room — 2 operation(s) for tags.
+  humanURL: https://www.commonroom.io/developers/
+  baseURL: https://api.commonroom.io
+  tags:
+  - Tags
+  properties:
+  - type: OpenAPI
+    url: openapi/common-room-tags-api-openapi.yml
+  - type: Documentation
+    url: https://api.commonroom.io/docs/community.html
+  - type: GraphQL
+    url: graphql/common-room-graphql.md
+- aid: common-room:common-room-tech-stack-products-api
+  name: Common Room Tech Stack Products API
+  description: Operations related to technographics and tech stack products
+  humanURL: https://www.commonroom.io/developers/
+  baseURL: https://api.commonroom.io
+  tags:
+  - Tech Stack Products
+  properties:
+  - type: OpenAPI
+    url: openapi/common-room-tech-stack-products-api-openapi.yml
+  - type: Documentation
+    url: https://api.commonroom.io/docs/community.html
+  - type: GraphQL
+    url: graphql/common-room-graphql.md
+- aid: common-room:common-room-token-status-api
+  name: Common Room Token Status API
+  description: The Token Status API from Common Room — 1 operation(s) for token status.
+  humanURL: https://www.commonroom.io/developers/
+  baseURL: https://api.commonroom.io
+  tags:
+  - Token Status
+  properties:
+  - type: OpenAPI
+    url: openapi/common-room-token-status-api-openapi.yml
+  - type: Documentation
+    url: https://api.commonroom.io/docs/community.html
+  - type: GraphQL
+    url: graphql/common-room-graphql.md
+- aid: common-room:common-room-topics-api
+  name: Common Room Topics API
+  description: Operations related to topics
+  humanURL: https://www.commonroom.io/developers/
+  baseURL: https://api.commonroom.io
+  tags:
+  - Topics
+  properties:
+  - type: OpenAPI
+    url: openapi/common-room-topics-api-openapi.yml
+  - type: Documentation
+    url: https://api.commonroom.io/docs/community.html
+  - type: GraphQL
+    url: graphql/common-room-graphql.md
+- aid: common-room:common-room-website-visits-api
+  name: Common Room Website Visits API
+  description: Operations related to website visit tracking
+  humanURL: https://www.commonroom.io/developers/
+  baseURL: https://api.commonroom.io
+  tags:
+  - Website Visits
+  properties:
+  - type: OpenAPI
+    url: openapi/common-room-website-visits-api-openapi.yml
+  - type: Documentation
+    url: https://api.commonroom.io/docs/community.html
+  - type: GraphQL
+    url: graphql/common-room-graphql.md
 common:
 - type: AgenticAccess
   url: agentic-access/common-room-agentic-access.yml
