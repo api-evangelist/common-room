@@ -1,0 +1,298 @@
+openapi: 3.0.0
+info:
+  title: Common Room SCIM API
+  version: 1.0.0
+  description: "Common Room SCIM REST APIs for accessing Community scoped resources.\n\
+    <br/><br/>\nTo use the Common Room API, or get started with the Common Room Zapier\
+    \ integration, you will need to create an API token.\nTo create an API token:\n\
+    <ol>\n  <li>Navigate to Setting | API tokens\n  <li>Create a “New Token\"\n</ol>\n\
+    \n# Authentication\n\n<!-- ReDoc-Inject: <security-definitions> -->"
+  x-logo:
+    url: /common-room-api-logo.svg
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: "Use a Core API JWT as a Bearer token in the Authentication header.\n\
+        \nTokens can be created by room Admins through https://app.commonroom.io/\n\
+        \nExample:\n\n```\ncurl -H \"Authorization: Bearer abcd123.xzy\" \\\n  https://api.commonroom.io/community/v1/api-token-status\n\
+        ````\n"
+  schemas:
+    User:
+      type: object
+      description: 'Represents the user account in the Common Room community
+
+        This account is used for identity mangement via SCIM
+
+        Specification can be found at https://datatracker.ietf.org/doc/html/rfc7643#section-4.1
+
+        '
+      properties:
+        id:
+          type: string
+          example: user@domain.com
+        userName:
+          type: string
+          example: user@domain.com
+        name:
+          type: object
+          properties:
+            givenName:
+              type: string
+              example: John
+            familyName:
+              type: string
+              example: Doe
+        emails:
+          type: array
+          items:
+            type: object
+            properties:
+              value:
+                type: string
+                example: user@domain.com
+              primary:
+                type: boolean
+                example: true
+              type:
+                type: string
+                example: work
+        active:
+          type: boolean
+          example: true
+          description: Indicates whether the user has a login account in the community
+        schemas:
+          type: array
+          items:
+            type: string
+            example: urn:ietf:params:scim:api:messages:2.0:User
+servers:
+- url: https://api.commonroom.io/scim/v2
+  description: Common Room SCIM API v2
+tags:
+- name: SCIM
+paths:
+  /users:
+    summary: Represents Common Room users
+    description: 'Represents users with a valid login. Community owners are returned
+
+      '
+    parameters:
+    - in: query
+      name: startIndex
+      schema:
+        type: integer
+        example: 1
+    - in: query
+      name: count
+      schema:
+        type: integer
+        example: 15
+    - in: query
+      name: filter
+      schema:
+        type: string
+        description: filter on the userName.
+        example: userName eq 'test.user@domain.io'
+    get:
+      summary: Active contacts by role
+      description: Returns the list of active owners, filtered based on the query
+        parameters
+      tags:
+      - SCIM
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  schemas:
+                    type: array
+                    items:
+                      type: string
+                      example: urn:ietf:params:scim:api:messages:2.0:ListResponse
+                  Resources:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/User'
+                  totalResults:
+                    type: integer
+                    description: Number of resources in the list
+                  itemsPerPage:
+                    type: integer
+                    description: Constant number of items per page
+                  startIndex:
+                    type: integer
+                    description: 1-based index for the returned list
+    post:
+      summary: Creates the contact with specific role
+      description: Creates the contact with owner role
+      tags:
+      - SCIM
+      requestBody:
+        required: true
+        content:
+          application/scim+json; charset=utf-8:
+            schema:
+              type: object
+              properties:
+                schemas:
+                  type: array
+                  items:
+                    type: string
+                    example: urn:ietf:params:scim:schemas:core:2.0:User
+                userName:
+                  type: string
+                  example: test.user@domain.io
+                name:
+                  type: object
+                  properties:
+                    givenName:
+                      type: string
+                      example: John
+                    familyName:
+                      type: string
+                      example: Doe
+                emails:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      value:
+                        type: string
+                        example: user@domain.com
+                      primary:
+                        type: boolean
+                        example: true
+                      type:
+                        type: string
+                        example: work
+                active:
+                  type: boolean
+                  example: true
+                  description: Indicates whether the user has a login account in the
+                    community
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/User'
+        '400':
+          description: BadRequest
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  schemas:
+                    type: array
+                    items:
+                      type: string
+                      example: urn:ietf:params:scim:schemas:core:2.0:Error
+                  detail:
+                    type: string
+                    example: Failed to create user
+  /users/{email}:
+    summary: Represents a specific user
+    description: Retrieves or updates the specific user
+    parameters:
+    - in: path
+      name: email
+      required: true
+      schema:
+        type: string
+        example: User accounts' identifier. Typically the email address
+    get:
+      summary: Retrieves a specific user account
+      tags:
+      - SCIM
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/User'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  schemas:
+                    type: array
+                    items:
+                      type: string
+                      example: urn:ietf:params:scim:schemas:core:2.0:Error
+                  detail:
+                    type: string
+                    example: 'No user found for user: {userName}'
+    patch:
+      summary: Updates an user account
+      description: Updates the user account specified in the query
+      tags:
+      - SCIM
+      requestBody:
+        required: true
+        content:
+          application/scim+json; charset=utf-8:
+            schema:
+              type: object
+              properties:
+                schemas:
+                  type: array
+                  items:
+                    type: string
+                    example: urn:ietf:params:scim:schemas:core:2.0:PatchOp
+                Operations:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      op:
+                        type: string
+                        example: replace
+                      value:
+                        type: object
+                        properties:
+                          active:
+                            type: boolean
+                            example: true
+                            description: 'Will upgrade or downgrade user account''s
+                              role based on this property. When set to false
+
+                              user account is downgraded
+
+                              '
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/User'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  schemas:
+                    type: array
+                    items:
+                      type: string
+                      example: urn:ietf:params:scim:schemas:core:2.0:Error
+                  detail:
+                    type: string
+                    example: 'No user found for user: {userName}'

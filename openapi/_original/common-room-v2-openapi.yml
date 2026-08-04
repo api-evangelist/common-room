@@ -1,0 +1,3858 @@
+openapi: 3.0.0
+info:
+  title: Common Room API (v2)
+  version: 2.0.0
+  description: "Common Room API v2 for accessing contact and organization data.\n\
+    <br/><br/>\nFor v1 and RTBF APIs <a href=\"./community.html\">see the V1 API documentation</a>.\n\
+    <br/><br/>\nTo use the Common Room API, you will need to create an API token.\n\
+    To create an API token:\n<ol>\n  <li>Navigate to Setting | API tokens\n  <li>Create\
+    \ a \"New Token\"\n</ol>\n\n# Authentication\n\n<!-- ReDoc-Inject: <security-definitions>\
+    \ -->"
+  x-logo:
+    url: /common-room-api-logo.svg
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: "Use a Core API JWT as a Bearer token in the Authentication header.\n\
+        \nTokens can be created by room Admins through https://app.commonroom.io/\n\
+        \nExample:\n\n```\ncurl -H \"Authorization: Bearer abcd123.xzy\" \\\n  https://api.commonroom.io/community/v1/api-token-status\n\
+        ````\n"
+  headers:
+    X-RateLimit-Limit:
+      description: The total amount of requests permitted within the interval
+      schema:
+        type: integer
+    X-RateLimit-Remaining:
+      description: The total amount of requests remaining within the interval
+      schema:
+        type: integer
+  responses:
+    RateLimited:
+      description: Rate Limited
+      headers:
+        X-RateLimit-Limit:
+          $ref: '#/components/headers/X-RateLimit-Limit'
+        X-RateLimit-Remaining:
+          $ref: '#/components/headers/X-RateLimit-Remaining'
+        X-RateLimit-Reset:
+          description: The datetime in epoch seconds when the interval resets
+          schema:
+            type: integer
+        Retry-After:
+          description: The UTC datetime when the interval resets
+          schema:
+            type: string
+            format: date-time
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              reason:
+                type: string
+              rateLimit:
+                type: object
+                description: A summary of the rate limit encountered, additional information
+                  is available in the headers.
+                properties:
+                  intervalLimit:
+                    type: number
+                    description: The total amount of requests permitted within the
+                      interval
+                  intervalRemaining:
+                    type: number
+                    description: The amount of requests remaining within the interval
+                  intervalResetSeconds:
+                    type: number
+                    description: The amount of time in seconds representing a single
+                      interval
+                  waitMs:
+                    type: number
+                    description: The amount of time to wait until the next interval
+    InvalidRequest:
+      description: Invalid Request
+      headers:
+        X-RateLimit-Limit:
+          $ref: '#/components/headers/X-RateLimit-Limit'
+        X-RateLimit-Remaining:
+          $ref: '#/components/headers/X-RateLimit-Remaining'
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                example: failure
+              reason:
+                type: string
+                description: Reason for the request failure
+  schemas:
+    ApiV2Error:
+      type: object
+      required:
+      - code
+      - message
+      properties:
+        code:
+          type: string
+          description: A machine-readable error code identifying the failure.
+          enum:
+          - invalid_parameters
+          - invalid_organization_id
+          - org_not_found
+          - invalid_contact_id
+          - contact_not_found
+          - invalid_object_id
+          - object_not_found
+          - invalid_object_type_id
+          - object_type_not_found
+          - invalid_segment_id
+          - segment_not_found
+          - invalid_activity_id
+          - activity_not_found
+          - conflict
+          - internal_server_error
+          - invalid_custom_field_id
+          - custom_field_not_found
+          - invalid_prospector_contact_id
+          - prospector_contact_not_found
+          - invalid_prospector_company_id
+          - prospector_company_not_found
+        message:
+          type: string
+          description: A human-readable description of the error.
+    ApiV2ErrorResponse:
+      type: object
+      required:
+      - success
+      - error
+      properties:
+        success:
+          type: boolean
+          enum:
+          - false
+        error:
+          $ref: '#/components/schemas/ApiV2Error'
+    ApiLocation:
+      type: object
+      description: A best-effort location, with each component populated when known.
+      properties:
+        city:
+          type: string
+          description: City name
+        region:
+          type: string
+          description: State, province, or region name
+        country:
+          type: string
+          description: Country name
+    ApiFieldValue:
+      description: A typed custom-field value. The `type` discriminator indicates
+        the value's runtime type.
+      oneOf:
+      - type: object
+        required:
+        - type
+        - value
+        properties:
+          type:
+            type: string
+            enum:
+            - string
+          value:
+            type: string
+      - type: object
+        required:
+        - type
+        - value
+        properties:
+          type:
+            type: string
+            enum:
+            - url
+          value:
+            type: string
+            format: uri
+      - type: object
+        required:
+        - type
+        - value
+        properties:
+          type:
+            type: string
+            enum:
+            - int
+          value:
+            type: integer
+      - type: object
+        required:
+        - type
+        - value
+        properties:
+          type:
+            type: string
+            enum:
+            - number
+          value:
+            type: number
+      - type: object
+        required:
+        - type
+        - value
+        properties:
+          type:
+            type: string
+            enum:
+            - date
+          value:
+            type: string
+            format: date-time
+      - type: object
+        required:
+        - type
+        - value
+        properties:
+          type:
+            type: string
+            enum:
+            - boolean
+          value:
+            type: boolean
+    ApiLeadScore:
+      type: object
+      required:
+      - scoreId
+      - score
+      - percentile
+      properties:
+        scoreId:
+          type: integer
+          description: The numeric ID of the lead-score definition
+        score:
+          type: number
+          description: The raw score for this contact or organization
+        percentile:
+          type: number
+          description: The percentile rank of the score within the community
+    ApiActivity:
+      type: object
+      required:
+      - id
+      - type
+      - activityTime
+      properties:
+        id:
+          type: string
+          description: Prefixed activity ID (format `a_<number>`)
+        type:
+          type: string
+          description: Activity type identifier (e.g. `tweet`, `pr_comment`)
+        activityTime:
+          type: string
+          format: date-time
+          description: When the activity occurred
+        contactId:
+          type: string
+          description: Prefixed contact ID (format `c_<number>`)
+        content:
+          type: string
+          nullable: true
+        isUserInitiated:
+          type: boolean
+        participantCount:
+          type: integer
+        providerId:
+          type: string
+          description: Prefixed signal source ID (format `sig_<number>`)
+        providerName:
+          type: string
+          nullable: true
+        replyCount:
+          type: integer
+        sentiment:
+          type: string
+          nullable: true
+        subSourceNames:
+          type: array
+          items:
+            type: string
+        url:
+          type: string
+          format: uri
+    ApiActivityType:
+      type: object
+      required:
+      - id
+      - displayName
+      properties:
+        id:
+          type: string
+          description: Activity type identifier (e.g. `tweet`, `pr_comment`)
+        displayName:
+          type: string
+          description: Human-readable display name for the activity type
+    ActivityTypeList:
+      type: object
+      required:
+      - success
+      - data
+      properties:
+        success:
+          type: boolean
+          enum:
+          - true
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiActivityType'
+    ActivityResponse:
+      type: object
+      required:
+      - success
+      - data
+      properties:
+        success:
+          type: boolean
+          enum:
+          - true
+        data:
+          $ref: '#/components/schemas/ApiActivity'
+    ActivityList:
+      type: object
+      required:
+      - success
+      - data
+      - meta
+      properties:
+        success:
+          type: boolean
+          enum:
+          - true
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiActivity'
+        meta:
+          type: object
+          required:
+          - nextCursor
+          properties:
+            nextCursor:
+              type: string
+              nullable: true
+              description: Cursor for pagination; pass as the `cursor` query parameter
+                to fetch the next page.
+            recordCount:
+              type: integer
+              description: Total number of records matching the query. Only returned
+                when `cols=recordCount` is requested.
+    Contact:
+      type: object
+      required:
+      - id
+      - name
+      properties:
+        id:
+          type: string
+          description: Prefixed contact ID (format `c_<number>`)
+        name:
+          type: string
+          description: The contact's display name
+        avatarUrl:
+          type: string
+          format: uri
+          nullable: true
+        fullName:
+          type: string
+          nullable: true
+        location:
+          allOf:
+          - $ref: '#/components/schemas/ApiLocation'
+          nullable: true
+        primaryEmail:
+          type: string
+          nullable: true
+        phoneNumbers:
+          type: array
+          items:
+            type: object
+            required:
+            - type
+            - value
+            properties:
+              type:
+                type: string
+              value:
+                type: string
+        title:
+          type: string
+          nullable: true
+        companyName:
+          type: string
+          nullable: true
+        companyWebsite:
+          type: string
+          nullable: true
+        connectedCustomObjects:
+          type: array
+          items:
+            type: object
+            required:
+            - id
+            - name
+            - objectType
+            properties:
+              id:
+                type: string
+                description: Prefixed custom object ID (format `co_<number>`)
+              name:
+                type: string
+              objectType:
+                type: string
+        customFields:
+          type: object
+          description: Map of custom-field ID (format `cf_<number>`) to its typed
+            value.
+          additionalProperties:
+            $ref: '#/components/schemas/ApiFieldValue'
+        profiles:
+          type: array
+          items:
+            type: object
+            required:
+            - type
+            - value
+            properties:
+              type:
+                type: string
+              value:
+                type: string
+        jobHistory:
+          type: array
+          items:
+            type: object
+            required:
+            - company
+            - title
+            - startDate
+            - endDate
+            properties:
+              company:
+                type: string
+              title:
+                type: string
+                nullable: true
+              startDate:
+                type: string
+              endDate:
+                type: string
+                nullable: true
+        leadScores:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiLeadScore'
+        segments:
+          type: array
+          items:
+            type: object
+            required:
+            - id
+            - name
+            properties:
+              id:
+                type: string
+                description: Prefixed segment ID (format `s_<number>`)
+              name:
+                type: string
+        recentWebPages:
+          type: array
+          items:
+            type: object
+            required:
+            - url
+            - numVisits
+            properties:
+              url:
+                type: string
+              numVisits:
+                type: integer
+        recentWebVisitsNumber:
+          type: integer
+        recentActivities:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiActivity'
+        activateMessage:
+          type: object
+          nullable: true
+          required:
+          - title
+          - message
+          properties:
+            title:
+              type: string
+            message:
+              type: string
+              nullable: true
+        sparkSummary:
+          type: string
+          nullable: true
+        recentSparkSummaries:
+          type: array
+          items:
+            type: string
+        tags:
+          type: array
+          description: Prefixed label IDs (format `l_<number>`)
+          items:
+            type: string
+        url:
+          type: string
+          format: uri
+          description: Common Room URL for this contact
+    ContactResponse:
+      type: object
+      required:
+      - success
+      - data
+      properties:
+        success:
+          type: boolean
+          enum:
+          - true
+        data:
+          $ref: '#/components/schemas/Contact'
+    ContactList:
+      type: object
+      required:
+      - success
+      - data
+      - meta
+      properties:
+        success:
+          type: boolean
+          enum:
+          - true
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Contact'
+        meta:
+          type: object
+          required:
+          - nextCursor
+          properties:
+            nextCursor:
+              type: string
+              nullable: true
+              description: Cursor for pagination; pass as the `cursor` query parameter
+                to fetch the next page.
+            recordCount:
+              type: integer
+              description: Total number of records matching the query. Only returned
+                when `cols=recordCount` is requested.
+    Organization:
+      type: object
+      required:
+      - id
+      - name
+      - primaryDomain
+      properties:
+        id:
+          type: string
+          description: Prefixed organization ID (format `o_<number>`)
+        name:
+          type: string
+          description: The organization's name
+        primaryDomain:
+          type: string
+          description: The organization's primary domain name
+        about:
+          type: string
+          nullable: true
+        contactsCount:
+          type: integer
+          nullable: true
+        employees:
+          type: integer
+          nullable: true
+        linkedInUrl:
+          type: string
+          nullable: true
+        profiles:
+          type: array
+          items:
+            type: object
+            required:
+            - name
+            - type
+            - url
+            properties:
+              name:
+                type: string
+              type:
+                type: string
+              url:
+                type: string
+                format: uri
+                nullable: true
+        revenueRangeMax:
+          type: integer
+          nullable: true
+        revenueRangeMin:
+          type: integer
+          nullable: true
+        subIndustry:
+          type: string
+          nullable: true
+        location:
+          allOf:
+          - $ref: '#/components/schemas/ApiLocation'
+          nullable: true
+        customFields:
+          type: object
+          description: Map of custom-field ID (format `cf_<number>`) to its typed
+            value.
+          additionalProperties:
+            $ref: '#/components/schemas/ApiFieldValue'
+        leadScores:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiLeadScore'
+        researchResults:
+          type: array
+          items:
+            type: object
+            required:
+            - promptId
+            - answer
+            - isPrimaryPrompt
+            properties:
+              promptId:
+                type: string
+              answer:
+                type: string
+              isPrimaryPrompt:
+                type: boolean
+        recentJobOpenings:
+          type: array
+          items:
+            type: object
+            required:
+            - jobTitle
+            - url
+            - firstSeenAt
+            - isClosed
+            - location
+            properties:
+              jobTitle:
+                type: string
+              jobDescription:
+                type: string
+                nullable: true
+              url:
+                type: string
+                format: uri
+              firstSeenAt:
+                type: string
+              isClosed:
+                type: boolean
+              location:
+                type: string
+                nullable: true
+        recentNews:
+          type: array
+          items:
+            type: object
+            required:
+            - title
+            - url
+            - publishedAt
+            - category
+            - articleSentence
+            properties:
+              title:
+                type: string
+              url:
+                type: string
+                format: uri
+              publishedAt:
+                type: string
+              category:
+                type: string
+              articleSentence:
+                type: string
+                nullable: true
+        surgingTopics:
+          type: array
+          description: Bombora surging topic names this organization is showing buyer
+            intent for. Empty unless the Bombora integration is enabled.
+          items:
+            type: string
+        tags:
+          type: array
+          description: Prefixed label IDs (format `l_<number>`)
+          items:
+            type: string
+        topContacts:
+          type: array
+          items:
+            $ref: '#/components/schemas/Contact'
+        url:
+          type: string
+          format: uri
+          description: Common Room URL for this organization
+    OrganizationResponse:
+      type: object
+      required:
+      - success
+      - data
+      properties:
+        success:
+          type: boolean
+          enum:
+          - true
+        data:
+          $ref: '#/components/schemas/Organization'
+    OrganizationList:
+      type: object
+      required:
+      - success
+      - data
+      - meta
+      properties:
+        success:
+          type: boolean
+          enum:
+          - true
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Organization'
+        meta:
+          type: object
+          required:
+          - nextCursor
+          properties:
+            nextCursor:
+              type: string
+              nullable: true
+              description: Cursor for pagination; pass as the `cursor` query parameter
+                to fetch the next page.
+            recordCount:
+              type: integer
+              description: Total number of records matching the query. Only returned
+                when `cols=recordCount` is requested.
+    ApiSegment:
+      type: object
+      required:
+      - id
+      - name
+      - entityType
+      properties:
+        id:
+          type: string
+          description: Prefixed segment ID (format `s_<number>`)
+        name:
+          type: string
+          description: The segment's display name
+        entityType:
+          type: string
+          enum:
+          - contact
+          - object
+          - organization
+          description: The type of entity this segment contains
+        entityCount:
+          type: integer
+          description: Number of entities in this segment
+        url:
+          type: string
+          format: uri
+          description: Common Room URL for this segment
+    SegmentResponse:
+      type: object
+      required:
+      - success
+      - data
+      properties:
+        success:
+          type: boolean
+          enum:
+          - true
+        data:
+          $ref: '#/components/schemas/ApiSegment'
+    SegmentList:
+      type: object
+      required:
+      - success
+      - data
+      - meta
+      properties:
+        success:
+          type: boolean
+          enum:
+          - true
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiSegment'
+        meta:
+          type: object
+          properties:
+            nextCursor:
+              type: string
+              nullable: true
+              description: Cursor for pagination; pass as the `cursor` query parameter
+                to fetch the next page.
+            recordCount:
+              type: integer
+              description: Total number of records matching the query. Only returned
+                when `cols=recordCount` is requested.
+    CreateSegmentRequest:
+      type: object
+      required:
+      - name
+      properties:
+        name:
+          type: string
+          description: The name for the new segment (max 500 characters)
+        description:
+          type: string
+          description: Optional description for the segment (markdown supported)
+        entityType:
+          type: string
+          enum:
+          - contact
+          - object
+          - organization
+          default: contact
+          description: The type of entity this segment will contain
+        objectTypeId:
+          type: string
+          description: Required when entityType is `object`. Prefixed object type
+            ID (format `cot_<number>`)
+    CreateSegmentResponse:
+      type: object
+      required:
+      - success
+      - data
+      properties:
+        success:
+          type: boolean
+          enum:
+          - true
+        data:
+          type: object
+          required:
+          - id
+          - name
+          properties:
+            id:
+              type: string
+              description: Prefixed segment ID (format `s_<number>`)
+            name:
+              type: string
+    ApiCustomField:
+      type: object
+      required:
+      - id
+      - name
+      - entityTypes
+      - keyField
+      - valueType
+      properties:
+        id:
+          type: string
+          description: Prefixed custom field ID (format `cf_<number>`)
+        name:
+          type: string
+          description: The custom field's display name
+        entityTypes:
+          type: array
+          items:
+            type: string
+            enum:
+            - contact
+            - object
+            - organization
+          description: Entity types this field applies to
+        keyField:
+          type: boolean
+          description: Whether this is a key field used for deduplication
+        valueType:
+          type: string
+          enum:
+          - string
+          - url
+          - int
+          - number
+          - date
+          - boolean
+          description: The data type of field values
+        sampleValues:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiFieldValue'
+          description: Example values for this field
+        description:
+          type: string
+          nullable: true
+          description: Human-readable description of the field
+        targetSubTypes:
+          type: array
+          items:
+            type: string
+          description: Sub-types this field targets
+        providedBy:
+          type: string
+          nullable: true
+          description: Name of the provider that owns this field, if any
+        objectTypeId:
+          type: string
+          description: Prefixed object type ID (format `cot_<number>`), if this field
+            belongs to a specific object type
+    CustomFieldResponse:
+      type: object
+      required:
+      - success
+      - data
+      properties:
+        success:
+          type: boolean
+          enum:
+          - true
+        data:
+          $ref: '#/components/schemas/ApiCustomField'
+    CustomFieldList:
+      type: object
+      required:
+      - success
+      - data
+      properties:
+        success:
+          type: boolean
+          enum:
+          - true
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiCustomField'
+    ApiLeadScoreDefinition:
+      type: object
+      required:
+      - id
+      - name
+      - enabled
+      - entityType
+      - isPrimaryScore
+      properties:
+        id:
+          type: string
+          description: Prefixed lead score ID (format `ls_<number>`)
+        name:
+          type: string
+          description: The lead score's display name
+        enabled:
+          type: boolean
+          description: Whether this lead score is currently enabled
+        entityType:
+          type: string
+          enum:
+          - contact
+          - organization
+          - object
+          description: The type of entity this lead score applies to
+        isPrimaryScore:
+          type: boolean
+          description: Whether this is the primary score for its entity type
+    LeadScoreDefinitionResponse:
+      type: object
+      required:
+      - success
+      - data
+      properties:
+        success:
+          type: boolean
+          enum:
+          - true
+        data:
+          $ref: '#/components/schemas/ApiLeadScoreDefinition'
+    LeadScoreDefinitionList:
+      type: object
+      required:
+      - success
+      - data
+      properties:
+        success:
+          type: boolean
+          enum:
+          - true
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiLeadScoreDefinition'
+    ApiTag:
+      type: object
+      required:
+      - id
+      - name
+      properties:
+        id:
+          type: string
+          description: Prefixed tag ID (format `l_<number>`)
+        name:
+          type: string
+          description: The tag's display name
+        description:
+          type: string
+          nullable: true
+          description: Human-readable description of the tag
+        entityTypes:
+          type: array
+          items:
+            type: string
+            enum:
+            - contact
+            - organization
+            - activity
+          description: Entity types this tag can be applied to
+    TagResponse:
+      type: object
+      required:
+      - success
+      - data
+      properties:
+        success:
+          type: boolean
+          enum:
+          - true
+        data:
+          $ref: '#/components/schemas/ApiTag'
+    TagList:
+      type: object
+      required:
+      - success
+      - data
+      - meta
+      properties:
+        success:
+          type: boolean
+          enum:
+          - true
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiTag'
+        meta:
+          type: object
+          required:
+          - nextCursor
+          properties:
+            nextCursor:
+              type: string
+              nullable: true
+              description: Cursor for pagination; pass as the `cursor` query parameter
+                to fetch the next page.
+    MeResponse:
+      type: object
+      required:
+      - success
+      - data
+      properties:
+        success:
+          type: boolean
+          enum:
+          - true
+        data:
+          type: object
+          required:
+          - id
+          - communityId
+          - name
+          - role
+          properties:
+            id:
+              type: string
+              description: Prefixed contact ID (format `c_<number>`)
+            communityId:
+              type: string
+              description: Prefixed community ID (format `com_<number>`)
+            name:
+              type: string
+              description: The authenticated user's display name
+            title:
+              type: string
+              nullable: true
+              description: The user's job title
+            role:
+              type: string
+              description: The user's role in the community
+            loginEmail:
+              type: string
+              nullable: true
+              description: The user's login email address
+            profiles:
+              type: array
+              items:
+                type: object
+                required:
+                - type
+                - handle
+                properties:
+                  type:
+                    type: string
+                  handle:
+                    type: string
+            segments:
+              type: array
+              description: Segments bookmarked by this user
+              items:
+                type: object
+                required:
+                - id
+                - name
+                properties:
+                  id:
+                    type: string
+                  name:
+                    type: string
+            personas:
+              type: array
+              items:
+                type: object
+                required:
+                - id
+                - name
+                properties:
+                  id:
+                    type: string
+                  name:
+                    type: string
+            company:
+              type: object
+              properties:
+                name:
+                  type: string
+                  nullable: true
+                domains:
+                  type: array
+                  items:
+                    type: string
+                summary:
+                  type: string
+                  nullable: true
+    ApiLocationItem:
+      type: object
+      required:
+      - id
+      - name
+      - type
+      properties:
+        id:
+          type: string
+          description: Prefixed location ID
+        name:
+          type: string
+          description: Display name for the location
+        type:
+          type: string
+          enum:
+          - city
+          - country
+          - country_region
+          - world_region
+          description: The granularity of this location
+        city:
+          type: string
+        region:
+          type: string
+        country:
+          type: string
+    LocationItemResponse:
+      type: object
+      required:
+      - success
+      - data
+      properties:
+        success:
+          type: boolean
+          enum:
+          - true
+        data:
+          $ref: '#/components/schemas/ApiLocationItem'
+    LocationItemList:
+      type: object
+      required:
+      - success
+      - data
+      - meta
+      properties:
+        success:
+          type: boolean
+          enum:
+          - true
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiLocationItem'
+        meta:
+          type: object
+          properties:
+            nextCursor:
+              type: string
+              nullable: true
+              description: Cursor for pagination; pass as the `cursor` query parameter
+                to fetch the next page.
+            recordCount:
+              type: integer
+              description: Total number of records matching the query. Only returned
+                when `cols=recordCount` is requested.
+    ApiTopic:
+      type: object
+      required:
+      - id
+      - name
+      properties:
+        id:
+          type: string
+          description: Prefixed topic ID (format `tp_<number>`)
+        name:
+          type: string
+          description: The topic's display name
+    TopicResponse:
+      type: object
+      required:
+      - success
+      - data
+      properties:
+        success:
+          type: boolean
+          enum:
+          - true
+        data:
+          $ref: '#/components/schemas/ApiTopic'
+    TopicList:
+      type: object
+      required:
+      - success
+      - data
+      - meta
+      properties:
+        success:
+          type: boolean
+          enum:
+          - true
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiTopic'
+        meta:
+          type: object
+          properties:
+            nextCursor:
+              type: string
+              nullable: true
+              description: Cursor for pagination; pass as the `cursor` query parameter
+                to fetch the next page.
+            recordCount:
+              type: integer
+              description: Total number of records matching the query. Only returned
+                when `cols=recordCount` is requested.
+    ApiActivityCategory:
+      type: object
+      required:
+      - id
+      - name
+      - value
+      properties:
+        id:
+          type: string
+          description: Prefixed label ID (format `l_<number>`)
+        name:
+          type: string
+          description: Display name for the category
+        value:
+          type: string
+          description: Machine-readable category value
+    ActivityCategoryList:
+      type: object
+      required:
+      - success
+      - data
+      properties:
+        success:
+          type: boolean
+          enum:
+          - true
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiActivityCategory'
+    ApiActivitySentiment:
+      type: object
+      required:
+      - id
+      - name
+      properties:
+        id:
+          type: string
+          description: Prefixed label ID (format `l_<number>`)
+        name:
+          type: string
+          description: Display name for the sentiment (e.g. positive, negative, neutral)
+    ActivitySentimentList:
+      type: object
+      required:
+      - success
+      - data
+      properties:
+        success:
+          type: boolean
+          enum:
+          - true
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiActivitySentiment'
+    ApiProvider:
+      type: object
+      required:
+      - id
+      - name
+      - serviceName
+      properties:
+        id:
+          type: string
+          description: Prefixed signal source ID (format `sig_<number>`)
+        name:
+          type: string
+          nullable: true
+          description: User-defined display name for this source
+        serviceName:
+          type: string
+          description: The provider service type (e.g. `slack`, `github`, `salesforce`)
+    ProviderList:
+      type: object
+      required:
+      - success
+      - data
+      - meta
+      properties:
+        success:
+          type: boolean
+          enum:
+          - true
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiProvider'
+        meta:
+          type: object
+          required:
+          - nextCursor
+          properties:
+            nextCursor:
+              type: string
+              nullable: true
+              description: Cursor for pagination; pass as the `cursor` query parameter
+                to fetch the next page.
+    ApiCustomObject:
+      type: object
+      required:
+      - id
+      - name
+      properties:
+        id:
+          type: string
+          description: Prefixed custom object ID (format `co_<number>`)
+        name:
+          type: string
+          description: The object's display name
+        recordKey:
+          type: string
+          description: External record key for this object
+        customFields:
+          type: object
+          description: Map of custom-field ID (format `cf_<number>`) to its typed
+            value.
+          additionalProperties:
+            $ref: '#/components/schemas/ApiFieldValue'
+    CustomObjectResponse:
+      type: object
+      required:
+      - success
+      - data
+      properties:
+        success:
+          type: boolean
+          enum:
+          - true
+        data:
+          $ref: '#/components/schemas/ApiCustomObject'
+    CustomObjectList:
+      type: object
+      required:
+      - success
+      - data
+      - meta
+      properties:
+        success:
+          type: boolean
+          enum:
+          - true
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiCustomObject'
+        meta:
+          type: object
+          properties:
+            nextCursor:
+              type: string
+              nullable: true
+              description: Cursor for pagination; pass as the `cursor` query parameter
+                to fetch the next page.
+            recordCount:
+              type: integer
+              description: Total number of records matching the query. Only returned
+                when `cols=recordCount` is requested.
+    ApiObjectTypeAssoc:
+      type: object
+      required:
+      - objectAssocType
+      - targetEntity
+      - targetObjectTypeId
+      properties:
+        objectAssocType:
+          type: string
+          description: The relationship type
+        targetEntity:
+          type: string
+          description: The target entity name (e.g. `Contact`, `Organization`, or
+            a custom object type name)
+        targetObjectTypeId:
+          type: string
+          nullable: true
+          description: Prefixed target object type ID (format `cot_<number>`), or
+            null for standard entities
+    ApiObjectType:
+      type: object
+      required:
+      - id
+      - name
+      properties:
+        id:
+          type: string
+          description: Prefixed object type ID (format `cot_<number>`)
+        name:
+          type: string
+          description: The object type's display name
+        assocs:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiObjectTypeAssoc'
+          description: Associations to other entity types
+    ObjectTypeList:
+      type: object
+      required:
+      - success
+      - data
+      properties:
+        success:
+          type: boolean
+          enum:
+          - true
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiObjectType'
+    ApiWebsiteVisit:
+      type: object
+      required:
+      - id
+      - visitTime
+      properties:
+        id:
+          type: string
+          description: Prefixed website visit cursor (format `w_<cursor>`)
+        visitTime:
+          type: string
+          format: date-time
+          description: When the visit occurred
+        url:
+          type: string
+          format: uri
+          description: The visited page URL
+        contactId:
+          type: string
+          description: Prefixed contact ID (format `c_<number>`)
+        organizationId:
+          type: string
+          description: Prefixed organization ID (format `o_<number>`)
+    WebsiteVisitList:
+      type: object
+      required:
+      - success
+      - data
+      - meta
+      properties:
+        success:
+          type: boolean
+          enum:
+          - true
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiWebsiteVisit'
+        meta:
+          type: object
+          properties:
+            nextCursor:
+              type: string
+              nullable: true
+              description: Cursor for pagination; pass as the `cursor` query parameter
+                to fetch the next page.
+            recordCount:
+              type: integer
+              description: Total number of records matching the query. Only returned
+                when `cols=recordCount` is requested.
+    ApiProspectorContact:
+      type: object
+      required:
+      - id
+      - name
+      properties:
+        id:
+          type: string
+          description: Prospector contact ID
+        name:
+          type: string
+          description: The contact's display name
+        avatarUrl:
+          type: string
+          format: uri
+          nullable: true
+        companyName:
+          type: string
+          nullable: true
+        companyWebsite:
+          type: string
+          format: uri
+          nullable: true
+        fullName:
+          type: string
+          nullable: true
+        linkedInFollowerCount:
+          type: number
+          nullable: true
+        linkedInHandle:
+          type: string
+          nullable: true
+        location:
+          allOf:
+          - $ref: '#/components/schemas/ApiLocation'
+          nullable: true
+        role:
+          type: string
+          nullable: true
+        seniority:
+          type: string
+          nullable: true
+        skills:
+          type: array
+          nullable: true
+          items:
+            type: string
+        title:
+          type: string
+          nullable: true
+    ProspectorContactList:
+      type: object
+      required:
+      - success
+      - data
+      - meta
+      properties:
+        success:
+          type: boolean
+          enum:
+          - true
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiProspectorContact'
+        meta:
+          type: object
+          properties:
+            nextCursor:
+              type: string
+              nullable: true
+              description: Cursor for pagination; pass as the `cursor` query parameter
+                to fetch the next page.
+            recordCount:
+              type: integer
+              description: Total number of records matching the query. Only returned
+                when `cols=recordCount` is requested.
+    ApiProspectorCompanyLocation:
+      type: object
+      properties:
+        address:
+          type: string
+          nullable: true
+        city:
+          type: string
+          nullable: true
+        state:
+          type: string
+          nullable: true
+        country:
+          type: string
+          nullable: true
+        countryCode:
+          type: string
+          nullable: true
+    ApiProspectorCompany:
+      type: object
+      required:
+      - id
+      - name
+      properties:
+        id:
+          type: string
+          description: Prospector company ID
+        name:
+          type: string
+          description: The company's display name
+        description:
+          type: string
+          nullable: true
+        employees:
+          type: number
+          nullable: true
+        linkedInHandles:
+          type: array
+          nullable: true
+          items:
+            type: string
+        location:
+          allOf:
+          - $ref: '#/components/schemas/ApiProspectorCompanyLocation'
+          nullable: true
+        logoUrl:
+          type: string
+          format: uri
+          nullable: true
+        primaryWebsite:
+          type: string
+          nullable: true
+        raised:
+          type: number
+          nullable: true
+          description: Total capital raised
+        revenueRange:
+          type: object
+          nullable: true
+          properties:
+            min:
+              type: number
+            max:
+              type: number
+              nullable: true
+        subIndustry:
+          type: string
+          nullable: true
+        technologies:
+          type: array
+          nullable: true
+          items:
+            type: string
+    ProspectorCompanyList:
+      type: object
+      required:
+      - success
+      - data
+      - meta
+      properties:
+        success:
+          type: boolean
+          enum:
+          - true
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiProspectorCompany'
+        meta:
+          type: object
+          properties:
+            nextCursor:
+              type: string
+              nullable: true
+              description: Cursor for pagination; pass as the `cursor` query parameter
+                to fetch the next page.
+            recordCount:
+              type: integer
+              description: Total number of records matching the query. Only returned
+                when `cols=recordCount` is requested.
+    ApiNaicsCode:
+      type: object
+      required:
+      - id
+      - code
+      - name
+      properties:
+        id:
+          type: string
+          description: Prefixed NAICS code ID (format `naics_<number>`)
+        code:
+          type: integer
+          description: The numeric NAICS code
+        name:
+          type: string
+          description: Industry name
+    NaicsCodeList:
+      type: object
+      required:
+      - success
+      - data
+      - meta
+      properties:
+        success:
+          type: boolean
+          enum:
+          - true
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiNaicsCode'
+        meta:
+          type: object
+          required:
+          - nextCursor
+          properties:
+            nextCursor:
+              type: string
+              nullable: true
+              description: Cursor for pagination; pass as the `cursor` query parameter
+                to fetch the next page.
+    ApiTechStackProduct:
+      type: object
+      required:
+      - id
+      - product
+      - vendor
+      properties:
+        id:
+          type: string
+          description: Prefixed product ID (format `p_<number>`)
+        product:
+          type: string
+          description: Product name
+        vendor:
+          type: string
+          description: Vendor name
+    TechStackProductList:
+      type: object
+      required:
+      - success
+      - data
+      - meta
+      properties:
+        success:
+          type: boolean
+          enum:
+          - true
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiTechStackProduct'
+        meta:
+          type: object
+          required:
+          - nextCursor
+          properties:
+            nextCursor:
+              type: string
+              nullable: true
+              description: Cursor for pagination; pass as the `cursor` query parameter
+                to fetch the next page.
+    ApiToken:
+      type: object
+      properties:
+        jti:
+          type: string
+          example: tcpgph92
+        communityName:
+          type: string
+          example: Uncommon
+        communityId:
+          type: string
+          example: 8p980hdo0
+    Status:
+      type: object
+      properties:
+        status:
+          type: string
+          enum:
+          - ok
+          - failure
+          - not-found
+          example: success
+        reason:
+          type: string
+        errors:
+          type: array
+          items:
+            type: string
+          required:
+          - status
+      example:
+        status: not created
+        errors:
+        - name is missing
+servers:
+- url: https://api.commonroom.io/community/v2
+  description: Common Room API v2
+tags:
+- name: Token Status
+  description: Operations related to API token status
+- name: Contacts
+  description: Operations related to contact management
+- name: Organizations
+  description: Operations related to organization management
+- name: Activities
+  description: Operations related to activity events
+- name: Segments
+  description: Operations related to segment management
+- name: Custom Fields
+  description: Operations related to custom field definitions
+- name: Lead Scores
+  description: Operations related to lead score definitions
+- name: Tags
+  description: Operations related to tags (labels)
+- name: Me
+  description: Information about the authenticated user
+- name: Data Available
+  description: Notify Common Room that data is available for import
+- name: Locations
+  description: Operations related to location data
+- name: Topics
+  description: Operations related to topics
+- name: Providers
+  description: Operations related to signal sources (integrations)
+- name: Objects
+  description: Operations related to custom objects
+- name: Object Types
+  description: Operations related to custom object type definitions
+- name: Website Visits
+  description: Operations related to website visit tracking
+- name: Prospector Contacts
+  description: Operations related to prospector contact discovery
+- name: Prospector Companies
+  description: Operations related to prospector company discovery
+- name: Industries
+  description: Operations related to NAICS industry codes
+- name: Tech Stack Products
+  description: Operations related to technographics and tech stack products
+security:
+- BearerAuth: []
+paths:
+  /api-token-status:
+    get:
+      summary: API Token status information
+      description: 'Status information about the API token used in the request.
+
+        '
+      tags:
+      - Token Status
+      responses:
+        '200':
+          description: Core API Token Information
+          headers:
+            X-RateLimit-Limit:
+              $ref: '#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: '#/components/headers/X-RateLimit-Remaining'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiToken'
+        '403':
+          description: Forbidden
+          headers:
+            X-RateLimit-Limit:
+              $ref: '#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: '#/components/headers/X-RateLimit-Remaining'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+                example:
+                  status: forbidden
+        '429':
+          $ref: '#/components/responses/RateLimited'
+  /contacts/{id}:
+    get:
+      summary: Get a contact by ID
+      description: Retrieve a specific contact by their unique identifier.
+      tags:
+      - Contacts
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: The prefixed contact ID (format `c_<number>`)
+      - name: cols
+        in: query
+        required: false
+        schema:
+          type: string
+        description: 'Comma-separated list of additional columns to include in the
+          response.
+
+          Valid values: `activateMessage`, `avatarUrl`, `fullName`, `location`, `primaryEmail`,
+
+          `phoneNumbers`, `title`, `companyName`, `companyWebsite`, `connectedCustomObjects`,
+
+          `profiles`, `jobHistory`, `leadScores`, `recentActivities`, `recentWebPages`,
+
+          `recentWebVisitsNumber`, `segments`, `sparkSummary`, `recentSparkSummaries`,
+          `tags`,
+
+          `url`. Use `cf_*` to include all custom fields, or `cf_<id>` for a specific
+          one.
+
+          '
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-RateLimit-Limit:
+              $ref: '#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: '#/components/headers/X-RateLimit-Remaining'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ContactResponse'
+        '400':
+          description: Bad Request (e.g. invalid contact ID or invalid parameters)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiV2ErrorResponse'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        '404':
+          description: Contact not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiV2ErrorResponse'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+  /contacts:
+    get:
+      summary: List contacts
+      description: Retrieve a list of contacts with pagination support.
+      tags:
+      - Contacts
+      parameters:
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 200
+          default: 50
+        description: The maximum number of contacts to return per page
+      - name: cursor
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Pagination cursor from a previous response
+      - name: sort
+        in: query
+        required: false
+        schema:
+          type: string
+          default: id
+        description: 'Field to sort results by. One of: `id`, `latest_activity`, `name`,
+
+          a lead-score ID (format `ls_<number>`), or a custom-field ID (format `cf_<number>`).
+
+          '
+      - name: direction
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - asc
+          - desc
+          default: asc
+        description: Sort direction
+      - name: cols
+        in: query
+        required: false
+        schema:
+          type: string
+        description: 'Comma-separated list of additional columns to include in the
+          response.
+
+          Valid column values: `activateMessage`, `avatarUrl`, `fullName`, `location`,
+
+          `primaryEmail`, `phoneNumbers`, `title`, `companyName`, `companyWebsite`,
+
+          `connectedCustomObjects`, `profiles`, `jobHistory`, `leadScores`, `recentActivities`,
+
+          `recentWebPages`, `recentWebVisitsNumber`, `segments`, `sparkSummary`,
+
+          `recentSparkSummaries`, `tags`, `url`. Use `cf_*` to include all custom
+          fields, or
+
+          `cf_<id>` for a specific one. The meta column `recordCount` can be requested
+          to
+
+          return the total number of matching contacts in `meta.recordCount`.
+
+          '
+      - name: organizationId
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Filter contacts by prefixed organization ID (format `o_<number>`)
+      - name: segmentId
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Filter contacts by segment ID (e.g. s_123456)
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-RateLimit-Limit:
+              $ref: '#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: '#/components/headers/X-RateLimit-Remaining'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ContactList'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiV2ErrorResponse'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+  /organizations/{id}:
+    get:
+      summary: Get an organization by ID
+      description: Retrieve a specific organization by its unique identifier.
+      tags:
+      - Organizations
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: The prefixed organization ID (format `o_<number>`)
+      - name: cols
+        in: query
+        required: false
+        schema:
+          type: string
+        description: 'Comma-separated list of additional columns to include in the
+          response.
+
+          Valid values: `about`, `contactsCount`, `employees`, `linkedInUrl`, `profiles`,
+
+          `revenueRangeMax`, `revenueRangeMin`, `subIndustry`, `location`, `leadScores`,
+
+          `recentJobOpenings`, `recentNews`, `researchResults`, `surgingTopics`, `tags`,
+          `topContacts`, `url`.
+
+          Use `cf_*` to include all custom fields, or `cf_<id>` for a specific one.
+
+          '
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-RateLimit-Limit:
+              $ref: '#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: '#/components/headers/X-RateLimit-Remaining'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationResponse'
+        '400':
+          description: Bad Request (e.g. invalid organization ID or invalid parameters)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiV2ErrorResponse'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        '404':
+          description: Organization not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiV2ErrorResponse'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+  /organizations:
+    get:
+      summary: List organizations
+      description: Retrieve a list of organizations with pagination support.
+      tags:
+      - Organizations
+      parameters:
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 200
+          default: 50
+        description: The maximum number of organizations to return per page
+      - name: cursor
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Pagination cursor from a previous response
+      - name: sort
+        in: query
+        required: false
+        schema:
+          type: string
+          default: id
+        description: 'Field to sort results by. One of: `id`, `member_count`,
+
+          a lead-score ID (format `ls_<number>`), or a custom-field ID (format `cf_<number>`).
+
+          '
+      - name: direction
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - asc
+          - desc
+          default: asc
+        description: Sort direction
+      - name: cols
+        in: query
+        required: false
+        schema:
+          type: string
+        description: 'Comma-separated list of additional columns to include in the
+          response.
+
+          Valid column values: `about`, `contactsCount`, `employees`, `linkedInUrl`,
+          `profiles`,
+
+          `revenueRangeMax`, `revenueRangeMin`, `subIndustry`, `location`, `leadScores`,
+
+          `recentJobOpenings`, `recentNews`, `researchResults`, `surgingTopics`, `tags`,
+          `topContacts`, `url`.
+
+          Use `cf_*` to include all custom fields, or `cf_<id>` for a specific one.
+          The meta
+
+          column `recordCount` can be requested to return the total number of matching
+
+          organizations in `meta.recordCount`.
+
+          '
+      - name: name
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Filter organizations by exact name match
+      - name: primaryDomain
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Filter organizations by primary domain (exact match)
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-RateLimit-Limit:
+              $ref: '#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: '#/components/headers/X-RateLimit-Remaining'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationList'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiV2ErrorResponse'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+  /activities/{id}:
+    get:
+      summary: Get an activity by ID
+      description: Retrieve a specific activity by its unique identifier.
+      tags:
+      - Activities
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: The prefixed activity ID (format `a_<number>`)
+      - name: cols
+        in: query
+        required: false
+        schema:
+          type: string
+        description: 'Comma-separated list of additional columns to include in the
+          response.
+
+          Valid values: `contactId`, `content`, `isUserInitiated`, `participantCount`,
+
+          `providerId`, `providerName`, `replyCount`, `sentiment`, `subSourceNames`,
+
+          `url`.
+
+          '
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-RateLimit-Limit:
+              $ref: '#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: '#/components/headers/X-RateLimit-Remaining'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ActivityResponse'
+        '400':
+          description: Bad Request (e.g. invalid activity ID or invalid parameters)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiV2ErrorResponse'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        '404':
+          description: Activity not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiV2ErrorResponse'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+  /activities:
+    get:
+      summary: List activities
+      description: Retrieve a list of activities with pagination support.
+      tags:
+      - Activities
+      parameters:
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 200
+          default: 50
+        description: The maximum number of activities to return per page
+      - name: cursor
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Pagination cursor from a previous response
+      - name: sort
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - id
+          - activityTime
+          default: activityTime
+        description: Field to sort results by.
+      - name: direction
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - asc
+          - desc
+          default: asc
+        description: Sort direction
+      - name: cols
+        in: query
+        required: false
+        schema:
+          type: string
+        description: 'Comma-separated list of additional columns to include in the
+          response.
+
+          Valid column values: `contactId`, `content`, `isUserInitiated`,
+
+          `participantCount`, `providerId`, `providerName`, `replyCount`, `sentiment`,
+
+          `subSourceNames`, `url`. The meta column `recordCount` can be
+
+          requested to return the total number of matching activities in
+
+          `meta.recordCount`.
+
+          '
+      - name: contactId
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Filter activities by prefixed contact ID (format `c_<number>`)
+      - name: organizationId
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Filter activities by prefixed organization ID (format `o_<number>`)
+      - name: startDate
+        in: query
+        required: false
+        schema:
+          type: string
+          format: date-time
+        description: Only return activities occurring at or after this ISO-8601 datetime
+      - name: endDate
+        in: query
+        required: false
+        schema:
+          type: string
+          format: date-time
+        description: Only return activities occurring at or before this ISO-8601 datetime
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-RateLimit-Limit:
+              $ref: '#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: '#/components/headers/X-RateLimit-Remaining'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ActivityList'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiV2ErrorResponse'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+  /activity-types:
+    get:
+      summary: List activity types
+      description: 'List all activity type identifiers supported by Common Room, along
+        with
+
+        their human-readable display names. Use the `id` as the `type` value
+
+        returned by `/activities`.
+
+        '
+      tags:
+      - Activities
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-RateLimit-Limit:
+              $ref: '#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: '#/components/headers/X-RateLimit-Remaining'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ActivityTypeList'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+  /activity-categories:
+    get:
+      summary: List activity categories
+      description: List all activity category labels for the community.
+      tags:
+      - Activities
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-RateLimit-Limit:
+              $ref: '#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: '#/components/headers/X-RateLimit-Remaining'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ActivityCategoryList'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+  /activity-sentiment:
+    get:
+      summary: List activity sentiment labels
+      description: List all activity sentiment classifications for the community.
+      tags:
+      - Activities
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-RateLimit-Limit:
+              $ref: '#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: '#/components/headers/X-RateLimit-Remaining'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ActivitySentimentList'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+  /segments/{id}:
+    get:
+      summary: Get a segment by ID
+      description: Retrieve a specific segment by its unique identifier.
+      tags:
+      - Segments
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: The prefixed segment ID (format `s_<number>`)
+      - name: cols
+        in: query
+        required: false
+        schema:
+          type: string
+        description: 'Comma-separated list of additional columns to include in the
+          response.
+
+          Valid values: `entityCount`, `url`.
+
+          '
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-RateLimit-Limit:
+              $ref: '#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: '#/components/headers/X-RateLimit-Remaining'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SegmentResponse'
+        '400':
+          description: Bad Request (e.g. invalid segment ID or invalid parameters)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiV2ErrorResponse'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        '404':
+          description: Segment not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiV2ErrorResponse'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+  /segments:
+    get:
+      summary: List segments
+      description: Retrieve a list of segments with pagination support.
+      tags:
+      - Segments
+      parameters:
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 200
+          default: 50
+        description: The maximum number of segments to return per page
+      - name: cursor
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Pagination cursor from a previous response
+      - name: cols
+        in: query
+        required: false
+        schema:
+          type: string
+        description: 'Comma-separated list of additional columns to include in the
+          response.
+
+          Valid column values: `entityCount`, `url`. The meta column `recordCount`
+
+          can be requested to return the total number of matching segments in
+
+          `meta.recordCount`.
+
+          '
+      - name: query
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Filter segments by name (substring match)
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-RateLimit-Limit:
+              $ref: '#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: '#/components/headers/X-RateLimit-Remaining'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SegmentList'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiV2ErrorResponse'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+    post:
+      summary: Create a segment
+      description: Create a new segment in the community.
+      tags:
+      - Segments
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateSegmentRequest'
+      responses:
+        '201':
+          description: Created
+          headers:
+            X-RateLimit-Limit:
+              $ref: '#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: '#/components/headers/X-RateLimit-Remaining'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateSegmentResponse'
+        '400':
+          description: Bad Request (e.g. invalid parameters or missing required fields)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiV2ErrorResponse'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        '409':
+          description: Conflict (a segment with this name already exists)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiV2ErrorResponse'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+  /custom-fields/{id}:
+    get:
+      summary: Get a custom field by ID
+      description: Retrieve a specific custom field definition by its unique identifier.
+      tags:
+      - Custom Fields
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: The prefixed custom field ID (format `cf_<number>`)
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-RateLimit-Limit:
+              $ref: '#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: '#/components/headers/X-RateLimit-Remaining'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomFieldResponse'
+        '400':
+          description: Bad Request (e.g. invalid custom field ID)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiV2ErrorResponse'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        '404':
+          description: Custom field not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiV2ErrorResponse'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+  /custom-fields:
+    get:
+      summary: List custom fields
+      description: 'Retrieve all custom field definitions for the community, optionally
+
+        filtered by entity type.
+
+        '
+      tags:
+      - Custom Fields
+      parameters:
+      - name: entityType
+        in: query
+        required: false
+        schema:
+          type: string
+        description: 'Filter fields by entity type. Valid values: `contact`, `organization`,
+
+          or a prefixed object type ID (format `cot_<number>`).
+
+          '
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-RateLimit-Limit:
+              $ref: '#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: '#/components/headers/X-RateLimit-Remaining'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomFieldList'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiV2ErrorResponse'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+  /lead-scores/{id}:
+    get:
+      summary: Get a lead score definition by ID
+      description: Retrieve a specific lead score definition by its unique identifier.
+      tags:
+      - Lead Scores
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: The prefixed lead score ID (format `ls_<number>`)
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-RateLimit-Limit:
+              $ref: '#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: '#/components/headers/X-RateLimit-Remaining'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LeadScoreDefinitionResponse'
+        '400':
+          description: Bad Request (e.g. invalid lead score ID)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiV2ErrorResponse'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        '404':
+          description: Lead score not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiV2ErrorResponse'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+  /lead-scores:
+    get:
+      summary: List lead score definitions
+      description: Retrieve all lead score definitions for the community.
+      tags:
+      - Lead Scores
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-RateLimit-Limit:
+              $ref: '#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: '#/components/headers/X-RateLimit-Remaining'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LeadScoreDefinitionList'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+  /tags/{id}:
+    get:
+      summary: Get a tag by ID
+      description: Retrieve a specific tag by its unique identifier.
+      tags:
+      - Tags
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: The prefixed tag ID (format `l_<number>`)
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-RateLimit-Limit:
+              $ref: '#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: '#/components/headers/X-RateLimit-Remaining'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TagResponse'
+        '400':
+          description: Bad Request (e.g. invalid tag ID)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiV2ErrorResponse'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        '404':
+          description: Tag not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiV2ErrorResponse'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+  /tags:
+    get:
+      summary: List tags
+      description: Retrieve a list of tags (user-defined and auto-generated) for the
+        community, with pagination support.
+      tags:
+      - Tags
+      parameters:
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 200
+          default: 50
+        description: The maximum number of tags to return per page
+      - name: cursor
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Pagination cursor from a previous response
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-RateLimit-Limit:
+              $ref: '#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: '#/components/headers/X-RateLimit-Remaining'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TagList'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiV2ErrorResponse'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+  /me:
+    get:
+      summary: Get current user info
+      description: 'Retrieve information about the authenticated user, including their
+        profile,
+
+        bookmarked segments, personas, and company details.
+
+        '
+      tags:
+      - Me
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-RateLimit-Limit:
+              $ref: '#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: '#/components/headers/X-RateLimit-Remaining'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MeResponse'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+  /data-available:
+    post:
+      summary: Notify data available
+      description: 'Notify Common Room that new data is available for import from
+        a connected
+
+        data source. This triggers import and augmentation workflows for the
+
+        specified provider.
+
+        '
+      tags:
+      - Data Available
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - sourceId
+              properties:
+                sourceId:
+                  type: integer
+                  description: The numeric provider ID of the data source
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-RateLimit-Limit:
+              $ref: '#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: '#/components/headers/X-RateLimit-Remaining'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    enum:
+                    - true
+        '400':
+          description: Bad Request (e.g. invalid or missing sourceId)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    enum:
+                    - false
+                  message:
+                    type: string
+                required:
+                - success
+                - message
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        '404':
+          description: Source does not belong to your community
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    enum:
+                    - false
+                  message:
+                    type: string
+                required:
+                - success
+                - message
+        '429':
+          $ref: '#/components/responses/RateLimited'
+  /locations/{id}:
+    get:
+      summary: Get a location by ID
+      description: Retrieve a specific location by its unique identifier.
+      tags:
+      - Locations
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: The prefixed location ID
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-RateLimit-Limit:
+              $ref: '#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: '#/components/headers/X-RateLimit-Remaining'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LocationItemResponse'
+        '400':
+          description: Bad Request (e.g. invalid location ID)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiV2ErrorResponse'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        '404':
+          description: Location not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiV2ErrorResponse'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+  /locations:
+    get:
+      summary: List locations
+      description: Retrieve a paginated list of locations, sorted by member count
+        (descending).
+      tags:
+      - Locations
+      parameters:
+      - name: locationType
+        in: query
+        required: true
+        schema:
+          type: string
+          enum:
+          - city
+          - country
+          - country_region
+          - world_region
+        description: The granularity of locations to return (required)
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 200
+          default: 50
+        description: The maximum number of locations to return per page
+      - name: cursor
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Pagination cursor from a previous response
+      - name: cols
+        in: query
+        required: false
+        schema:
+          type: string
+        description: 'Comma-separated list of meta columns. The meta column `recordCount`
+
+          can be requested to return the total number of matching locations in
+
+          `meta.recordCount`.
+
+          '
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-RateLimit-Limit:
+              $ref: '#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: '#/components/headers/X-RateLimit-Remaining'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LocationItemList'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiV2ErrorResponse'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+  /topics/{id}:
+    get:
+      summary: Get a topic by ID
+      description: Retrieve a specific topic by its unique identifier.
+      tags:
+      - Topics
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: The prefixed topic ID (format `tp_<number>`)
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-RateLimit-Limit:
+              $ref: '#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: '#/components/headers/X-RateLimit-Remaining'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TopicResponse'
+        '400':
+          description: Bad Request (e.g. invalid topic ID)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiV2ErrorResponse'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        '404':
+          description: Topic not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiV2ErrorResponse'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+  /topics:
+    get:
+      summary: List topics
+      description: Retrieve a paginated list of topics, sorted alphabetically by name.
+      tags:
+      - Topics
+      parameters:
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 200
+          default: 50
+        description: The maximum number of topics to return per page
+      - name: cursor
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Pagination cursor from a previous response
+      - name: query
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Filter topics by display name prefix
+      - name: cols
+        in: query
+        required: false
+        schema:
+          type: string
+        description: 'Comma-separated list of meta columns. The meta column `recordCount`
+
+          can be requested to return the total number of matching topics in
+
+          `meta.recordCount`.
+
+          '
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-RateLimit-Limit:
+              $ref: '#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: '#/components/headers/X-RateLimit-Remaining'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TopicList'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiV2ErrorResponse'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+  /providers:
+    get:
+      summary: List providers
+      description: List the visible signal sources (integrations) for the community,
+        with pagination support.
+      tags:
+      - Providers
+      parameters:
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 200
+          default: 50
+        description: The maximum number of providers to return per page
+      - name: cursor
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Pagination cursor from a previous response
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-RateLimit-Limit:
+              $ref: '#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: '#/components/headers/X-RateLimit-Remaining'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProviderList'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiV2ErrorResponse'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+  /objects/{id}:
+    get:
+      summary: Get a custom object by ID
+      description: Retrieve a specific custom object by its unique identifier.
+      tags:
+      - Objects
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: The prefixed custom object ID (format `co_<number>`)
+      - name: cols
+        in: query
+        required: false
+        schema:
+          type: string
+        description: 'Comma-separated list of additional columns to include in the
+          response.
+
+          Valid values: `recordKey`. Use `cf_*` to include all custom fields,
+
+          or `cf_<id>` for a specific one.
+
+          '
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-RateLimit-Limit:
+              $ref: '#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: '#/components/headers/X-RateLimit-Remaining'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomObjectResponse'
+        '400':
+          description: Bad Request (e.g. invalid object ID or invalid parameters)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiV2ErrorResponse'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        '404':
+          description: Object not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiV2ErrorResponse'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+  /objects:
+    get:
+      summary: List custom objects
+      description: Retrieve a paginated list of custom objects.
+      tags:
+      - Objects
+      parameters:
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 200
+          default: 50
+        description: The maximum number of objects to return per page
+      - name: cursor
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Pagination cursor from a previous response
+      - name: sort
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - id
+          - name
+          default: id
+        description: Field to sort results by
+      - name: direction
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - asc
+          - desc
+          default: asc
+        description: Sort direction
+      - name: objectTypeId
+        in: query
+        required: true
+        schema:
+          type: string
+        description: Filter objects by prefixed object type ID (format `cot_<number>`)
+      - name: segmentId
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Filter objects by prefixed segment ID (format `s_<number>`)
+      - name: cols
+        in: query
+        required: false
+        schema:
+          type: string
+        description: 'Comma-separated list of additional columns to include in the
+          response.
+
+          Valid column values: `recordKey`. Use `cf_*` to include all custom fields,
+
+          or `cf_<id>` for a specific one. The meta column `recordCount` can be
+
+          requested to return the total number of matching objects in `meta.recordCount`.
+
+          '
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-RateLimit-Limit:
+              $ref: '#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: '#/components/headers/X-RateLimit-Remaining'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomObjectList'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiV2ErrorResponse'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+  /object-types:
+    get:
+      summary: List object types
+      description: 'Retrieve all custom object type definitions for the community,
+        including
+
+        their associations to other entity types.
+
+        '
+      tags:
+      - Object Types
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-RateLimit-Limit:
+              $ref: '#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: '#/components/headers/X-RateLimit-Remaining'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ObjectTypeList'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+  /website-visits:
+    get:
+      summary: List website visits
+      description: Retrieve a paginated list of website visits.
+      tags:
+      - Website Visits
+      parameters:
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 200
+          default: 50
+        description: The maximum number of visits to return per page
+      - name: cursor
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Pagination cursor from a previous response
+      - name: cols
+        in: query
+        required: false
+        schema:
+          type: string
+        description: 'Comma-separated list of additional columns to include in the
+          response.
+
+          Valid column values: `url` (included by default), `contactId`, `organizationId`.
+
+          The meta column `recordCount` can be requested to return the total number
+
+          of matching visits in `meta.recordCount`.
+
+          '
+      - name: contactId
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Filter visits by prefixed contact ID (format `c_<number>`)
+      - name: organizationId
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Filter visits by prefixed organization ID (format `o_<number>`)
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-RateLimit-Limit:
+              $ref: '#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: '#/components/headers/X-RateLimit-Remaining'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WebsiteVisitList'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiV2ErrorResponse'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+  /prospector-contacts:
+    get:
+      summary: List prospector contacts
+      description: Retrieve a paginated list of prospector-discovered contacts.
+      tags:
+      - Prospector Contacts
+      parameters:
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 200
+          default: 50
+        description: The maximum number of contacts to return per page
+      - name: cursor
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Pagination cursor from a previous response
+      - name: sort
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - id
+          - name
+          - title
+          - linkedInFollowers
+          - lastOrgChange
+          - seniority
+          - role
+          default: id
+        description: Field to sort results by
+      - name: direction
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - asc
+          - desc
+          default: asc
+        description: Sort direction
+      - name: cols
+        in: query
+        required: false
+        schema:
+          type: string
+        description: 'Comma-separated list of additional columns to include in the
+          response.
+
+          Valid column values: `avatarUrl`, `companyName`, `companyWebsite`, `fullName`,
+
+          `linkedInFollowerCount`, `linkedInHandle`, `location`, `role`, `seniority`,
+
+          `skills`, `title`. The meta column `recordCount` can be requested to return
+
+          the total number of matching contacts in `meta.recordCount`.
+
+          '
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-RateLimit-Limit:
+              $ref: '#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: '#/components/headers/X-RateLimit-Remaining'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProspectorContactList'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiV2ErrorResponse'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+  /prospector-companies:
+    get:
+      summary: List prospector companies
+      description: Retrieve a paginated list of prospector-discovered companies.
+      tags:
+      - Prospector Companies
+      parameters:
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 200
+          default: 50
+        description: The maximum number of companies to return per page
+      - name: cursor
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Pagination cursor from a previous response
+      - name: sort
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - id
+          - name
+          - employeeCount
+          - capitalRaised
+          - score
+          default: id
+        description: Field to sort results by
+      - name: direction
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - asc
+          - desc
+          default: asc
+        description: Sort direction
+      - name: cols
+        in: query
+        required: false
+        schema:
+          type: string
+        description: 'Comma-separated list of additional columns to include in the
+          response.
+
+          Valid column values: `description`, `employees`, `linkedInHandles`, `location`,
+
+          `logoUrl`, `primaryWebsite`, `raised`, `revenueRange`, `subIndustry`,
+
+          `technologies`. The meta column `recordCount` can be requested to return
+
+          the total number of matching companies in `meta.recordCount`.
+
+          '
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-RateLimit-Limit:
+              $ref: '#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: '#/components/headers/X-RateLimit-Remaining'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProspectorCompanyList'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiV2ErrorResponse'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+  /industries:
+    get:
+      summary: List NAICS industry codes
+      description: Retrieve a paginated list of NAICS industry codes, optionally filtered
+        by search query.
+      tags:
+      - Industries
+      parameters:
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 200
+          default: 50
+        description: The maximum number of codes to return per page
+      - name: cursor
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Pagination cursor from a previous response
+      - name: query
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Search text to filter industry codes by name
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-RateLimit-Limit:
+              $ref: '#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: '#/components/headers/X-RateLimit-Remaining'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NaicsCodeList'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiV2ErrorResponse'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+  /tech-stack-products:
+    get:
+      summary: List tech stack products
+      description: Retrieve a paginated list of technographic products, optionally
+        filtered by search query.
+      tags:
+      - Tech Stack Products
+      parameters:
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 200
+          default: 50
+        description: The maximum number of products to return per page
+      - name: cursor
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Pagination cursor from a previous response
+      - name: query
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Search text to filter products by name
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-RateLimit-Limit:
+              $ref: '#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: '#/components/headers/X-RateLimit-Remaining'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TechStackProductList'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiV2ErrorResponse'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        '429':
+          $ref: '#/components/responses/RateLimited'
