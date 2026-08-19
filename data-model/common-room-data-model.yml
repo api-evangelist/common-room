@@ -1,0 +1,280 @@
+generated: '2026-08-13'
+method: derived
+source: >-
+  openapi/_original/common-room-v2-openapi.yml (62 component schemas) +
+  openapi/_original/common-room-core-openapi.yml + id-prefix conventions from
+  https://www.commonroom.io/docs/using-common-room/cli/
+note: >-
+  Derived from the published v2 schemas: $ref links between components and
+  id-reference fields (contactId, organizationId, objectTypeId, providerId,
+  segmentId). ID prefixes are transcribed from the CLI and MCP docs. Nothing here
+  is invented — where the spec expresses a relationship only as an embedded array
+  with no ID field, that is recorded as `embedded: true`.
+identifier_scheme:
+  style: prefixed-opaque-string
+  prefixes:
+    Contact: 'c_'
+    Organization: 'o_'
+    Segment: 's_'
+    CustomField: 'cf_'
+    LeadScore: 'ls_'
+    ProspectorContact: 'pc_'
+  note: The CLI infers the object type from the prefix (cr object get c_8812).
+entities:
+- name: Contact
+  schema: Contact
+  id_prefix: 'c_'
+  domain: people
+  description: A person tracked across community, product, social, web and CRM signals.
+  key_fields: [id, fullName, primaryEmail, title, companyName, companyWebsite, location]
+  operations: ['GET /contacts', 'GET /contacts/{id}']
+  legacy_operations: ['POST /source/{destinationSourceId}/user (addUpdateUserToSource)', 'DELETE /user/{email}']
+- name: Organization
+  schema: Organization
+  id_prefix: 'o_'
+  domain: accounts
+  description: A company, enriched with firmographics, news, job openings and surging intent topics.
+  key_fields: [id, name, primaryDomain, employees, revenueRangeMin, revenueRangeMax, subIndustry]
+  operations: ['GET /organizations', 'GET /organizations/{id}']
+- name: Activity
+  schema: ApiActivity
+  domain: signals
+  description: A timestamped interaction attributed to a contact, sourced from a provider.
+  key_fields: [id, type, activityTime, contactId, providerId, sentiment, isUserInitiated]
+  operations: ['GET /activities', 'GET /activities/{id}']
+  legacy_operations: ['POST /source/{destinationSourceId}/activity (addUpdateActivityToSource)']
+- name: ActivityType
+  schema: ApiActivityType
+  domain: signals
+  operations: ['GET /activity-types', 'GET /activityTypes (getActivityTypes)']
+- name: ActivityCategory
+  schema: ApiActivityCategory
+  domain: signals
+  operations: ['GET /activity-categories']
+- name: ActivitySentiment
+  schema: ApiActivitySentiment
+  domain: signals
+  operations: ['GET /activity-sentiment']
+- name: Segment
+  schema: ApiSegment
+  id_prefix: 's_'
+  domain: gtm
+  description: A named list of contacts or organizations; entityType decides which.
+  key_fields: [id, name, entityType, entityCount]
+  operations: ['GET /segments', 'GET /segments/{id}', 'POST /segments']
+  legacy_operations: ['POST /segments/{id} (addContactsToSegment, deprecated)', 'GET /segments/{id}/status (getSegmentStatuses)']
+- name: CustomField
+  schema: ApiCustomField
+  id_prefix: 'cf_'
+  domain: metadata
+  description: A workspace-defined field bound to one or more entity types.
+  key_fields: [id, name, entityTypes, valueType, providedBy, objectTypeId]
+  operations: ['GET /custom-fields', 'GET /custom-fields/{id}']
+- name: LeadScoreDefinition
+  schema: ApiLeadScoreDefinition
+  id_prefix: 'ls_'
+  domain: gtm
+  key_fields: [id, name, enabled, entityType, isPrimaryScore]
+  operations: ['GET /lead-scores', 'GET /lead-scores/{id}']
+- name: Tag
+  schema: ApiTag
+  domain: metadata
+  key_fields: [id, name, description, entityTypes]
+  operations: ['GET /tags', 'GET /tags/{id}']
+  legacy_operations: [listTags, createTag, getTag, updateTag, deleteTag]
+- name: CustomObject
+  schema: ApiCustomObject
+  domain: extensibility
+  key_fields: [id, name, recordKey, customFields]
+  operations: ['GET /objects', 'GET /objects/{id}']
+- name: ObjectType
+  schema: ApiObjectType
+  domain: extensibility
+  key_fields: [id, name, assocs]
+  operations: ['GET /object-types']
+- name: Provider
+  schema: ApiProvider
+  domain: integrations
+  description: A signal source (Slack, GitHub, Salesforce, Bombora, …).
+  key_fields: [id, name, serviceName]
+  operations: ['GET /providers']
+- name: WebsiteVisit
+  schema: ApiWebsiteVisit
+  domain: signals
+  key_fields: [id, visitTime, url, contactId, organizationId]
+  operations: ['GET /website-visits']
+- name: ProspectorContact
+  schema: ApiProspectorContact
+  id_prefix: 'pc_'
+  domain: prospecting
+  description: A net-new person NOT yet in the workspace; convertible into a Contact.
+  operations: ['GET /prospector-contacts']
+- name: ProspectorCompany
+  schema: ApiProspectorCompany
+  domain: prospecting
+  description: A net-new company not yet in the workspace; convertible into an Organization.
+  operations: ['GET /prospector-companies']
+- name: Location
+  schema: ApiLocationItem
+  domain: reference
+  operations: ['GET /locations', 'GET /locations/{id}']
+- name: Topic
+  schema: ApiTopic
+  domain: reference
+  operations: ['GET /topics', 'GET /topics/{id}']
+- name: NaicsCode
+  schema: ApiNaicsCode
+  domain: reference
+  operations: ['GET /industries']
+- name: TechStackProduct
+  schema: ApiTechStackProduct
+  domain: reference
+  description: Technographic products used to filter accounts by adopted technology.
+  operations: ['GET /tech-stack-products']
+- name: ApiToken
+  schema: ApiToken
+  domain: platform
+  operations: ['GET /api-token-status', 'GET /me']
+- name: ScimUser
+  schema: User
+  domain: identity
+  spec: openapi/_original/common-room-scim-openapi.yml
+  description: RFC 7643 SCIM 2.0 user for provisioning/deprovisioning.
+  operations: ['GET /users', 'POST /users', 'GET /users/{email}', 'PATCH /users/{email}']
+relationships:
+- from: Activity
+  to: Contact
+  type: belongs_to
+  via: contactId
+- from: Activity
+  to: Provider
+  type: belongs_to
+  via: providerId
+- from: Activity
+  to: ActivityType
+  type: belongs_to
+  via: type
+- from: WebsiteVisit
+  to: Contact
+  type: belongs_to
+  via: contactId
+  optional: true
+  note: Null for anonymous (not yet deanonymized) visits.
+- from: WebsiteVisit
+  to: Organization
+  type: belongs_to
+  via: organizationId
+- from: Contact
+  to: Activity
+  type: has_many
+  via: recentActivities
+  embedded: true
+- from: Contact
+  to: Segment
+  type: has_many
+  via: segments
+  embedded: true
+- from: Contact
+  to: LeadScoreDefinition
+  type: has_many
+  via: leadScores
+  embedded: true
+- from: Contact
+  to: CustomField
+  type: has_many
+  via: customFields
+  embedded: true
+- from: Contact
+  to: Tag
+  type: has_many
+  via: tags
+  embedded: true
+- from: Contact
+  to: Location
+  type: has_one
+  via: location
+  embedded: true
+- from: Contact
+  to: CustomObject
+  type: has_many
+  via: connectedCustomObjects
+  embedded: true
+- from: Contact
+  to: Organization
+  type: belongs_to
+  via: companyWebsite
+  confidence: medium
+  note: >-
+    The Contact schema carries companyName/companyWebsite rather than an
+    organizationId. The linkage is expressed the other way — GET /contacts accepts
+    an organizationId filter — so the join key is the org's primaryDomain.
+- from: Organization
+  to: Contact
+  type: has_many
+  via: topContacts
+  embedded: true
+- from: Organization
+  to: LeadScoreDefinition
+  type: has_many
+  via: leadScores
+  embedded: true
+- from: Organization
+  to: CustomField
+  type: has_many
+  via: customFields
+  embedded: true
+- from: Organization
+  to: Tag
+  type: has_many
+  via: tags
+  embedded: true
+- from: Organization
+  to: Location
+  type: has_one
+  via: location
+  embedded: true
+- from: Organization
+  to: Topic
+  type: has_many
+  via: surgingTopics
+  embedded: true
+  note: Bombora Company Surge intent topics.
+- from: Segment
+  to: Contact
+  type: has_many
+  via: 'GET /contacts?segmentId='
+  note: entityType == contact
+- from: Segment
+  to: Organization
+  type: has_many
+  via: 'GET /organizations?segmentId='
+  note: entityType == organization
+- from: CustomField
+  to: ObjectType
+  type: belongs_to
+  via: objectTypeId
+- from: CustomField
+  to: Provider
+  type: belongs_to
+  via: providedBy
+- from: CustomObject
+  to: ObjectType
+  type: belongs_to
+  via: 'ApiObjectTypeAssoc (assocs)'
+- from: ProspectorContact
+  to: Contact
+  type: converts_to
+  via: prospectorContactId
+  note: >-
+    Conversion is exposed through the MCP commonroom_create_object tool and the
+    CLI (cr contact create --prospector-contact-id), not through a public REST
+    operation.
+- from: ProspectorCompany
+  to: Organization
+  type: converts_to
+  via: prospectorCompanyId
+counts:
+  entities: 21
+  relationships: 27
+  v2_component_schemas: 62
+render: null

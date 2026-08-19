@@ -1,0 +1,508 @@
+{
+  "item": [
+    {
+      "id": "3eb64e3c-94d7-4f49-87e4-1fb044bc3974",
+      "name": "Lead Scores",
+      "description": {
+        "content": "Operations related to lead score definitions",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "9bded0f5-bed0-443b-9e30-585e94cab1b9",
+          "name": "Get a lead score definition by ID",
+          "request": {
+            "name": "Get a lead score definition by ID",
+            "description": {
+              "content": "Retrieve a specific lead score definition by its unique identifier.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "lead-scores",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) The prefixed lead score ID (format `ls_<number>`)"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "54c65d2d-71ff-434f-ba75-49dc0b3b541f",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "lead-scores",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The prefixed lead score ID (format `ls_<number>`)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "The total amount of requests permitted within the interval",
+                  "key": "X-RateLimit-Limit",
+                  "value": "5354"
+                },
+                {
+                  "disabled": false,
+                  "description": "The total amount of requests remaining within the interval",
+                  "key": "X-RateLimit-Remaining",
+                  "value": "5354"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": true,\n  \"data\": {\n    \"id\": \"string\",\n    \"name\": \"string\",\n    \"enabled\": true,\n    \"entityType\": \"contact\",\n    \"isPrimaryScore\": false\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "95341794-35bf-47ec-a41e-ee244adc1062",
+              "name": "Bad Request (e.g. invalid lead score ID)",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "lead-scores",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The prefixed lead score ID (format `ls_<number>`)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"error\": {\n    \"code\": \"invalid_prospector_contact_id\",\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9c92e0cf-8697-4898-b6ff-8f17844af48a",
+              "name": "Forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "lead-scores",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The prefixed lead score ID (format `ls_<number>`)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"failure\",\n  \"reason\": \"string\",\n  \"errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e5a8504c-0e10-45ab-8036-1130963478b6",
+              "name": "Lead score not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "lead-scores",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The prefixed lead score ID (format `ls_<number>`)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"error\": {\n    \"code\": \"invalid_prospector_contact_id\",\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "387959f9-9185-4780-bd85-783beb43dd01",
+              "name": "Rate Limited",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "lead-scores",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The prefixed lead score ID (format `ls_<number>`)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "The total amount of requests permitted within the interval",
+                  "key": "X-RateLimit-Limit",
+                  "value": "5354"
+                },
+                {
+                  "disabled": false,
+                  "description": "The total amount of requests remaining within the interval",
+                  "key": "X-RateLimit-Remaining",
+                  "value": "5354"
+                },
+                {
+                  "disabled": false,
+                  "description": "The datetime in epoch seconds when the interval resets",
+                  "key": "X-RateLimit-Reset",
+                  "value": "5354"
+                },
+                {
+                  "disabled": false,
+                  "description": "The UTC datetime when the interval resets",
+                  "key": "Retry-After",
+                  "value": "1955-08-11T15:13:08.457Z"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"reason\": \"string\",\n  \"rateLimit\": {\n    \"intervalLimit\": 7764.427666197994,\n    \"intervalRemaining\": 9774.548063992002,\n    \"intervalResetSeconds\": 9825.404208371521,\n    \"waitMs\": 2043.461240387332\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "6461ae08-53ba-4360-ad5d-5c1f4fd341c1",
+          "name": "List lead score definitions",
+          "request": {
+            "name": "List lead score definitions",
+            "description": {
+              "content": "Retrieve all lead score definitions for the community.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "lead-scores"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "22d14928-2d3b-4207-b187-14e6ba5ac1b3",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "lead-scores"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "The total amount of requests permitted within the interval",
+                  "key": "X-RateLimit-Limit",
+                  "value": "5354"
+                },
+                {
+                  "disabled": false,
+                  "description": "The total amount of requests remaining within the interval",
+                  "key": "X-RateLimit-Remaining",
+                  "value": "5354"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": true,\n  \"data\": [\n    {\n      \"id\": \"string\",\n      \"name\": \"string\",\n      \"enabled\": true,\n      \"entityType\": \"contact\",\n      \"isPrimaryScore\": false\n    },\n    {\n      \"id\": \"string\",\n      \"name\": \"string\",\n      \"enabled\": true,\n      \"entityType\": \"organization\",\n      \"isPrimaryScore\": false\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3120018c-7ca2-4aed-b79f-07c3ca8a9128",
+              "name": "Forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "lead-scores"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"ok\",\n  \"reason\": \"string\",\n  \"errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2ddf8858-05bb-4c5a-ab09-a8fdf97e8c7a",
+              "name": "Rate Limited",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "lead-scores"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "The total amount of requests permitted within the interval",
+                  "key": "X-RateLimit-Limit",
+                  "value": "5354"
+                },
+                {
+                  "disabled": false,
+                  "description": "The total amount of requests remaining within the interval",
+                  "key": "X-RateLimit-Remaining",
+                  "value": "5354"
+                },
+                {
+                  "disabled": false,
+                  "description": "The datetime in epoch seconds when the interval resets",
+                  "key": "X-RateLimit-Reset",
+                  "value": "5354"
+                },
+                {
+                  "disabled": false,
+                  "description": "The UTC datetime when the interval resets",
+                  "key": "Retry-After",
+                  "value": "1955-08-11T15:13:08.457Z"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"reason\": \"string\",\n  \"rateLimit\": {\n    \"intervalLimit\": 7764.427666197994,\n    \"intervalRemaining\": 9774.548063992002,\n    \"intervalResetSeconds\": 9825.404208371521,\n    \"waitMs\": 2043.461240387332\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.commonroom.io/community/v1",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "73ad94f1-3e55-438b-8190-3b9c049ef620",
+    "name": "Common Room Core Activities Lead Scores API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Common Room Core REST APIs for getting data in to Common Room.\n<br/><br/>\nFor SCIM APIs <a href=\"./scim.html\">see the SCIM documentation</a>.\n<br/><br/>\nFor New, V2 APIs <a href=\"./api-v2.html\">see the V2 API documentation</a>.\n<br/><br/>\nTo use the Common Room API, or get started with the Common Room Zapier integration, you will need to create an API token.\nTo create an API token:\n<ol>\n  <li>Navigate to Setting | API tokens\n  <li>Create a “New Token\"\n</ol>\n\n# Authentication\n\n<!-- ReDoc-Inject: <security-definitions> -->",
+      "type": "text/plain"
+    }
+  }
+}

@@ -1,0 +1,1904 @@
+{
+  "item": [
+    {
+      "id": "fece068d-d297-4134-abbf-a0be03eabd9a",
+      "name": "Contacts",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "1401193e-9788-4d0b-9756-9623ce5fefcf",
+          "name": "Add or Edit User",
+          "request": {
+            "name": "Add or Edit User",
+            "description": {
+              "content": "Adds a new user into the destination source, or updates existing user previously added via API with the same ID\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "source",
+                ":destinationSourceId",
+                "user"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "destinationSourceId",
+                  "description": "(Required) The Destination Source ID of the created API signal. See https://www.commonroom.io/docs/signals/custom-integrations/zapier-api/#create-an-api-signal for details."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": \"<string>\",\n  \"fullName\": \"<string>\",\n  \"firstName\": \"<string>\",\n  \"lastName\": \"<string>\",\n  \"username\": \"<string>\",\n  \"avatarUrl\": \"<string>\",\n  \"bio\": \"<string>\",\n  \"email\": \"<email>\",\n  \"linkedin\": {\n    \"type\": \"<string>\",\n    \"value\": \"<string>\"\n  },\n  \"github\": {\n    \"type\": \"<string>\",\n    \"value\": \"<string>\"\n  },\n  \"twitter\": {\n    \"type\": \"<string>\",\n    \"value\": \"<string>\"\n  },\n  \"discord\": {\n    \"username\": \"<string>\",\n    \"discriminator\": {},\n    \"type\": \"<string>\"\n  },\n  \"externalProfiles\": [\n    {\n      \"url\": \"<string>\",\n      \"name\": \"<string>\"\n    },\n    {\n      \"url\": \"<string>\",\n      \"name\": \"<string>\"\n    }\n  ],\n  \"roleAtCompany\": \"<string>\",\n  \"titleAtCompany\": \"<string>\",\n  \"companyName\": \"<string>\",\n  \"companyDomain\": \"<string>\",\n  \"country\": \"<string>\",\n  \"city\": \"<string>\",\n  \"region\": \"<string>\",\n  \"rawLocation\": \"<string>\",\n  \"tags\": [\n    {\n      \"type\": \"<string>\",\n      \"id\": \"<string>\"\n    },\n    {\n      \"type\": \"<string>\",\n      \"id\": \"<string>\"\n    }\n  ],\n  \"customFields\": [\n    {\n      \"id\": \"<number>\",\n      \"value\": {\n        \"type\": \"<string>\",\n        \"value\": \"<string>\"\n      }\n    },\n    {\n      \"id\": \"<number>\",\n      \"value\": {\n        \"type\": \"<string>\",\n        \"value\": \"<string>\"\n      }\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "938e9534-bd13-45d2-a442-aef1e9e0b4e5",
+              "name": "OK - User info accepted and will be processed",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "source",
+                    ":destinationSourceId",
+                    "user"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "destinationSourceId",
+                      "description": "(Required) The Destination Source ID of the created API signal. See https://www.commonroom.io/docs/signals/custom-integrations/zapier-api/#create-an-api-signal for details."
+                    }
+                  ]
+                },
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": \"<string>\",\n  \"fullName\": \"<string>\",\n  \"firstName\": \"<string>\",\n  \"lastName\": \"<string>\",\n  \"username\": \"<string>\",\n  \"avatarUrl\": \"<string>\",\n  \"bio\": \"<string>\",\n  \"email\": \"<email>\",\n  \"linkedin\": {\n    \"type\": \"<string>\",\n    \"value\": \"in/person\"\n  },\n  \"github\": {\n    \"type\": \"<string>\",\n    \"value\": \"Person\"\n  },\n  \"twitter\": {\n    \"type\": \"<string>\",\n    \"value\": \"@Person\"\n  },\n  \"discord\": {\n    \"username\": \"person\",\n    \"discriminator\": {},\n    \"type\": \"<string>\"\n  },\n  \"externalProfiles\": [\n    {\n      \"url\": \"<string>\",\n      \"name\": \"<string>\"\n    },\n    {\n      \"url\": \"<string>\",\n      \"name\": \"<string>\"\n    }\n  ],\n  \"roleAtCompany\": \"Engineering\",\n  \"titleAtCompany\": \"<string>\",\n  \"companyName\": \"Common Room\",\n  \"companyDomain\": \"commonroom.io\",\n  \"country\": \"<string>\",\n  \"city\": \"<string>\",\n  \"region\": \"Washington\",\n  \"rawLocation\": \"Seattle, WA\",\n  \"tags\": [\n    {\n      \"type\": \"<string>\",\n      \"id\": \"<string>\"\n    },\n    {\n      \"type\": \"<string>\",\n      \"id\": \"<string>\"\n    }\n  ],\n  \"customFields\": [\n    {\n      \"id\": \"<number>\",\n      \"value\": {\n        \"type\": \"boolean\",\n        \"value\": \"<string>\"\n      }\n    },\n    {\n      \"id\": \"<number>\",\n      \"value\": {\n        \"type\": \"boolean\",\n        \"value\": \"<string>\"\n      }\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Accepted",
+              "code": 202,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "The total amount of requests permitted within the interval",
+                  "key": "X-RateLimit-Limit",
+                  "value": "9830"
+                },
+                {
+                  "disabled": false,
+                  "description": "The total amount of requests remaining within the interval",
+                  "key": "X-RateLimit-Remaining",
+                  "value": "9830"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "709a76ce-453f-461c-b565-905a7c54dbed",
+              "name": "Invalid Request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "source",
+                    ":destinationSourceId",
+                    "user"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "destinationSourceId",
+                      "description": "(Required) The Destination Source ID of the created API signal. See https://www.commonroom.io/docs/signals/custom-integrations/zapier-api/#create-an-api-signal for details."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": \"<string>\",\n  \"fullName\": \"<string>\",\n  \"firstName\": \"<string>\",\n  \"lastName\": \"<string>\",\n  \"username\": \"<string>\",\n  \"avatarUrl\": \"<string>\",\n  \"bio\": \"<string>\",\n  \"email\": \"<email>\",\n  \"linkedin\": {\n    \"type\": \"<string>\",\n    \"value\": \"in/person\"\n  },\n  \"github\": {\n    \"type\": \"<string>\",\n    \"value\": \"Person\"\n  },\n  \"twitter\": {\n    \"type\": \"<string>\",\n    \"value\": \"@Person\"\n  },\n  \"discord\": {\n    \"username\": \"person\",\n    \"discriminator\": {},\n    \"type\": \"<string>\"\n  },\n  \"externalProfiles\": [\n    {\n      \"url\": \"<string>\",\n      \"name\": \"<string>\"\n    },\n    {\n      \"url\": \"<string>\",\n      \"name\": \"<string>\"\n    }\n  ],\n  \"roleAtCompany\": \"Engineering\",\n  \"titleAtCompany\": \"<string>\",\n  \"companyName\": \"Common Room\",\n  \"companyDomain\": \"commonroom.io\",\n  \"country\": \"<string>\",\n  \"city\": \"<string>\",\n  \"region\": \"Washington\",\n  \"rawLocation\": \"Seattle, WA\",\n  \"tags\": [\n    {\n      \"type\": \"<string>\",\n      \"id\": \"<string>\"\n    },\n    {\n      \"type\": \"<string>\",\n      \"id\": \"<string>\"\n    }\n  ],\n  \"customFields\": [\n    {\n      \"id\": \"<number>\",\n      \"value\": {\n        \"type\": \"boolean\",\n        \"value\": \"<string>\"\n      }\n    },\n    {\n      \"id\": \"<number>\",\n      \"value\": {\n        \"type\": \"boolean\",\n        \"value\": \"<string>\"\n      }\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "The total amount of requests permitted within the interval",
+                  "key": "X-RateLimit-Limit",
+                  "value": "9830"
+                },
+                {
+                  "disabled": false,
+                  "description": "The total amount of requests remaining within the interval",
+                  "key": "X-RateLimit-Remaining",
+                  "value": "9830"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"reason\": \"string\",\n  \"docs\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9eb30619-ed26-4601-ba03-31bb357a745d",
+              "name": "Destination Source Not Found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "source",
+                    ":destinationSourceId",
+                    "user"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "destinationSourceId",
+                      "description": "(Required) The Destination Source ID of the created API signal. See https://www.commonroom.io/docs/signals/custom-integrations/zapier-api/#create-an-api-signal for details."
+                    }
+                  ]
+                },
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": \"<string>\",\n  \"fullName\": \"<string>\",\n  \"firstName\": \"<string>\",\n  \"lastName\": \"<string>\",\n  \"username\": \"<string>\",\n  \"avatarUrl\": \"<string>\",\n  \"bio\": \"<string>\",\n  \"email\": \"<email>\",\n  \"linkedin\": {\n    \"type\": \"<string>\",\n    \"value\": \"in/person\"\n  },\n  \"github\": {\n    \"type\": \"<string>\",\n    \"value\": \"Person\"\n  },\n  \"twitter\": {\n    \"type\": \"<string>\",\n    \"value\": \"@Person\"\n  },\n  \"discord\": {\n    \"username\": \"person\",\n    \"discriminator\": {},\n    \"type\": \"<string>\"\n  },\n  \"externalProfiles\": [\n    {\n      \"url\": \"<string>\",\n      \"name\": \"<string>\"\n    },\n    {\n      \"url\": \"<string>\",\n      \"name\": \"<string>\"\n    }\n  ],\n  \"roleAtCompany\": \"Engineering\",\n  \"titleAtCompany\": \"<string>\",\n  \"companyName\": \"Common Room\",\n  \"companyDomain\": \"commonroom.io\",\n  \"country\": \"<string>\",\n  \"city\": \"<string>\",\n  \"region\": \"Washington\",\n  \"rawLocation\": \"Seattle, WA\",\n  \"tags\": [\n    {\n      \"type\": \"<string>\",\n      \"id\": \"<string>\"\n    },\n    {\n      \"type\": \"<string>\",\n      \"id\": \"<string>\"\n    }\n  ],\n  \"customFields\": [\n    {\n      \"id\": \"<number>\",\n      \"value\": {\n        \"type\": \"boolean\",\n        \"value\": \"<string>\"\n      }\n    },\n    {\n      \"id\": \"<number>\",\n      \"value\": {\n        \"type\": \"boolean\",\n        \"value\": \"<string>\"\n      }\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "The total amount of requests permitted within the interval",
+                  "key": "X-RateLimit-Limit",
+                  "value": "9830"
+                },
+                {
+                  "disabled": false,
+                  "description": "The total amount of requests remaining within the interval",
+                  "key": "X-RateLimit-Remaining",
+                  "value": "9830"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "98221331-a3d0-48c4-9797-4ac8710097c3",
+              "name": "Rate Limited",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "source",
+                    ":destinationSourceId",
+                    "user"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "destinationSourceId",
+                      "description": "(Required) The Destination Source ID of the created API signal. See https://www.commonroom.io/docs/signals/custom-integrations/zapier-api/#create-an-api-signal for details."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": \"<string>\",\n  \"fullName\": \"<string>\",\n  \"firstName\": \"<string>\",\n  \"lastName\": \"<string>\",\n  \"username\": \"<string>\",\n  \"avatarUrl\": \"<string>\",\n  \"bio\": \"<string>\",\n  \"email\": \"<email>\",\n  \"linkedin\": {\n    \"type\": \"<string>\",\n    \"value\": \"in/person\"\n  },\n  \"github\": {\n    \"type\": \"<string>\",\n    \"value\": \"Person\"\n  },\n  \"twitter\": {\n    \"type\": \"<string>\",\n    \"value\": \"@Person\"\n  },\n  \"discord\": {\n    \"username\": \"person\",\n    \"discriminator\": {},\n    \"type\": \"<string>\"\n  },\n  \"externalProfiles\": [\n    {\n      \"url\": \"<string>\",\n      \"name\": \"<string>\"\n    },\n    {\n      \"url\": \"<string>\",\n      \"name\": \"<string>\"\n    }\n  ],\n  \"roleAtCompany\": \"Engineering\",\n  \"titleAtCompany\": \"<string>\",\n  \"companyName\": \"Common Room\",\n  \"companyDomain\": \"commonroom.io\",\n  \"country\": \"<string>\",\n  \"city\": \"<string>\",\n  \"region\": \"Washington\",\n  \"rawLocation\": \"Seattle, WA\",\n  \"tags\": [\n    {\n      \"type\": \"<string>\",\n      \"id\": \"<string>\"\n    },\n    {\n      \"type\": \"<string>\",\n      \"id\": \"<string>\"\n    }\n  ],\n  \"customFields\": [\n    {\n      \"id\": \"<number>\",\n      \"value\": {\n        \"type\": \"boolean\",\n        \"value\": \"<string>\"\n      }\n    },\n    {\n      \"id\": \"<number>\",\n      \"value\": {\n        \"type\": \"boolean\",\n        \"value\": \"<string>\"\n      }\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "The total amount of requests permitted within the interval",
+                  "key": "X-RateLimit-Limit",
+                  "value": "9830"
+                },
+                {
+                  "disabled": false,
+                  "description": "The total amount of requests remaining within the interval",
+                  "key": "X-RateLimit-Remaining",
+                  "value": "9830"
+                },
+                {
+                  "disabled": false,
+                  "description": "The datetime in epoch seconds when the interval resets",
+                  "key": "X-RateLimit-Reset",
+                  "value": "9830"
+                },
+                {
+                  "disabled": false,
+                  "description": "The UTC datetime when the interval resets",
+                  "key": "Retry-After",
+                  "value": "1995-09-03T12:18:11.883Z"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"reason\": \"string\",\n  \"rateLimit\": {\n    \"intervalLimit\": 3783.968847153547,\n    \"intervalRemaining\": 82.50227417183953,\n    \"intervalResetSeconds\": 6551.008935883419,\n    \"waitMs\": 4183.904357025742\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "9d5deb2c-287d-4408-8efa-2a08a091bc47",
+          "name": "Gets all contact custom fields for a room",
+          "request": {
+            "name": "Gets all contact custom fields for a room",
+            "description": {
+              "content": "Gets all contact custom fields for a room\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "members",
+                "customFields"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "destinationSourceId",
+                  "value": "<string>"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "e4406081-0624-4ed1-b3cc-a3731e0f998b",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "members",
+                    "customFields"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "destinationSourceId",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "The total amount of requests permitted within the interval",
+                  "key": "X-RateLimit-Limit",
+                  "value": "9830"
+                },
+                {
+                  "disabled": false,
+                  "description": "The total amount of requests remaining within the interval",
+                  "key": "X-RateLimit-Remaining",
+                  "value": "9830"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"id\": 12345,\n    \"name\": \"Preferred programming language\",\n    \"type\": \"enum\",\n    \"multivalue\": false,\n    \"values\": [\n      \"Python\",\n      \"Python\"\n    ]\n  },\n  {\n    \"id\": 12345,\n    \"name\": \"Preferred programming language\",\n    \"type\": \"enum\",\n    \"multivalue\": false,\n    \"values\": [\n      \"Python\",\n      \"Python\"\n    ]\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "23354230-db94-41bf-9a2a-44ac393eccd8",
+          "name": "Get Contact by E-Mail",
+          "request": {
+            "name": "Get Contact by E-Mail",
+            "description": {
+              "content": "A Contact's profile based on an email address.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "user",
+                ":email"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<email>",
+                  "key": "email",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "39b181a4-eb07-40be-b643-53de3dffc118",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "user",
+                    ":email"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<email>",
+                      "key": "email",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "The total amount of requests permitted within the interval",
+                  "key": "X-RateLimit-Limit",
+                  "value": "9830"
+                },
+                {
+                  "disabled": false,
+                  "description": "The total amount of requests remaining within the interval",
+                  "key": "X-RateLimit-Remaining",
+                  "value": "9830"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6ca8068c-c984-4d4d-82ab-53f2657c9e19",
+              "name": "Not Found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "user",
+                    ":email"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<email>",
+                      "key": "email",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "The total amount of requests permitted within the interval",
+                  "key": "X-RateLimit-Limit",
+                  "value": "9830"
+                },
+                {
+                  "disabled": false,
+                  "description": "The total amount of requests remaining within the interval",
+                  "key": "X-RateLimit-Remaining",
+                  "value": "9830"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"not-found\",\n  \"reason\": \"string\",\n  \"errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "bf68fdca-c6fc-461a-b55b-17d87cec945e",
+              "name": "Rate Limited",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "user",
+                    ":email"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<email>",
+                      "key": "email",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "The total amount of requests permitted within the interval",
+                  "key": "X-RateLimit-Limit",
+                  "value": "9830"
+                },
+                {
+                  "disabled": false,
+                  "description": "The total amount of requests remaining within the interval",
+                  "key": "X-RateLimit-Remaining",
+                  "value": "9830"
+                },
+                {
+                  "disabled": false,
+                  "description": "The datetime in epoch seconds when the interval resets",
+                  "key": "X-RateLimit-Reset",
+                  "value": "9830"
+                },
+                {
+                  "disabled": false,
+                  "description": "The UTC datetime when the interval resets",
+                  "key": "Retry-After",
+                  "value": "1995-09-03T12:18:11.883Z"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"reason\": \"string\",\n  \"rateLimit\": {\n    \"intervalLimit\": 3783.968847153547,\n    \"intervalRemaining\": 82.50227417183953,\n    \"intervalResetSeconds\": 6551.008935883419,\n    \"waitMs\": 4183.904357025742\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "ef121533-f7de-43ff-9502-82d676e8e85d",
+          "name": "Anonymize Contact",
+          "request": {
+            "name": "Anonymize Contact",
+            "description": {
+              "content": "Request removal of all personally identifiable information (PII) for the\nContact associated by this email address.\n\nThis does not immediately anonymize the contact. The anonymization\nis queued and will happen at a future time within 15 days.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "user",
+                ":email"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<email>",
+                  "key": "email",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "text/plain"
+              }
+            ],
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "3c41864a-b0b7-46d4-a156-504fad0c4519",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "user",
+                    ":email"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<email>",
+                      "key": "email",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "text/plain"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "The total amount of requests permitted within the interval",
+                  "key": "X-RateLimit-Limit",
+                  "value": "9830"
+                },
+                {
+                  "disabled": false,
+                  "description": "The total amount of requests remaining within the interval",
+                  "key": "X-RateLimit-Remaining",
+                  "value": "9830"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"success\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "811a7f29-b803-493f-bd15-c03d4d17c65e",
+              "name": "Not Found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "user",
+                    ":email"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<email>",
+                      "key": "email",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "The total amount of requests permitted within the interval",
+                  "key": "X-RateLimit-Limit",
+                  "value": "9830"
+                },
+                {
+                  "disabled": false,
+                  "description": "The total amount of requests remaining within the interval",
+                  "key": "X-RateLimit-Remaining",
+                  "value": "9830"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"not-found\",\n  \"reason\": \"string\",\n  \"errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "87893328-c7e0-49ad-b312-4fb82300daf6",
+              "name": "Rate Limited",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "user",
+                    ":email"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<email>",
+                      "key": "email",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "The total amount of requests permitted within the interval",
+                  "key": "X-RateLimit-Limit",
+                  "value": "9830"
+                },
+                {
+                  "disabled": false,
+                  "description": "The total amount of requests remaining within the interval",
+                  "key": "X-RateLimit-Remaining",
+                  "value": "9830"
+                },
+                {
+                  "disabled": false,
+                  "description": "The datetime in epoch seconds when the interval resets",
+                  "key": "X-RateLimit-Reset",
+                  "value": "9830"
+                },
+                {
+                  "disabled": false,
+                  "description": "The UTC datetime when the interval resets",
+                  "key": "Retry-After",
+                  "value": "1995-09-03T12:18:11.883Z"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"reason\": \"string\",\n  \"rateLimit\": {\n    \"intervalLimit\": 3783.968847153547,\n    \"intervalRemaining\": 82.50227417183953,\n    \"intervalResetSeconds\": 6551.008935883419,\n    \"waitMs\": 4183.904357025742\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "e5700722-cc79-4c39-9194-963e70fbb410",
+          "name": "Get Contact By E-Mail or Socials",
+          "request": {
+            "name": "Get Contact By E-Mail or Socials",
+            "description": {},
+            "url": {
+              "path": [
+                "members"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "twitter",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "email",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "github",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "linkedin",
+                  "value": "<string>"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "23443d53-4de1-4b98-a957-5683a98da292",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "members"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "twitter",
+                      "value": "twitterHandle"
+                    },
+                    {
+                      "key": "email",
+                      "value": "email@domain.com"
+                    },
+                    {
+                      "key": "github",
+                      "value": "githubHandle"
+                    },
+                    {
+                      "key": "linkedin",
+                      "value": "in/username"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "The total amount of requests permitted within the interval",
+                  "key": "X-RateLimit-Limit",
+                  "value": "9830"
+                },
+                {
+                  "disabled": false,
+                  "description": "The total amount of requests remaining within the interval",
+                  "key": "X-RateLimit-Remaining",
+                  "value": "9830"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"fullName\": \"Greg\",\n    \"activities_count\": 8788.114599038347,\n    \"avatar\": \"string\",\n    \"bio\": \"string\",\n    \"organization\": \"string\",\n    \"title\": \"string\",\n    \"first_seen\": \"string\",\n    \"last_active\": \"string\",\n    \"location\": {},\n    \"segments\": [\n      {\n        \"id\": 3900.9941170971697,\n        \"name\": \"string\"\n      },\n      {\n        \"id\": 3863.187100659066,\n        \"name\": \"string\"\n      }\n    ],\n    \"url\": \"string\",\n    \"twitter\": \"string\",\n    \"github\": \"string\",\n    \"linkedin\": \"string\",\n    \"discord\": \"string\",\n    \"youtube\": \"string\",\n    \"common_room_member_url\": \"string\",\n    \"custom_fields\": [\n      {\n        \"name\": \"string\",\n        \"type\": \"boolean\",\n        \"value\": {}\n      },\n      {\n        \"name\": \"string\",\n        \"type\": \"boolean\",\n        \"value\": {}\n      }\n    ]\n  },\n  {\n    \"fullName\": \"Greg\",\n    \"activities_count\": 9307.752309501966,\n    \"avatar\": \"string\",\n    \"bio\": \"string\",\n    \"organization\": \"string\",\n    \"title\": \"string\",\n    \"first_seen\": \"string\",\n    \"last_active\": \"string\",\n    \"location\": {},\n    \"segments\": [\n      {\n        \"id\": 994.2575699482526,\n        \"name\": \"string\"\n      },\n      {\n        \"id\": 6680.546411862266,\n        \"name\": \"string\"\n      }\n    ],\n    \"url\": \"string\",\n    \"twitter\": \"string\",\n    \"github\": \"string\",\n    \"linkedin\": \"string\",\n    \"discord\": \"string\",\n    \"youtube\": \"string\",\n    \"common_room_member_url\": \"string\",\n    \"custom_fields\": [\n      {\n        \"name\": \"string\",\n        \"type\": \"boolean\",\n        \"value\": {}\n      },\n      {\n        \"name\": \"string\",\n        \"type\": \"boolean\",\n        \"value\": {}\n      }\n    ]\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b70ee145-7d12-4d7b-ac90-a1ceba59ae9f",
+              "name": "Parameter Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "members"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "twitter",
+                      "value": "twitterHandle"
+                    },
+                    {
+                      "key": "email",
+                      "value": "email@domain.com"
+                    },
+                    {
+                      "key": "github",
+                      "value": "githubHandle"
+                    },
+                    {
+                      "key": "linkedin",
+                      "value": "in/username"
+                    }
+                  ],
+                  "variable": []
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "The total amount of requests permitted within the interval",
+                  "key": "X-RateLimit-Limit",
+                  "value": "9830"
+                },
+                {
+                  "disabled": false,
+                  "description": "The total amount of requests remaining within the interval",
+                  "key": "X-RateLimit-Remaining",
+                  "value": "9830"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "e2d5190b-737a-4c4d-87fd-3b2981dbe3fb",
+              "name": "Not Found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "members"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "twitter",
+                      "value": "twitterHandle"
+                    },
+                    {
+                      "key": "email",
+                      "value": "email@domain.com"
+                    },
+                    {
+                      "key": "github",
+                      "value": "githubHandle"
+                    },
+                    {
+                      "key": "linkedin",
+                      "value": "in/username"
+                    }
+                  ],
+                  "variable": []
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "The total amount of requests permitted within the interval",
+                  "key": "X-RateLimit-Limit",
+                  "value": "9830"
+                },
+                {
+                  "disabled": false,
+                  "description": "The total amount of requests remaining within the interval",
+                  "key": "X-RateLimit-Remaining",
+                  "value": "9830"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "eacb5530-6bb7-40c7-a4ee-56f3c6f95a0e",
+              "name": "Rate Limited",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "members"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "twitter",
+                      "value": "twitterHandle"
+                    },
+                    {
+                      "key": "email",
+                      "value": "email@domain.com"
+                    },
+                    {
+                      "key": "github",
+                      "value": "githubHandle"
+                    },
+                    {
+                      "key": "linkedin",
+                      "value": "in/username"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "The total amount of requests permitted within the interval",
+                  "key": "X-RateLimit-Limit",
+                  "value": "9830"
+                },
+                {
+                  "disabled": false,
+                  "description": "The total amount of requests remaining within the interval",
+                  "key": "X-RateLimit-Remaining",
+                  "value": "9830"
+                },
+                {
+                  "disabled": false,
+                  "description": "The datetime in epoch seconds when the interval resets",
+                  "key": "X-RateLimit-Reset",
+                  "value": "9830"
+                },
+                {
+                  "disabled": false,
+                  "description": "The UTC datetime when the interval resets",
+                  "key": "Retry-After",
+                  "value": "1995-09-03T12:18:11.883Z"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"reason\": \"string\",\n  \"rateLimit\": {\n    \"intervalLimit\": 3783.968847153547,\n    \"intervalRemaining\": 82.50227417183953,\n    \"intervalResetSeconds\": 6551.008935883419,\n    \"waitMs\": 4183.904357025742\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "7c962992-fdbb-4471-8d2c-e03015899f1d",
+          "name": "Get a contact by ID",
+          "request": {
+            "name": "Get a contact by ID",
+            "description": {
+              "content": "Retrieve a specific contact by their unique identifier.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "contacts",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "cols",
+                  "value": "<string>",
+                  "description": "Comma-separated list of additional columns to include in the response.\nValid values: `activateMessage`, `avatarUrl`, `fullName`, `location`, `primaryEmail`,\n`phoneNumbers`, `title`, `companyName`, `companyWebsite`, `connectedCustomObjects`,\n`profiles`, `jobHistory`, `leadScores`, `recentActivities`, `recentWebPages`,\n`recentWebVisitsNumber`, `segments`, `sparkSummary`, `recentSparkSummaries`, `tags`,\n`url`. Use `cf_*` to include all custom fields, or `cf_<id>` for a specific one.\n"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) The prefixed contact ID (format `c_<number>`)"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "a188d207-4745-48cc-a417-972fa626cfce",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "contacts",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "cols",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The prefixed contact ID (format `c_<number>`)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "The total amount of requests permitted within the interval",
+                  "key": "X-RateLimit-Limit",
+                  "value": "9830"
+                },
+                {
+                  "disabled": false,
+                  "description": "The total amount of requests remaining within the interval",
+                  "key": "X-RateLimit-Remaining",
+                  "value": "9830"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": true,\n  \"data\": {\n    \"id\": \"string\",\n    \"name\": \"string\",\n    \"avatarUrl\": \"http://cwutdjTrkrnYMJNSLhQP.gsiUFc1gDW87QMyZZTfV3hfr-AWfDbr-Jf2jMnam-ARqb\",\n    \"fullName\": \"string\",\n    \"location\": {\n      \"city\": \"string\",\n      \"region\": \"string\",\n      \"country\": \"string\"\n    },\n    \"primaryEmail\": \"string\",\n    \"phoneNumbers\": [\n      {\n        \"type\": \"string\",\n        \"value\": \"string\"\n      },\n      {\n        \"type\": \"string\",\n        \"value\": \"string\"\n      }\n    ],\n    \"title\": \"string\",\n    \"companyName\": \"string\",\n    \"companyWebsite\": \"string\",\n    \"connectedCustomObjects\": [\n      {\n        \"id\": \"string\",\n        \"name\": \"string\",\n        \"objectType\": \"string\"\n      },\n      {\n        \"id\": \"string\",\n        \"name\": \"string\",\n        \"objectType\": \"string\"\n      }\n    ],\n    \"customFields\": {\n      \"key_0\": {\n        \"type\": \"string\",\n        \"value\": \"string\"\n      }\n    },\n    \"profiles\": [\n      {\n        \"type\": \"string\",\n        \"value\": \"string\"\n      },\n      {\n        \"type\": \"string\",\n        \"value\": \"string\"\n      }\n    ],\n    \"jobHistory\": [\n      {\n        \"company\": \"string\",\n        \"title\": \"string\",\n        \"startDate\": \"string\",\n        \"endDate\": \"string\"\n      },\n      {\n        \"company\": \"string\",\n        \"title\": \"string\",\n        \"startDate\": \"string\",\n        \"endDate\": \"string\"\n      }\n    ],\n    \"leadScores\": [\n      {\n        \"scoreId\": 2848,\n        \"score\": 8102.810540934536,\n        \"percentile\": 5308.711601739034\n      },\n      {\n        \"scoreId\": 9441,\n        \"score\": 6402.928986665582,\n        \"percentile\": 3719.8216620315516\n      }\n    ],\n    \"segments\": [\n      {\n        \"id\": \"string\",\n        \"name\": \"string\"\n      },\n      {\n        \"id\": \"string\",\n        \"name\": \"string\"\n      }\n    ],\n    \"recentWebPages\": [\n      {\n        \"url\": \"string\",\n        \"numVisits\": 8589\n      },\n      {\n        \"url\": \"string\",\n        \"numVisits\": 6475\n      }\n    ],\n    \"recentWebVisitsNumber\": 9761,\n    \"recentActivities\": [\n      {\n        \"id\": \"string\",\n        \"type\": \"string\",\n        \"activityTime\": \"1982-04-13T11:20:51.851Z\",\n        \"contactId\": \"string\",\n        \"content\": \"string\",\n        \"isUserInitiated\": false,\n        \"participantCount\": 1158,\n        \"providerId\": \"string\",\n        \"providerName\": \"string\",\n        \"replyCount\": 7826,\n        \"sentiment\": \"string\",\n        \"subSourceNames\": [\n          \"string\",\n          \"string\"\n        ],\n        \"url\": \"http://cnU.krVeJ3rDRgCAZyszssiMaPba9JzXv6+Tk6b\"\n      },\n      {\n        \"id\": \"string\",\n        \"type\": \"string\",\n        \"activityTime\": \"2011-11-17T21:55:07.266Z\",\n        \"contactId\": \"string\",\n        \"content\": \"string\",\n        \"isUserInitiated\": true,\n        \"participantCount\": 8258,\n        \"providerId\": \"string\",\n        \"providerName\": \"string\",\n        \"replyCount\": 2970,\n        \"sentiment\": \"string\",\n        \"subSourceNames\": [\n          \"string\",\n          \"string\"\n        ],\n        \"url\": \"http://aRjHnjhvsLWFiqGviBKhoAddqGWVJQTi.yoLddCUgVF9MY1IJAlDwSRe49XxBdNJAo60TMVXihA6tY,6l3+TBXgGw\"\n      }\n    ],\n    \"activateMessage\": {\n      \"title\": \"string\",\n      \"message\": \"string\"\n    },\n    \"sparkSummary\": \"string\",\n    \"recentSparkSummaries\": [\n      \"string\",\n      \"string\"\n    ],\n    \"tags\": [\n      \"string\",\n      \"string\"\n    ],\n    \"url\": \"http://FNufWx.vjRcrbNZqapLtTEINCJG7WSGXin.2bCqsMVX8-6JQqCxlV7KbF5Z1dC2GgpzBIfIr0L+9FvROWO\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b4d8ef87-421d-416c-9aa2-035be5f33dcf",
+              "name": "Bad Request (e.g. invalid contact ID or invalid parameters)",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "contacts",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "cols",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The prefixed contact ID (format `c_<number>`)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"error\": {\n    \"code\": \"segment_not_found\",\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b202a420-d4bc-429e-aa3b-7cd5211e8416",
+              "name": "Forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "contacts",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "cols",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The prefixed contact ID (format `c_<number>`)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"not-found\",\n  \"reason\": \"string\",\n  \"errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "716e0914-14e9-465e-a7b5-33e14ebf9f89",
+              "name": "Contact not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "contacts",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "cols",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The prefixed contact ID (format `c_<number>`)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"error\": {\n    \"code\": \"segment_not_found\",\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "03a3c4f2-a5aa-41bd-9b08-8f56c939d55d",
+              "name": "Rate Limited",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "contacts",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "cols",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The prefixed contact ID (format `c_<number>`)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "The total amount of requests permitted within the interval",
+                  "key": "X-RateLimit-Limit",
+                  "value": "9830"
+                },
+                {
+                  "disabled": false,
+                  "description": "The total amount of requests remaining within the interval",
+                  "key": "X-RateLimit-Remaining",
+                  "value": "9830"
+                },
+                {
+                  "disabled": false,
+                  "description": "The datetime in epoch seconds when the interval resets",
+                  "key": "X-RateLimit-Reset",
+                  "value": "9830"
+                },
+                {
+                  "disabled": false,
+                  "description": "The UTC datetime when the interval resets",
+                  "key": "Retry-After",
+                  "value": "1995-09-03T12:18:11.883Z"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"reason\": \"string\",\n  \"rateLimit\": {\n    \"intervalLimit\": 3783.968847153547,\n    \"intervalRemaining\": 82.50227417183953,\n    \"intervalResetSeconds\": 6551.008935883419,\n    \"waitMs\": 4183.904357025742\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "ca4d0556-aae7-4b3a-bdf8-37e7b82f3865",
+          "name": "List contacts",
+          "request": {
+            "name": "List contacts",
+            "description": {
+              "content": "Retrieve a list of contacts with pagination support.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "contacts"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "50",
+                  "description": "The maximum number of contacts to return per page"
+                },
+                {
+                  "disabled": false,
+                  "key": "cursor",
+                  "value": "<string>",
+                  "description": "Pagination cursor from a previous response"
+                },
+                {
+                  "disabled": false,
+                  "key": "sort",
+                  "value": "id",
+                  "description": "Field to sort results by. One of: `id`, `latest_activity`, `name`,\na lead-score ID (format `ls_<number>`), or a custom-field ID (format `cf_<number>`).\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "direction",
+                  "value": "asc",
+                  "description": "Sort direction"
+                },
+                {
+                  "disabled": false,
+                  "key": "cols",
+                  "value": "<string>",
+                  "description": "Comma-separated list of additional columns to include in the response.\nValid column values: `activateMessage`, `avatarUrl`, `fullName`, `location`,\n`primaryEmail`, `phoneNumbers`, `title`, `companyName`, `companyWebsite`,\n`connectedCustomObjects`, `profiles`, `jobHistory`, `leadScores`, `recentActivities`,\n`recentWebPages`, `recentWebVisitsNumber`, `segments`, `sparkSummary`,\n`recentSparkSummaries`, `tags`, `url`. Use `cf_*` to include all custom fields, or\n`cf_<id>` for a specific one. The meta column `recordCount` can be requested to\nreturn the total number of matching contacts in `meta.recordCount`.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "organizationId",
+                  "value": "<string>",
+                  "description": "Filter contacts by prefixed organization ID (format `o_<number>`)"
+                },
+                {
+                  "disabled": false,
+                  "key": "segmentId",
+                  "value": "<string>",
+                  "description": "Filter contacts by segment ID (e.g. s_123456)"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "393a688b-2d78-4323-88be-b6105b81907c",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "contacts"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "limit",
+                      "value": "50"
+                    },
+                    {
+                      "key": "cursor",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "id"
+                    },
+                    {
+                      "key": "direction",
+                      "value": "asc"
+                    },
+                    {
+                      "key": "cols",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "organizationId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "segmentId",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "The total amount of requests permitted within the interval",
+                  "key": "X-RateLimit-Limit",
+                  "value": "9830"
+                },
+                {
+                  "disabled": false,
+                  "description": "The total amount of requests remaining within the interval",
+                  "key": "X-RateLimit-Remaining",
+                  "value": "9830"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": true,\n  \"data\": [\n    {\n      \"id\": \"string\",\n      \"name\": \"string\",\n      \"avatarUrl\": \"https://v.pfvJdsbsiUHcDtLtLaLI-,ddJnbW5rCHLD.jfn5WUfW8KWfTvQfymIDD\",\n      \"fullName\": \"string\",\n      \"location\": {\n        \"city\": \"string\",\n        \"region\": \"string\",\n        \"country\": \"string\"\n      },\n      \"primaryEmail\": \"string\",\n      \"phoneNumbers\": [\n        {\n          \"type\": \"string\",\n          \"value\": \"string\"\n        },\n        {\n          \"type\": \"string\",\n          \"value\": \"string\"\n        }\n      ],\n      \"title\": \"string\",\n      \"companyName\": \"string\",\n      \"companyWebsite\": \"string\",\n      \"connectedCustomObjects\": [\n        {\n          \"id\": \"string\",\n          \"name\": \"string\",\n          \"objectType\": \"string\"\n        },\n        {\n          \"id\": \"string\",\n          \"name\": \"string\",\n          \"objectType\": \"string\"\n        }\n      ],\n      \"customFields\": {\n        \"key_0\": {\n          \"type\": \"string\",\n          \"value\": \"string\"\n        },\n        \"key_1\": {\n          \"type\": \"string\",\n          \"value\": \"string\"\n        }\n      },\n      \"profiles\": [\n        {\n          \"type\": \"string\",\n          \"value\": \"string\"\n        },\n        {\n          \"type\": \"string\",\n          \"value\": \"string\"\n        }\n      ],\n      \"jobHistory\": [\n        {\n          \"company\": \"string\",\n          \"title\": \"string\",\n          \"startDate\": \"string\",\n          \"endDate\": \"string\"\n        },\n        {\n          \"company\": \"string\",\n          \"title\": \"string\",\n          \"startDate\": \"string\",\n          \"endDate\": \"string\"\n        }\n      ],\n      \"leadScores\": [\n        {\n          \"scoreId\": 4114,\n          \"score\": 4712.333095134152,\n          \"percentile\": 4068.9752512409495\n        },\n        {\n          \"scoreId\": 877,\n          \"score\": 747.2671822026,\n          \"percentile\": 9943.151961443189\n        }\n      ],\n      \"segments\": [\n        {\n          \"id\": \"string\",\n          \"name\": \"string\"\n        },\n        {\n          \"id\": \"string\",\n          \"name\": \"string\"\n        }\n      ],\n      \"recentWebPages\": [\n        {\n          \"url\": \"string\",\n          \"numVisits\": 7291\n        },\n        {\n          \"url\": \"string\",\n          \"numVisits\": 6682\n        }\n      ],\n      \"recentWebVisitsNumber\": 9285,\n      \"recentActivities\": [\n        {\n          \"id\": \"string\",\n          \"type\": \"string\",\n          \"activityTime\": \"2023-07-31T07:01:33.225Z\",\n          \"contactId\": \"string\",\n          \"content\": \"string\",\n          \"isUserInitiated\": false,\n          \"participantCount\": 8794,\n          \"providerId\": \"string\",\n          \"providerName\": \"string\",\n          \"replyCount\": 8671,\n          \"sentiment\": \"string\",\n          \"subSourceNames\": [\n            \"string\",\n            \"string\"\n          ],\n          \"url\": \"http://mvcsnuOMXYUaikrjCpy.owrV.q.IyPA\"\n        },\n        {\n          \"id\": \"string\",\n          \"type\": \"string\",\n          \"activityTime\": \"1975-04-08T10:44:09.457Z\",\n          \"contactId\": \"string\",\n          \"content\": \"string\",\n          \"isUserInitiated\": true,\n          \"participantCount\": 6330,\n          \"providerId\": \"string\",\n          \"providerName\": \"string\",\n          \"replyCount\": 7883,\n          \"sentiment\": \"string\",\n          \"subSourceNames\": [\n            \"string\",\n            \"string\"\n          ],\n          \"url\": \"http://CTGoQTrefmhDDVVAQ.sfoluaJ6SwaLDnMDzz4hzGXWHokqufsw4VG5EYwEehr-szP\"\n        }\n      ],\n      \"activateMessage\": {\n        \"title\": \"string\",\n        \"message\": \"string\"\n      },\n      \"sparkSummary\": \"string\",\n      \"recentSparkSummaries\": [\n        \"string\",\n        \"string\"\n      ],\n      \"tags\": [\n        \"string\",\n        \"string\"\n      ],\n      \"url\": \"http://zijHTxHavDmWT.mredcTcLpXyIYdHzRGsg29uVxg2CWdPkbKAaWlmHirTM\"\n    },\n    {\n      \"id\": \"string\",\n      \"name\": \"string\",\n      \"avatarUrl\": \"https://XhnmEJnYCMoMm.jeyry.nU2dbNB\",\n      \"fullName\": \"string\",\n      \"location\": {\n        \"city\": \"string\",\n        \"region\": \"string\",\n        \"country\": \"string\"\n      },\n      \"primaryEmail\": \"string\",\n      \"phoneNumbers\": [\n        {\n          \"type\": \"string\",\n          \"value\": \"string\"\n        },\n        {\n          \"type\": \"string\",\n          \"value\": \"string\"\n        }\n      ],\n      \"title\": \"string\",\n      \"companyName\": \"string\",\n      \"companyWebsite\": \"string\",\n      \"connectedCustomObjects\": [\n        {\n          \"id\": \"string\",\n          \"name\": \"string\",\n          \"objectType\": \"string\"\n        },\n        {\n          \"id\": \"string\",\n          \"name\": \"string\",\n          \"objectType\": \"string\"\n        }\n      ],\n      \"customFields\": {\n        \"key_0\": {\n          \"type\": \"string\",\n          \"value\": \"string\"\n        },\n        \"key_1\": {\n          \"type\": \"string\",\n          \"value\": \"string\"\n        }\n      },\n      \"profiles\": [\n        {\n          \"type\": \"string\",\n          \"value\": \"string\"\n        },\n        {\n          \"type\": \"string\",\n          \"value\": \"string\"\n        }\n      ],\n      \"jobHistory\": [\n        {\n          \"company\": \"string\",\n          \"title\": \"string\",\n          \"startDate\": \"string\",\n          \"endDate\": \"string\"\n        },\n        {\n          \"company\": \"string\",\n          \"title\": \"string\",\n          \"startDate\": \"string\",\n          \"endDate\": \"string\"\n        }\n      ],\n      \"leadScores\": [\n        {\n          \"scoreId\": 1196,\n          \"score\": 8737.814087973476,\n          \"percentile\": 1344.6901338167038\n        },\n        {\n          \"scoreId\": 1673,\n          \"score\": 2218.3102650886067,\n          \"percentile\": 665.2836942129281\n        }\n      ],\n      \"segments\": [\n        {\n          \"id\": \"string\",\n          \"name\": \"string\"\n        },\n        {\n          \"id\": \"string\",\n          \"name\": \"string\"\n        }\n      ],\n      \"recentWebPages\": [\n        {\n          \"url\": \"string\",\n          \"numVisits\": 4335\n        },\n        {\n          \"url\": \"string\",\n          \"numVisits\": 3904\n        }\n      ],\n      \"recentWebVisitsNumber\": 1011,\n      \"recentActivities\": [\n        {\n          \"id\": \"string\",\n          \"type\": \"string\",\n          \"activityTime\": \"1989-10-14T03:19:39.819Z\",\n          \"contactId\": \"string\",\n          \"content\": \"string\",\n          \"isUserInitiated\": true,\n          \"participantCount\": 8402,\n          \"providerId\": \"string\",\n          \"providerName\": \"string\",\n          \"replyCount\": 2782,\n          \"sentiment\": \"string\",\n          \"subSourceNames\": [\n            \"string\",\n            \"string\"\n          ],\n          \"url\": \"https://ejwkIJmPOYtbwqxXepzV.dlaZWLqjJrtEsPpEmtZLuxNyzIC,eCNdaOne-AK8WbOJEUpsplkwQnH-tBYAj3kfV2\"\n        },\n        {\n          \"id\": \"string\",\n          \"type\": \"string\",\n          \"activityTime\": \"1960-05-28T03:10:59.843Z\",\n          \"contactId\": \"string\",\n          \"content\": \"string\",\n          \"isUserInitiated\": false,\n          \"participantCount\": 1244,\n          \"providerId\": \"string\",\n          \"providerName\": \"string\",\n          \"replyCount\": 2473,\n          \"sentiment\": \"string\",\n          \"subSourceNames\": [\n            \"string\",\n            \"string\"\n          ],\n          \"url\": \"http://DHbrDZmbeZWr.qtdZr,A.K6ysMSQBu5YckA-QSELI8SEMXM6K.97\"\n        }\n      ],\n      \"activateMessage\": {\n        \"title\": \"string\",\n        \"message\": \"string\"\n      },\n      \"sparkSummary\": \"string\",\n      \"recentSparkSummaries\": [\n        \"string\",\n        \"string\"\n      ],\n      \"tags\": [\n        \"string\",\n        \"string\"\n      ],\n      \"url\": \"https://EciExUJEUBFcAIAbfAKgLVwDJdrEQ.xkpZzMGzmOhhVBfBEjFnicHZb,GeS4dqNWsIYNjcCzPZB83+6CuFx6\"\n    }\n  ],\n  \"meta\": {\n    \"nextCursor\": \"string\",\n    \"recordCount\": 7928\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e2e45251-ad8a-430f-935a-2b35f040f77f",
+              "name": "Bad Request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "contacts"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "limit",
+                      "value": "50"
+                    },
+                    {
+                      "key": "cursor",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "id"
+                    },
+                    {
+                      "key": "direction",
+                      "value": "asc"
+                    },
+                    {
+                      "key": "cols",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "organizationId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "segmentId",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"error\": {\n    \"code\": \"segment_not_found\",\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "08560c79-52f1-4297-a4c4-2f0c9a6dd0c5",
+              "name": "Forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "contacts"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "limit",
+                      "value": "50"
+                    },
+                    {
+                      "key": "cursor",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "id"
+                    },
+                    {
+                      "key": "direction",
+                      "value": "asc"
+                    },
+                    {
+                      "key": "cols",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "organizationId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "segmentId",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"not-found\",\n  \"reason\": \"string\",\n  \"errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "068e68b1-578e-410c-8108-524a7c792823",
+              "name": "Rate Limited",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "contacts"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "limit",
+                      "value": "50"
+                    },
+                    {
+                      "key": "cursor",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "id"
+                    },
+                    {
+                      "key": "direction",
+                      "value": "asc"
+                    },
+                    {
+                      "key": "cols",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "organizationId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "segmentId",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "The total amount of requests permitted within the interval",
+                  "key": "X-RateLimit-Limit",
+                  "value": "9830"
+                },
+                {
+                  "disabled": false,
+                  "description": "The total amount of requests remaining within the interval",
+                  "key": "X-RateLimit-Remaining",
+                  "value": "9830"
+                },
+                {
+                  "disabled": false,
+                  "description": "The datetime in epoch seconds when the interval resets",
+                  "key": "X-RateLimit-Reset",
+                  "value": "9830"
+                },
+                {
+                  "disabled": false,
+                  "description": "The UTC datetime when the interval resets",
+                  "key": "Retry-After",
+                  "value": "1995-09-03T12:18:11.883Z"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"reason\": \"string\",\n  \"rateLimit\": {\n    \"intervalLimit\": 3783.968847153547,\n    \"intervalRemaining\": 82.50227417183953,\n    \"intervalResetSeconds\": 6551.008935883419,\n    \"waitMs\": 4183.904357025742\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.commonroom.io/community/v1",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "05eab358-9f7c-467a-a5ae-1c13e3605594",
+    "name": "Common Room Core Activities Contacts API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Common Room Core REST APIs for getting data in to Common Room.\n<br/><br/>\nFor SCIM APIs <a href=\"./scim.html\">see the SCIM documentation</a>.\n<br/><br/>\nFor New, V2 APIs <a href=\"./api-v2.html\">see the V2 API documentation</a>.\n<br/><br/>\nTo use the Common Room API, or get started with the Common Room Zapier integration, you will need to create an API token.\nTo create an API token:\n<ol>\n  <li>Navigate to Setting | API tokens\n  <li>Create a “New Token\"\n</ol>\n\n# Authentication\n\n<!-- ReDoc-Inject: <security-definitions> -->",
+      "type": "text/plain"
+    }
+  }
+}

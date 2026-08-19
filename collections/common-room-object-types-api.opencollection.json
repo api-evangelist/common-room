@@ -1,0 +1,29 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Common Room Core Activities Object Types API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Object Types",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List object types",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.commonroom.io/community/v1/object-types"
+          },
+          "docs": "Retrieve all custom object type definitions for the community, including\ntheir associations to other entity types.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

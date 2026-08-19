@@ -1,0 +1,36 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for Common Room Core Activities Locations API
+  version: 1.0.0
+extends: openapi/common-room-locations-api-openapi.yml
+x-generated: '2026-08-13'
+x-method: generated
+x-source: apis.yml + repo artifacts (conventions/, errors/, rate-limits/, authentication/,
+  mcp/)
+actions:
+- target: $.info
+  update:
+    x-apievangelist-provider: common-room
+    x-apievangelist-artifacts:
+      conventions: conventions/common-room-conventions.yml
+      errors: errors/common-room-problem-types.yml
+      rate-limits: rate-limits/common-room-rate-limits.yml
+      authentication: authentication/common-room-authentication.yml
+      data-model: data-model/common-room-data-model.yml
+      mcp: mcp/common-room-mcp.yml
+    x-agent-surface:
+      mcp: https://mcp.commonroom.io/mcp
+      cli: '@commonroomio/cli'
+- target: $.info
+  update:
+    x-rate-limit-headers:
+    - X-RateLimit-Limit
+    - X-RateLimit-Remaining
+    - X-RateLimit-Reset
+    - Retry-After
+    x-error-envelope: '{"success": false, "error": {"code": "<machine_code>", "message":
+      "<human message>"}}'
+- target: $.info
+  update:
+    x-apievangelist-tags:
+    - Locations

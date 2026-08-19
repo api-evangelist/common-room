@@ -1,0 +1,36 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Common Room Core Activities Right to be Forgotten API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Right to be Forgotten",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Anonymize Contact",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.commonroom.io/community/v1/user/:email",
+            "params": [
+              {
+                "name": "email",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Request removal of all personally identifiable information (PII) for the\nContact associated by this email address.\n\nThis does not immediately anonymize the contact. The anonymization\nis queued and will happen at a future time within 15 days.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,168 @@
+generated: '2026-08-13'
+method: derived
+source: mcp/common-room-mcp.yml + openapi/_original/common-room-v2-openapi.yml + openapi/_original/common-room-core-openapi.yml
+note: >-
+  Common Room's MCP tools are DELIBERATELY GENERIC — five verbs over a runtime
+  object catalog, not one tool per REST operation. `commonroom_list_objects` alone
+  fans out across ~20 REST list/get operations, so every binding below is a fan-out
+  rather than a 1:1 map. The live tools/list manifest is OAuth-gated (401), so the
+  per-tool inputSchema could not be read; bindings are derived from the tool
+  descriptions published in the provider's MCP docs plus the OpenAPI paths that
+  serve the same objects. Confidence is set accordingly.
+surfaces:
+  openapi:
+    files:
+    - openapi/_original/common-room-core-openapi.yml
+    - openapi/_original/common-room-v2-openapi.yml
+    - openapi/_original/common-room-scim-openapi.yml
+    base: https://api.commonroom.io
+    gated: false
+    note: Specs are public at https://api.commonroom.io/docs/community.html and ./api-v2.html
+  graphql:
+    endpoint: https://api.commonroom.io/graphql
+    gated: true
+    probe: 'POST {__schema{queryType{name}}} -> HTTP 401 {"errors":[{"message":"No user token found","extensions":{"code":"NOT_AUTHORIZED"}}]}'
+    note: >-
+      An internal GraphQL endpoint EXISTS and answers with a GraphQL error
+      envelope, but introspection is auth-gated and Common Room does not document
+      it as a public API surface. No SDL captured; nothing fabricated.
+  mcp:
+    url: https://mcp.commonroom.io/mcp
+    gated: true
+    probe: 'POST tools/list -> HTTP 401 (OAuth 2.1 required)'
+  cli:
+    package: '@commonroomio/cli'
+    note: >-
+      `cr` exposes the same object-catalog model as MCP (cr catalog list /
+      cr object list / cr object get / cr contact create ...) and additionally
+      publishes a machine-readable command map via `cr agent-context --json`.
+crosswalk:
+- tool: commonroom_get_catalog
+  category: discovery
+  rest: []
+  binding: mcp-composite
+  confidence: high
+  note: >-
+    No public REST operation returns an object-type catalog. The nearest REST
+    equivalents are the individual definition endpoints — GET /object-types,
+    GET /custom-fields, GET /lead-scores, GET /activity-types,
+    GET /activity-categories, GET /activity-sentiment, GET /providers,
+    GET /tags — which this single tool subsumes. CLI equivalent: `cr catalog list`
+    / `cr catalog describe <Type>`.
+- tool: commonroom_list_objects
+  category: read
+  rest:
+  - 'GET /contacts (openapi/common-room-contacts-api-openapi.yml)'
+  - 'GET /contacts/{id} (openapi/common-room-contacts-api-openapi.yml)'
+  - 'GET /organizations (openapi/common-room-organizations-api-openapi.yml)'
+  - 'GET /organizations/{id} (openapi/common-room-organizations-api-openapi.yml)'
+  - 'GET /activities (openapi/common-room-activities-api-openapi.yml)'
+  - 'GET /activities/{id} (openapi/common-room-activities-api-openapi.yml)'
+  - 'GET /segments (getSegments)'
+  - 'GET /segments/{id} (openapi/common-room-segments-api-openapi.yml)'
+  - 'GET /objects (openapi/common-room-objects-api-openapi.yml)'
+  - 'GET /objects/{id} (openapi/common-room-objects-api-openapi.yml)'
+  - 'GET /custom-fields (openapi/common-room-custom-fields-api-openapi.yml)'
+  - 'GET /lead-scores (openapi/common-room-lead-scores-api-openapi.yml)'
+  - 'GET /tags (listTags)'
+  - 'GET /topics (openapi/common-room-topics-api-openapi.yml)'
+  - 'GET /locations (openapi/common-room-locations-api-openapi.yml)'
+  - 'GET /website-visits (openapi/common-room-website-visits-api-openapi.yml)'
+  - 'GET /prospector-contacts (openapi/common-room-prospector-contacts-api-openapi.yml)'
+  - 'GET /prospector-companies (openapi/common-room-prospector-companies-api-openapi.yml)'
+  - 'GET /industries (openapi/common-room-industries-api-openapi.yml)'
+  - 'GET /tech-stack-products (openapi/common-room-tech-stack-products-api-openapi.yml)'
+  binding: rest
+  confidence: medium
+  note: >-
+    One generic tool over the whole v2 read surface. The REST operations share the
+    same limit/cursor/sort/direction/cols contract, which is almost certainly what
+    the tool's inputSchema mirrors — but that could not be confirmed anonymously.
+    Most of these v2 operations carry NO operationId in the published spec, so the
+    binding is recorded by method+path.
+- tool: commonroom_create_object
+  category: write
+  rest:
+  - 'POST /segments (v2 create segment)'
+  - 'POST /source/{destinationSourceId}/user (addUpdateUserToSource)'
+  - 'POST /source/{destinationSourceId}/activity (addUpdateActivityToSource)'
+  binding: rest
+  confidence: medium
+  note: >-
+    Covers contacts, organizations, segments, activities and notes. Only segment
+    creation and the v1 source-scoped contact/activity upserts have public REST
+    equivalents. ORGANIZATION creation and NOTE creation have NO documented public
+    REST operation — see mcp_only[]. Contact/organization creation is upsert by
+    natural key (email or LinkedIn URL for contacts, domain for organizations).
+- tool: commonroom_update_object
+  category: write
+  rest:
+  - 'POST /source/{destinationSourceId}/user (addUpdateUserToSource)'
+  - 'PATCH /users/{email} (SCIM)'
+  binding: rest
+  confidence: low
+  note: >-
+    Updates contacts (c_) and organizations (o_) by prefixed ID, including custom
+    fields and segment membership. The v2 REST surface is read-only for contacts
+    and organizations — there is no PATCH /contacts/{id} or PATCH
+    /organizations/{id} in the published spec — so the ID-addressed update path is
+    an MCP/CLI capability without a matching public REST operation.
+- tool: commonroom_submit_feedback
+  category: feedback
+  rest: []
+  binding: mcp-only
+  confidence: high
+  note: Server-side quality feedback loop; no REST analogue.
+mcp_only:
+- tool: commonroom_get_catalog
+  reason: >-
+    Runtime object-type/property/filter catalog. No single REST endpoint returns
+    it; the CLI exposes the same thing via `cr catalog list`.
+- tool: commonroom_create_object
+  reason: >-
+    Organization creation (by domain or prospectorCompanyId) and note creation are
+    reachable from MCP and the CLI but have no documented public REST operation.
+- tool: commonroom_update_object
+  reason: >-
+    Update-by-prefixed-ID (c_/o_) with custom-field and segmentId writes. The
+    public v2 REST API exposes no update operation for contacts or organizations.
+- tool: commonroom_submit_feedback
+  reason: MCP-server-internal result-quality feedback; not part of the REST contract.
+rest_only:
+- capability: SCIM 2.0 user provisioning
+  operations:
+  - 'GET /users'
+  - 'POST /users'
+  - 'GET /users/{email}'
+  - 'PATCH /users/{email}'
+  note: Identity lifecycle surface (api.commonroom.io/scim/v2); no MCP tool.
+- capability: Right to be forgotten
+  operations:
+  - 'DELETE /user/{email}'
+  note: GDPR/CCPA anonymization. Deliberately absent from the agent surface.
+- capability: Tag administration
+  operations: [createTag, getTag, updateTag, deleteTag]
+  note: Full tag CRUD in v1 core; MCP can read tags but not administer them.
+- capability: Segment membership (v1)
+  operations: [addContactsToSegment, getSegmentStatuses]
+  note: addContactsToSegment is marked deprecated in the published spec.
+- capability: Warehouse import notification
+  operations: ['POST /data-available']
+  note: Signals that a data drop is ready for import; no MCP tool.
+- capability: Token introspection
+  operations: ['GET /api-token-status']
+  note: MCP uses OAuth, not API tokens, so token status has no agent analogue.
+- capability: Legacy v1 contact lookup
+  operations: ['GET /user/{email}', 'GET /members', 'GET /members/customFields']
+  note: 'GET /user/{email} and GET /members are marked deprecated in the published spec.'
+coverage:
+  tools_named: 5
+  tools_bound_to_rest: 3
+  mcp_only: 4
+  rest_operations_total: 54
+  rest_operations_with_a_tool: 25
+  binding_style: generic-verbs-over-object-catalog
+  note: >-
+    tools_bound + mcp_only exceeds tools_named because commonroom_create_object and
+    commonroom_update_object are PARTIALLY bound — some of what they do has a REST
+    equivalent and some does not.

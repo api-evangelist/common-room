@@ -1,0 +1,358 @@
+{
+  "item": [
+    {
+      "id": "d5c80276-522b-460d-9746-39c0128bb904",
+      "name": "Website Visits",
+      "description": {
+        "content": "Operations related to website visit tracking",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "a426232b-0e63-496c-86b6-43f8c0fa956d",
+          "name": "List website visits",
+          "request": {
+            "name": "List website visits",
+            "description": {
+              "content": "Retrieve a paginated list of website visits.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "website-visits"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "50",
+                  "description": "The maximum number of visits to return per page"
+                },
+                {
+                  "disabled": false,
+                  "key": "cursor",
+                  "value": "<string>",
+                  "description": "Pagination cursor from a previous response"
+                },
+                {
+                  "disabled": false,
+                  "key": "cols",
+                  "value": "<string>",
+                  "description": "Comma-separated list of additional columns to include in the response.\nValid column values: `url` (included by default), `contactId`, `organizationId`.\nThe meta column `recordCount` can be requested to return the total number\nof matching visits in `meta.recordCount`.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "contactId",
+                  "value": "<string>",
+                  "description": "Filter visits by prefixed contact ID (format `c_<number>`)"
+                },
+                {
+                  "disabled": false,
+                  "key": "organizationId",
+                  "value": "<string>",
+                  "description": "Filter visits by prefixed organization ID (format `o_<number>`)"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "c16be915-a199-49c1-bc9b-d64a5321c7a5",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "website-visits"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "limit",
+                      "value": "50"
+                    },
+                    {
+                      "key": "cursor",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "cols",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "contactId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "organizationId",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "The total amount of requests permitted within the interval",
+                  "key": "X-RateLimit-Limit",
+                  "value": "1207"
+                },
+                {
+                  "disabled": false,
+                  "description": "The total amount of requests remaining within the interval",
+                  "key": "X-RateLimit-Remaining",
+                  "value": "1207"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": true,\n  \"data\": [\n    {\n      \"id\": \"string\",\n      \"visitTime\": \"2001-07-19T04:52:14.425Z\",\n      \"url\": \"http://bMllc.ukpN9p8ps9AfmcwJ1UB-wdj34MoBlJi9RdxFt1Xj7qTezuIpZijssn7ZPDCy10dE5hdDq2.JNWl\",\n      \"contactId\": \"string\",\n      \"organizationId\": \"string\"\n    },\n    {\n      \"id\": \"string\",\n      \"visitTime\": \"1986-11-12T23:16:11.510Z\",\n      \"url\": \"https://mSfjcksvfRdBrmKvOHk.lztR8I8CA5+SSlRfG6NFeU0UvJR,SRt03P\",\n      \"contactId\": \"string\",\n      \"organizationId\": \"string\"\n    }\n  ],\n  \"meta\": {\n    \"nextCursor\": \"string\",\n    \"recordCount\": 4522\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "01ea24fc-a591-408c-beb2-5addb002e2e9",
+              "name": "Bad Request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "website-visits"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "limit",
+                      "value": "50"
+                    },
+                    {
+                      "key": "cursor",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "cols",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "contactId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "organizationId",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"error\": {\n    \"code\": \"object_type_not_found\",\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "18191a4d-ea0f-474b-b5dc-e555b6e5df9c",
+              "name": "Forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "website-visits"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "limit",
+                      "value": "50"
+                    },
+                    {
+                      "key": "cursor",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "cols",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "contactId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "organizationId",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"not-found\",\n  \"reason\": \"string\",\n  \"errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e444c422-044f-4429-94b3-c0d7f13165fd",
+              "name": "Rate Limited",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "website-visits"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "limit",
+                      "value": "50"
+                    },
+                    {
+                      "key": "cursor",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "cols",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "contactId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "organizationId",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "The total amount of requests permitted within the interval",
+                  "key": "X-RateLimit-Limit",
+                  "value": "1207"
+                },
+                {
+                  "disabled": false,
+                  "description": "The total amount of requests remaining within the interval",
+                  "key": "X-RateLimit-Remaining",
+                  "value": "1207"
+                },
+                {
+                  "disabled": false,
+                  "description": "The datetime in epoch seconds when the interval resets",
+                  "key": "X-RateLimit-Reset",
+                  "value": "1207"
+                },
+                {
+                  "disabled": false,
+                  "description": "The UTC datetime when the interval resets",
+                  "key": "Retry-After",
+                  "value": "1975-05-02T15:25:30.989Z"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"reason\": \"string\",\n  \"rateLimit\": {\n    \"intervalLimit\": 295.1426534080237,\n    \"intervalRemaining\": 9926.763854385801,\n    \"intervalResetSeconds\": 6863.537376737789,\n    \"waitMs\": 8060.290931070473\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.commonroom.io/community/v1",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "15f8a653-d8a1-41b0-8b26-c5a1123065df",
+    "name": "Common Room Core Activities Website Visits API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Common Room Core REST APIs for getting data in to Common Room.\n<br/><br/>\nFor SCIM APIs <a href=\"./scim.html\">see the SCIM documentation</a>.\n<br/><br/>\nFor New, V2 APIs <a href=\"./api-v2.html\">see the V2 API documentation</a>.\n<br/><br/>\nTo use the Common Room API, or get started with the Common Room Zapier integration, you will need to create an API token.\nTo create an API token:\n<ol>\n  <li>Navigate to Setting | API tokens\n  <li>Create a “New Token\"\n</ol>\n\n# Authentication\n\n<!-- ReDoc-Inject: <security-definitions> -->",
+      "type": "text/plain"
+    }
+  }
+}

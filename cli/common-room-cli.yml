@@ -1,0 +1,139 @@
+generated: '2026-08-13'
+method: searched
+source: https://www.commonroom.io/docs/using-common-room/cli/
+docs: https://www.commonroom.io/docs/using-common-room/cli/
+name: Common Room CLI
+binary: cr
+description: >-
+  A headless, scriptable interface to a Common Room workspace — contacts,
+  organizations, activities, segments and signals from a terminal, a CI/CD
+  pipeline, or inside a custom AI agent. JSON-first output, typed filters, and a
+  machine-readable command map for agents.
+docs_last_updated: '2026-06-15'
+license: Apache-2.0
+package: packages/common-room-packages.yml
+install:
+- method: npm
+  command: npm install -g @commonroomio/cli
+  requires: Node.js >=22.0.0
+  version: 0.1.2
+- method: homebrew
+  command: brew install common-room/tap/cr
+  tap: https://github.com/common-room/homebrew-tap
+  version: 0.1.1
+  note: The tap pins an older release than npm.
+verify: cr --version
+authentication:
+  modes:
+  - mode: browser-oauth-pkce
+    command: cr auth login
+    when: Interactive terminal sessions
+    detail: Opens a browser; the CLI receives the grant on localhost:9876.
+  - mode: device-code
+    command: cr auth login --device
+    when: Headless or SSH environments
+    detail: Prints a verification URL and code, then polls for the grant.
+  - mode: static-token
+    command: export COMMONROOM_API_TOKEN=...
+    when: Deployed agents, scripts, CI/CD
+    detail: Skips cr auth login entirely. Still scoped to a specific user.
+  storage: ~/.commonroom/config.json with 0600 permissions; refreshed automatically before expiry
+  permissions: >-
+    Same per-user role-based access controls as the UI and the MCP server. No
+    elevated service account or shared token.
+commands:
+- group: auth
+  commands:
+  - {command: 'cr auth login', description: Sign in via browser}
+  - {command: 'cr auth login --device', description: Sign in via device flow}
+  - {command: 'cr auth status', description: Check current auth state}
+  - {command: 'cr auth logout', description: Clear stored credentials}
+- group: config
+  commands:
+  - {command: 'cr config set communityId', description: Switch active workspace}
+  - {command: 'cr config get', description: Show current config (credentials are not emitted)}
+- group: catalog
+  commands:
+  - {command: 'cr catalog list', description: List all object types}
+  - {command: 'cr catalog describe Contact', description: Inspect fields available on Contact}
+  - {command: 'cr catalog describe Organization', description: Inspect fields available on Organization}
+- group: object
+  commands:
+  - {command: 'cr object list <Type>', description: Query any object type with typed filters, sorting and pagination}
+  - {command: 'cr object get <id>', description: Fetch by prefixed ID; type inferred from the prefix}
+  - {command: 'cr object get o_44217 --type Organization', description: Fetch with an explicit type}
+- group: contact
+  commands:
+  - {command: 'cr contact list --email <email>', description: Find contacts by email}
+  - {command: 'cr contact list --full-name "<name>"', description: Find contacts by name}
+  - {command: 'cr contact get c_8812', description: Fetch one contact}
+  - {command: 'cr contact create --email ... --full-name ... --title ...', description: Create (upsert) a contact}
+  - {command: 'cr contact create --file payload.json', description: Create a contact from a JSON payload}
+  - {command: 'cr contact create --prospector-contact-id pc_98abc', description: Convert a Prospector contact into a workspace contact}
+  - {command: 'cr contact update --contact-id c_8812 --title "..."', description: Update an existing contact}
+  - {command: 'cr contact update --contact-id c_8812 --custom-field cf_123456="Platinum"', description: Set a custom field value}
+  - {command: 'cr contact update --contact-id c_8812 --custom-fields-file fields.json', description: Bulk custom field update}
+- group: organization
+  commands:
+  - {command: 'cr organization list --domain <domain>', description: Find organizations by domain}
+  - {command: 'cr organization list --name "<name>"', description: Find organizations by name}
+  - {command: 'cr organization get o_44217', description: Fetch one organization}
+  - {command: 'cr organization create --domain acme.com', description: Create (upsert) an organization by domain}
+  - {command: 'cr organization update --organization-id o_44217 --custom-field cf_8283655=4.5', description: Update an organization}
+- group: activity
+  commands:
+  - {command: 'cr activity create --contact-id c_8812 --activity-type "demo" --activity-body "..."', description: Log an activity on a contact}
+- group: note
+  commands:
+  - {command: 'cr note create --contact-id c_8812 --note "..."', description: Attach a note to a contact}
+- group: segment
+  commands:
+  - {command: 'cr segment create --name "..." --entity-type organization', description: Create a static segment}
+- group: agent
+  commands:
+  - {command: 'cr agent-context --json', description: Emit a machine-readable description of every command, flag, object type, filter and example prompt}
+object_types:
+- Contact
+- Organization
+- Activity
+- Segment
+- Tag
+- Provider
+- LeadScore
+- CustomField
+flags:
+- {flag: '--json', description: Force JSON output even when stdout is a TTY}
+- {flag: '--limit', description: Maximum records to return}
+- {flag: '--cursor', description: Pagination cursor from a prior response}
+- {flag: '--field', description: Property/column to include in the response (repeatable)}
+- {flag: '--sort', description: Field to sort by}
+- {flag: '--sort-direction', description: Sort direction — ascending or descending}
+- {flag: '--filter', description: Inline JSON filter}
+- {flag: '--filter-file', description: Read a JSON filter from a file ("-" reads stdin)}
+- {flag: '--dry-run', description: Validate and print the payload that would be sent, without making the call}
+- {flag: '--debug', description: Emit a detailed log to stderr}
+key_flows:
+- name: Ground an AI agent in the CLI surface
+  steps: ['cr agent-context --json', 'inject the document into the agent system prompt']
+- name: Preview a batch write
+  steps: ['cr contact create --email ... --dry-run', 'inspect the printed payload', 'rerun without --dry-run']
+- name: Page a full result set
+  steps: ['cr object list Contact --limit 100 --json', 'read nextCursor', 'cr object list Contact --limit 100 --cursor <cursor> --json', 'repeat until nextCursor is absent']
+- name: Prospect to workspace record
+  steps: ['cr object list CustomField', 'cr contact create --prospector-contact-id pc_...', 'cr contact update --contact-id c_... --custom-field cf_...=...']
+reference_implementation:
+  repo: https://github.com/common-room/cli-sample
+  name: cr-agent
+  description: >-
+    A working reference implementation of `cr` as the tool layer inside an LLM
+    agent, built on the Vercel AI SDK with Claude or GPT as the model; produces
+    meeting briefs and prospecting shortlists.
+support:
+  email: support@commonroom.io
+  ask_for: 'output of cr --version plus the relevant --debug log'
+relationship_to_mcp:
+  statement: >-
+    "They're complementary surfaces on the same intelligence layer. The CLI is for
+    deterministic, scripted execution (automation pipelines, scheduled jobs, batch
+    operations, custom AI agent backends). The MCP server is for conversational
+    execution inside AI assistants."

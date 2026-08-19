@@ -1,0 +1,1224 @@
+{
+  "item": [
+    {
+      "id": "1356963c-95bf-4fd0-b3ba-ec7cef4c2399",
+      "name": "Segments",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "095234dd-c0be-4352-9b99-f04f750ee88c",
+          "name": "Get segments in a room",
+          "request": {
+            "name": "Get segments in a room",
+            "description": {
+              "content": "Gets all segments in a room\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "segments"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "b4b74dac-9aa6-4771-8ab4-2c5799af3222",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "segments"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "The total amount of requests permitted within the interval",
+                  "key": "X-RateLimit-Limit",
+                  "value": "6584"
+                },
+                {
+                  "disabled": false,
+                  "description": "The total amount of requests remaining within the interval",
+                  "key": "X-RateLimit-Remaining",
+                  "value": "6584"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"id\": 7445.3780727319445,\n    \"name\": \"string\"\n  },\n  {\n    \"id\": 9304.3268619285,\n    \"name\": \"string\"\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2f022474-8eca-4b6f-8bd4-27d5f6e815eb",
+              "name": "Rate Limited",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "segments"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "The total amount of requests permitted within the interval",
+                  "key": "X-RateLimit-Limit",
+                  "value": "6584"
+                },
+                {
+                  "disabled": false,
+                  "description": "The total amount of requests remaining within the interval",
+                  "key": "X-RateLimit-Remaining",
+                  "value": "6584"
+                },
+                {
+                  "disabled": false,
+                  "description": "The datetime in epoch seconds when the interval resets",
+                  "key": "X-RateLimit-Reset",
+                  "value": "6584"
+                },
+                {
+                  "disabled": false,
+                  "description": "The UTC datetime when the interval resets",
+                  "key": "Retry-After",
+                  "value": "1959-07-28T13:25:28.933Z"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"reason\": \"string\",\n  \"rateLimit\": {\n    \"intervalLimit\": 5713.488881616356,\n    \"intervalRemaining\": 2277.5874823449426,\n    \"intervalResetSeconds\": 341.2038062602607,\n    \"waitMs\": 8836.493467336048\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "b88a03b4-e3aa-4b9d-a189-1619dc21da33",
+          "name": "Create a segment",
+          "request": {
+            "name": "Create a segment",
+            "description": {
+              "content": "Create a new segment in the community.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "segments"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"entityType\": \"contact\",\n  \"objectTypeId\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "e94bb9f1-32eb-4a9c-a8df-f4fb10e51375",
+              "name": "Created",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "segments"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"entityType\": \"contact\",\n  \"objectTypeId\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "The total amount of requests permitted within the interval",
+                  "key": "X-RateLimit-Limit",
+                  "value": "6584"
+                },
+                {
+                  "disabled": false,
+                  "description": "The total amount of requests remaining within the interval",
+                  "key": "X-RateLimit-Remaining",
+                  "value": "6584"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": true,\n  \"data\": {\n    \"id\": \"string\",\n    \"name\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3cb6f909-e535-4653-913e-b125939ba718",
+              "name": "Bad Request (e.g. invalid parameters or missing required fields)",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "segments"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"entityType\": \"contact\",\n  \"objectTypeId\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"error\": {\n    \"code\": \"object_not_found\",\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a74c4747-3d69-4246-bc79-e6034b2d58bd",
+              "name": "Forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "segments"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"entityType\": \"contact\",\n  \"objectTypeId\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"not-found\",\n  \"reason\": \"string\",\n  \"errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8d2af1e2-ff09-4fe0-9f48-79ebbc316df1",
+              "name": "Conflict (a segment with this name already exists)",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "segments"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"entityType\": \"contact\",\n  \"objectTypeId\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Conflict",
+              "code": 409,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"error\": {\n    \"code\": \"object_not_found\",\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "77bd3ccf-d1e1-44c5-ada3-dbf1f3b159bf",
+              "name": "Rate Limited",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "segments"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"entityType\": \"contact\",\n  \"objectTypeId\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "The total amount of requests permitted within the interval",
+                  "key": "X-RateLimit-Limit",
+                  "value": "6584"
+                },
+                {
+                  "disabled": false,
+                  "description": "The total amount of requests remaining within the interval",
+                  "key": "X-RateLimit-Remaining",
+                  "value": "6584"
+                },
+                {
+                  "disabled": false,
+                  "description": "The datetime in epoch seconds when the interval resets",
+                  "key": "X-RateLimit-Reset",
+                  "value": "6584"
+                },
+                {
+                  "disabled": false,
+                  "description": "The UTC datetime when the interval resets",
+                  "key": "Retry-After",
+                  "value": "1959-07-28T13:25:28.933Z"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"reason\": \"string\",\n  \"rateLimit\": {\n    \"intervalLimit\": 5713.488881616356,\n    \"intervalRemaining\": 2277.5874823449426,\n    \"intervalResetSeconds\": 341.2038062602607,\n    \"waitMs\": 8836.493467336048\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "b5e06ba6-1e12-42d3-9618-1d96fcba7533",
+          "name": "Gets all status for a segment",
+          "request": {
+            "name": "Gets all status for a segment",
+            "description": {
+              "content": "Gets all status for a segment\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "segments",
+                ":id",
+                "status"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "5c78a816-5d53-4ade-be99-84b0bd2b28d1",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "segments",
+                    ":id",
+                    "status"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "The total amount of requests permitted within the interval",
+                  "key": "X-RateLimit-Limit",
+                  "value": "6584"
+                },
+                {
+                  "disabled": false,
+                  "description": "The total amount of requests remaining within the interval",
+                  "key": "X-RateLimit-Remaining",
+                  "value": "6584"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"id\": 8968.696420758622,\n    \"name\": \"string\"\n  },\n  {\n    \"id\": 9109.671724612213,\n    \"name\": \"string\"\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4b44dda9-b786-4e6e-b1ed-966e64a0440a",
+              "name": "Rate Limited",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "segments",
+                    ":id",
+                    "status"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "The total amount of requests permitted within the interval",
+                  "key": "X-RateLimit-Limit",
+                  "value": "6584"
+                },
+                {
+                  "disabled": false,
+                  "description": "The total amount of requests remaining within the interval",
+                  "key": "X-RateLimit-Remaining",
+                  "value": "6584"
+                },
+                {
+                  "disabled": false,
+                  "description": "The datetime in epoch seconds when the interval resets",
+                  "key": "X-RateLimit-Reset",
+                  "value": "6584"
+                },
+                {
+                  "disabled": false,
+                  "description": "The UTC datetime when the interval resets",
+                  "key": "Retry-After",
+                  "value": "1959-07-28T13:25:28.933Z"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"reason\": \"string\",\n  \"rateLimit\": {\n    \"intervalLimit\": 5713.488881616356,\n    \"intervalRemaining\": 2277.5874823449426,\n    \"intervalResetSeconds\": 341.2038062602607,\n    \"waitMs\": 8836.493467336048\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "adc50069-e663-4065-b706-f8b2e09df650",
+          "name": "Add Contact(s) to Segment",
+          "request": {
+            "name": "Add Contact(s) to Segment",
+            "description": {
+              "content": "Add existing contacts to an existing segment\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "segments",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"socialType\": \"<string>\",\n  \"value\": \"<string>\",\n  \"statusId\": \"<number>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "07240cd3-532d-4906-bfb3-e5a716d2c697",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "segments",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"socialType\": \"email\",\n  \"value\": \"email@domail.com, email2@domain.org\",\n  \"statusId\": 1234\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "The total amount of requests permitted within the interval",
+                  "key": "X-RateLimit-Limit",
+                  "value": "6584"
+                },
+                {
+                  "disabled": false,
+                  "description": "The total amount of requests remaining within the interval",
+                  "key": "X-RateLimit-Remaining",
+                  "value": "6584"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "28f5ef74-6b7c-429a-835d-685bec368fd2",
+              "name": "Invalid Request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "segments",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"socialType\": \"email\",\n  \"value\": \"email@domail.com, email2@domain.org\",\n  \"statusId\": 1234\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "The total amount of requests permitted within the interval",
+                  "key": "X-RateLimit-Limit",
+                  "value": "6584"
+                },
+                {
+                  "disabled": false,
+                  "description": "The total amount of requests remaining within the interval",
+                  "key": "X-RateLimit-Remaining",
+                  "value": "6584"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"reason\": \"string\",\n  \"docs\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5c9dae36-eb68-4522-97d5-a6dd4e9422fe",
+              "name": "Not Found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "segments",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"socialType\": \"email\",\n  \"value\": \"email@domail.com, email2@domain.org\",\n  \"statusId\": 1234\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "The total amount of requests permitted within the interval",
+                  "key": "X-RateLimit-Limit",
+                  "value": "6584"
+                },
+                {
+                  "disabled": false,
+                  "description": "The total amount of requests remaining within the interval",
+                  "key": "X-RateLimit-Remaining",
+                  "value": "6584"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "b3cfc59e-c272-4dc6-8426-273dbfd7986b",
+              "name": "Rate Limited",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "segments",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"socialType\": \"email\",\n  \"value\": \"email@domail.com, email2@domain.org\",\n  \"statusId\": 1234\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "The total amount of requests permitted within the interval",
+                  "key": "X-RateLimit-Limit",
+                  "value": "6584"
+                },
+                {
+                  "disabled": false,
+                  "description": "The total amount of requests remaining within the interval",
+                  "key": "X-RateLimit-Remaining",
+                  "value": "6584"
+                },
+                {
+                  "disabled": false,
+                  "description": "The datetime in epoch seconds when the interval resets",
+                  "key": "X-RateLimit-Reset",
+                  "value": "6584"
+                },
+                {
+                  "disabled": false,
+                  "description": "The UTC datetime when the interval resets",
+                  "key": "Retry-After",
+                  "value": "1959-07-28T13:25:28.933Z"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"reason\": \"string\",\n  \"rateLimit\": {\n    \"intervalLimit\": 5713.488881616356,\n    \"intervalRemaining\": 2277.5874823449426,\n    \"intervalResetSeconds\": 341.2038062602607,\n    \"waitMs\": 8836.493467336048\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "f8162484-006a-485e-b6ac-5200d19f4a08",
+          "name": "Get a segment by ID",
+          "request": {
+            "name": "Get a segment by ID",
+            "description": {
+              "content": "Retrieve a specific segment by its unique identifier.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "segments",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "cols",
+                  "value": "<string>",
+                  "description": "Comma-separated list of additional columns to include in the response.\nValid values: `entityCount`, `url`.\n"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) The prefixed segment ID (format `s_<number>`)"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "4c6e619c-3ae4-4867-83be-0d9fa58e69ef",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "segments",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "cols",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The prefixed segment ID (format `s_<number>`)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "The total amount of requests permitted within the interval",
+                  "key": "X-RateLimit-Limit",
+                  "value": "6584"
+                },
+                {
+                  "disabled": false,
+                  "description": "The total amount of requests remaining within the interval",
+                  "key": "X-RateLimit-Remaining",
+                  "value": "6584"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": true,\n  \"data\": {\n    \"id\": \"string\",\n    \"name\": \"string\",\n    \"entityType\": \"organization\",\n    \"entityCount\": 8128,\n    \"url\": \"https://nExOjxyWLjdsyKQWMuXheTV.ctkIm-UsceTdZo3PAg2aWEewWmAZu1GRzALsJcMqo2wopOwNdh9KHATop5MdQ8\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d92a78b8-98d5-480f-ba01-d7afe392bc20",
+              "name": "Bad Request (e.g. invalid segment ID or invalid parameters)",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "segments",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "cols",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The prefixed segment ID (format `s_<number>`)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"error\": {\n    \"code\": \"object_not_found\",\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8c2ce0d4-3ac1-4639-8c57-5ff62629ca43",
+              "name": "Forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "segments",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "cols",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The prefixed segment ID (format `s_<number>`)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"failure\",\n  \"reason\": \"string\",\n  \"errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0f11c26c-c2fe-4ac1-9612-37a41e9c7f0b",
+              "name": "Segment not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "segments",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "cols",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The prefixed segment ID (format `s_<number>`)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"error\": {\n    \"code\": \"object_not_found\",\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7433c2fe-8894-4875-bbe3-535792b95761",
+              "name": "Rate Limited",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "segments",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "cols",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The prefixed segment ID (format `s_<number>`)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "The total amount of requests permitted within the interval",
+                  "key": "X-RateLimit-Limit",
+                  "value": "6584"
+                },
+                {
+                  "disabled": false,
+                  "description": "The total amount of requests remaining within the interval",
+                  "key": "X-RateLimit-Remaining",
+                  "value": "6584"
+                },
+                {
+                  "disabled": false,
+                  "description": "The datetime in epoch seconds when the interval resets",
+                  "key": "X-RateLimit-Reset",
+                  "value": "6584"
+                },
+                {
+                  "disabled": false,
+                  "description": "The UTC datetime when the interval resets",
+                  "key": "Retry-After",
+                  "value": "1959-07-28T13:25:28.933Z"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"reason\": \"string\",\n  \"rateLimit\": {\n    \"intervalLimit\": 5713.488881616356,\n    \"intervalRemaining\": 2277.5874823449426,\n    \"intervalResetSeconds\": 341.2038062602607,\n    \"waitMs\": 8836.493467336048\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.commonroom.io/community/v1",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "b7460202-0548-494a-851b-b671169b6cf9",
+    "name": "Common Room Core Activities Segments API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Common Room Core REST APIs for getting data in to Common Room.\n<br/><br/>\nFor SCIM APIs <a href=\"./scim.html\">see the SCIM documentation</a>.\n<br/><br/>\nFor New, V2 APIs <a href=\"./api-v2.html\">see the V2 API documentation</a>.\n<br/><br/>\nTo use the Common Room API, or get started with the Common Room Zapier integration, you will need to create an API token.\nTo create an API token:\n<ol>\n  <li>Navigate to Setting | API tokens\n  <li>Create a “New Token\"\n</ol>\n\n# Authentication\n\n<!-- ReDoc-Inject: <security-definitions> -->",
+      "type": "text/plain"
+    }
+  }
+}

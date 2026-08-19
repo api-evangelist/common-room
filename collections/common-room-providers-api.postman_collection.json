@@ -1,0 +1,292 @@
+{
+  "item": [
+    {
+      "id": "9568577d-c84a-41e4-a2da-303a71de0b15",
+      "name": "Providers",
+      "description": {
+        "content": "Operations related to signal sources (integrations)",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "cf315d5b-9c25-41ff-aca2-37a9560fd196",
+          "name": "List providers",
+          "request": {
+            "name": "List providers",
+            "description": {
+              "content": "List the visible signal sources (integrations) for the community, with pagination support.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "providers"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "50",
+                  "description": "The maximum number of providers to return per page"
+                },
+                {
+                  "disabled": false,
+                  "key": "cursor",
+                  "value": "<string>",
+                  "description": "Pagination cursor from a previous response"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "79fabee7-3b44-434b-a5a0-356dcfc821f5",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "providers"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "limit",
+                      "value": "50"
+                    },
+                    {
+                      "key": "cursor",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "The total amount of requests permitted within the interval",
+                  "key": "X-RateLimit-Limit",
+                  "value": "2089"
+                },
+                {
+                  "disabled": false,
+                  "description": "The total amount of requests remaining within the interval",
+                  "key": "X-RateLimit-Remaining",
+                  "value": "2089"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": true,\n  \"data\": [\n    {\n      \"id\": \"string\",\n      \"name\": \"string\",\n      \"serviceName\": \"string\"\n    },\n    {\n      \"id\": \"string\",\n      \"name\": \"string\",\n      \"serviceName\": \"string\"\n    }\n  ],\n  \"meta\": {\n    \"nextCursor\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "915ca5c8-0dcf-49d2-a415-9a0e8afe64a7",
+              "name": "Bad Request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "providers"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "limit",
+                      "value": "50"
+                    },
+                    {
+                      "key": "cursor",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"error\": {\n    \"code\": \"prospector_company_not_found\",\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3715fdb6-f097-4b41-840c-74182ad650af",
+              "name": "Forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "providers"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "limit",
+                      "value": "50"
+                    },
+                    {
+                      "key": "cursor",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"ok\",\n  \"reason\": \"string\",\n  \"errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c3749c74-0602-43fc-8cfb-44a858a407b5",
+              "name": "Rate Limited",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "providers"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "limit",
+                      "value": "50"
+                    },
+                    {
+                      "key": "cursor",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "The total amount of requests permitted within the interval",
+                  "key": "X-RateLimit-Limit",
+                  "value": "2089"
+                },
+                {
+                  "disabled": false,
+                  "description": "The total amount of requests remaining within the interval",
+                  "key": "X-RateLimit-Remaining",
+                  "value": "2089"
+                },
+                {
+                  "disabled": false,
+                  "description": "The datetime in epoch seconds when the interval resets",
+                  "key": "X-RateLimit-Reset",
+                  "value": "2089"
+                },
+                {
+                  "disabled": false,
+                  "description": "The UTC datetime when the interval resets",
+                  "key": "Retry-After",
+                  "value": "1953-08-01T18:56:35.352Z"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"reason\": \"string\",\n  \"rateLimit\": {\n    \"intervalLimit\": 5660.018997975549,\n    \"intervalRemaining\": 7385.527075960964,\n    \"intervalResetSeconds\": 7517.2340283757285,\n    \"waitMs\": 3263.6421418610694\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.commonroom.io/community/v1",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "fe3e2c12-77fb-4d18-9299-ff020620e94d",
+    "name": "Common Room Core Activities Providers API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Common Room Core REST APIs for getting data in to Common Room.\n<br/><br/>\nFor SCIM APIs <a href=\"./scim.html\">see the SCIM documentation</a>.\n<br/><br/>\nFor New, V2 APIs <a href=\"./api-v2.html\">see the V2 API documentation</a>.\n<br/><br/>\nTo use the Common Room API, or get started with the Common Room Zapier integration, you will need to create an API token.\nTo create an API token:\n<ol>\n  <li>Navigate to Setting | API tokens\n  <li>Create a “New Token\"\n</ol>\n\n# Authentication\n\n<!-- ReDoc-Inject: <security-definitions> -->",
+      "type": "text/plain"
+    }
+  }
+}

@@ -1,0 +1,75 @@
+generated: '2026-08-13'
+method: searched
+status: published
+source: https://www.commonroom.io/docs/using-common-room/mcp-server/
+probe:
+  url: https://mcp.commonroom.io/mcp
+  method: POST
+  body: '{"jsonrpc":"2.0","id":1,"method":"tools/list"}'
+  http_status: 401
+  response: '{"error":"unauthorized","message":"Authentication required. Reconnect the MCP server to sign in again."}'
+  www_authenticate: Bearer resource_metadata="https://mcp.commonroom.io/.well-known/oauth-protected-resource/mcp"
+  note: >-
+    The live tools/list manifest is OAuth-gated, so per-tool inputSchema could not
+    be read anonymously. The tool NAMES and DESCRIPTIONS below are transcribed
+    verbatim from the provider's own "Available Tools" table in the MCP docs page;
+    input schemas require authenticated introspection.
+deployment:
+  mode: remote
+  endpoint: https://mcp.commonroom.io/mcp
+  install: null
+  package: null
+  auth: oauth
+  verified: probed
+  transport: streamable-http
+  oauth:
+    spec: OAuth 2.1
+    authorization_server: https://login.commonroom.io/
+    protected_resource_metadata: https://mcp.commonroom.io/.well-known/oauth-protected-resource
+    authorization_server_metadata: https://mcp.commonroom.io/.well-known/oauth-authorization-server
+    dynamic_client_registration: https://login.commonroom.io/oidc/register
+    scopes: [openid, profile, email, offline_access]
+  note: >-
+    Remote only. Common Room ships NO stdio/npx MCP package — the docs configure
+    every client (Claude, ChatGPT, Cursor, VS Code Copilot) against the hosted
+    HTTP URL. The separate `@commonroomio/cli` npm package is a CLI, not an MCP
+    stdio server.
+server:
+  name: common-room
+  transport: http
+  url: https://mcp.commonroom.io/mcp
+  read_write: true
+  permissions: >-
+    Write operations respect the same per-user OAuth permissions as reads. Users
+    can only create or update data their Common Room account already has access
+    to; workspace role-based access controls apply to every write. There is no
+    elevated service account or shared token.
+clients_documented:
+- name: Claude
+  mechanism: Connectors -> Common Room connector (OAuth)
+  note: A dedicated Claude desktop plugin also exists (github.com/common-room/claude-plugin)
+- name: ChatGPT
+  mechanism: Official ChatGPT App / connector
+- name: Cursor
+  mechanism: Settings -> Tools & Integrations -> MCP, HTTP transport
+  config: '{"mcpServers":{"common-room":{"type":"http","url":"https://mcp.commonroom.io/mcp"}}}'
+- name: GitHub Copilot (VS Code)
+  mechanism: MCP User Configuration / .vscode/mcp.json
+  config: '{"servers":{"common-room":{"type":"http","url":"https://mcp.commonroom.io/mcp"}}}'
+tools:
+- name: commonroom_get_catalog
+  description: Discover available object types, properties, filters, and sort fields
+  category: discovery
+- name: commonroom_list_objects
+  description: Query and retrieve objects with filtering, sorting, and pagination
+  category: read
+- name: commonroom_create_object
+  description: Create new contacts, organizations, segments, activities, and notes
+  category: write
+- name: commonroom_update_object
+  description: Update existing contacts and organizations by ID
+  category: write
+- name: commonroom_submit_feedback
+  description: Provide feedback on query results to improve response quality
+  category: feedback
+tool_count: 5

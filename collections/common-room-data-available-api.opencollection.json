@@ -1,0 +1,33 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Common Room Core Activities Data Available API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Data Available",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Notify data available",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.commonroom.io/community/v1/data-available",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Notify Common Room that new data is available for import from a connected\ndata source. This triggers import and augmentation workflows for the\nspecified provider.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

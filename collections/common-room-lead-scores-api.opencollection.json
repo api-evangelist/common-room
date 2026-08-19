@@ -1,0 +1,48 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Common Room Core Activities Lead Scores API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Lead Scores",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get a lead score definition by ID",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.commonroom.io/community/v1/lead-scores/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The prefixed lead score ID (format `ls_<number>`)"
+              }
+            ]
+          },
+          "docs": "Retrieve a specific lead score definition by its unique identifier."
+        },
+        {
+          "info": {
+            "name": "List lead score definitions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.commonroom.io/community/v1/lead-scores"
+          },
+          "docs": "Retrieve all lead score definitions for the community."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

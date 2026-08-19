@@ -1,0 +1,118 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Common Room Core Activities SCIM API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "SCIM",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Active contacts by role",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.commonroom.io/community/v1/users",
+            "params": [
+              {
+                "name": "startIndex",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "count",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "filter",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Returns the list of active owners, filtered based on the query parameters"
+        },
+        {
+          "info": {
+            "name": "Creates the contact with specific role",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.commonroom.io/community/v1/users",
+            "params": [
+              {
+                "name": "startIndex",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "count",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "filter",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates the contact with owner role"
+        },
+        {
+          "info": {
+            "name": "Retrieves a specific user account",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.commonroom.io/community/v1/users/:email",
+            "params": [
+              {
+                "name": "email",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Retrieves a specific user account"
+        },
+        {
+          "info": {
+            "name": "Updates an user account",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.commonroom.io/community/v1/users/:email",
+            "params": [
+              {
+                "name": "email",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates the user account specified in the query"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

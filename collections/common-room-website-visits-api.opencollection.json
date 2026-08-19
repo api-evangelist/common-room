@@ -1,0 +1,61 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Common Room Core Activities Website Visits API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Website Visits",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List website visits",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.commonroom.io/community/v1/website-visits",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "The maximum number of visits to return per page"
+              },
+              {
+                "name": "cursor",
+                "value": "",
+                "type": "query",
+                "description": "Pagination cursor from a previous response"
+              },
+              {
+                "name": "cols",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list of additional columns to include in the response.\nValid column values: `url` (included by default), `contactId`, `organizationId`.\nThe meta column `recordCount` can be requested to return the total number\nof matching visits in `meta.recordCount`.\n"
+              },
+              {
+                "name": "contactId",
+                "value": "",
+                "type": "query",
+                "description": "Filter visits by prefixed contact ID (format `c_<number>`)"
+              },
+              {
+                "name": "organizationId",
+                "value": "",
+                "type": "query",
+                "description": "Filter visits by prefixed organization ID (format `o_<number>`)"
+              }
+            ]
+          },
+          "docs": "Retrieve a paginated list of website visits."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

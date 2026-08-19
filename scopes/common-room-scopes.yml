@@ -1,0 +1,91 @@
+generated: '2026-08-13'
+method: probed
+source: >-
+  https://mcp.commonroom.io/.well-known/oauth-protected-resource +
+  https://mcp.commonroom.io/.well-known/oauth-authorization-server
+docs: https://www.commonroom.io/docs/using-common-room/mcp-server/
+note: >-
+  The published OpenAPI declares only an http/bearer securityScheme, so
+  derive-oauth-scopes.py has nothing to read. The OAuth surface is real but lives
+  OFF the REST spec: it is the authorization layer in front of the hosted MCP
+  server and the CLI. Scopes below are transcribed verbatim from the two
+  machine-readable discovery documents; both were fetched anonymously at HTTP 200
+  and saved to well-known/. Common Room publishes NO product-permission scope
+  vocabulary — there is no read:contacts / write:segments style scope anywhere.
+authorization:
+  spec: OAuth 2.1
+  protected_resource: https://mcp.commonroom.io/
+  authorization_servers:
+  - https://login.commonroom.io/
+  identity_provider: Auth0 (login.commonroom.io)
+schemes:
+- name: MCPOAuth
+  type: oauth2
+  source: https://mcp.commonroom.io/.well-known/oauth-authorization-server
+  applies_to: https://mcp.commonroom.io/mcp
+  flows:
+  - flow: authorizationCode
+    authorizationUrl: https://login.commonroom.io/authorize
+    tokenUrl: https://login.commonroom.io/oauth/token
+    pkce: [S256, plain]
+  - flow: deviceCode
+    deviceAuthorizationUrl: https://login.commonroom.io/oauth/device/code
+    tokenUrl: https://login.commonroom.io/oauth/token
+    note: Used by `cr auth login --device` for headless/SSH environments.
+  - flow: refreshToken
+    tokenUrl: https://login.commonroom.io/oauth/token
+  endpoints:
+    jwks_uri: https://login.commonroom.io/.well-known/jwks.json
+    userinfo_endpoint: https://login.commonroom.io/userinfo
+    revocation_endpoint: https://login.commonroom.io/oauth/revoke
+    registration_endpoint: https://login.commonroom.io/oidc/register
+  dynamic_client_registration: true
+scopes:
+- scope: openid
+  description: OIDC sign-in; issues an ID token identifying the Common Room user.
+  flows: [authorizationCode, deviceCode]
+  sources: [oauth-protected-resource, oauth-authorization-server]
+  resource_scope: true
+- scope: profile
+  description: Basic profile claims for the authenticated Common Room user.
+  flows: [authorizationCode, deviceCode]
+  sources: [oauth-protected-resource, oauth-authorization-server]
+  resource_scope: true
+- scope: email
+  description: Email address of the authenticated Common Room user.
+  flows: [authorizationCode, deviceCode]
+  sources: [oauth-protected-resource, oauth-authorization-server]
+  resource_scope: true
+- scope: offline_access
+  description: Issues a refresh token so the client can renew access without re-prompting.
+  flows: [authorizationCode, deviceCode]
+  sources: [oauth-protected-resource, oauth-authorization-server]
+  resource_scope: true
+authorization_server_only_scopes:
+- name
+- given_name
+- family_name
+- nickname
+- email_verified
+- picture
+- created_at
+- identities
+- phone
+- address
+authorization_server_only_note: >-
+  Advertised by the Auth0 tenant's scopes_supported but NOT listed in the MCP
+  protected-resource metadata, so they are identity-provider claims rather than
+  Common Room API scopes.
+authorization_model:
+  style: per-user-delegated
+  statement: >-
+    "Write operations respect the same per-user OAuth permissions as read
+    operations. Users can only create or update data their Common Room account
+    already has access to. Workspace role-based access controls apply to every
+    write — there is no elevated service account or shared token."
+  source: https://www.commonroom.io/docs/using-common-room/mcp-server/
+  implication: >-
+    Authorization is carried by the user's workspace role, not by OAuth scope. An
+    agent holding a Common Room token has exactly the reach of the human who
+    granted it, and there is no scope-level way to grant read without write.
+scope_count: 4

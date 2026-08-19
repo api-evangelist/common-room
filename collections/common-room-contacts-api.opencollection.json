@@ -1,0 +1,208 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Common Room Core Activities Contacts API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Contacts",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Add or Edit User",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.commonroom.io/community/v1/source/:destinationSourceId/user",
+            "params": [
+              {
+                "name": "destinationSourceId",
+                "value": "",
+                "type": "path",
+                "description": "The Destination Source ID of the created API signal. See https://www.commonroom.io/docs/signals/custom-integrations/zapier-api/#create-an-api-signal for details."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Adds a new user into the destination source, or updates existing user previously added via API with the same ID\n"
+        },
+        {
+          "info": {
+            "name": "Gets all contact custom fields for a room",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.commonroom.io/community/v1/members/customFields",
+            "params": [
+              {
+                "name": "destinationSourceId",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Gets all contact custom fields for a room\n"
+        },
+        {
+          "info": {
+            "name": "Get Contact by E-Mail",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.commonroom.io/community/v1/user/:email",
+            "params": [
+              {
+                "name": "email",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "A Contact's profile based on an email address."
+        },
+        {
+          "info": {
+            "name": "Anonymize Contact",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.commonroom.io/community/v1/user/:email",
+            "params": [
+              {
+                "name": "email",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Request removal of all personally identifiable information (PII) for the\nContact associated by this email address.\n\nThis does not immediately anonymize the contact. The anonymization\nis queued and will happen at a future time within 15 days.\n"
+        },
+        {
+          "info": {
+            "name": "Get Contact By E-Mail or Socials",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.commonroom.io/community/v1/members",
+            "params": [
+              {
+                "name": "twitter",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "email",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "github",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "linkedin",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Get Contact By E-Mail or Socials"
+        },
+        {
+          "info": {
+            "name": "Get a contact by ID",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.commonroom.io/community/v1/contacts/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The prefixed contact ID (format `c_<number>`)"
+              },
+              {
+                "name": "cols",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list of additional columns to include in the response.\nValid values: `activateMessage`, `avatarUrl`, `fullName`, `location`, `primaryEmail`,\n`phoneNumbers`, `title`, `companyName`, `companyWebsite`, `connectedCustomObjects`,\n`profiles`, `jobHistory`, `leadScores`, `recentActivities`, `recentWebPages`,\n`recentWebVisitsNumber`, `segments`, `sparkSummary`, `recentSparkSummaries`, `tags`,\n`url`. Use `cf_*` to include all custom fields, or `cf_<id>` for a specific one.\n"
+              }
+            ]
+          },
+          "docs": "Retrieve a specific contact by their unique identifier."
+        },
+        {
+          "info": {
+            "name": "List contacts",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.commonroom.io/community/v1/contacts",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "The maximum number of contacts to return per page"
+              },
+              {
+                "name": "cursor",
+                "value": "",
+                "type": "query",
+                "description": "Pagination cursor from a previous response"
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "Field to sort results by. One of: `id`, `latest_activity`, `name`,\na lead-score ID (format `ls_<number>`), or a custom-field ID (format `cf_<number>`).\n"
+              },
+              {
+                "name": "direction",
+                "value": "",
+                "type": "query",
+                "description": "Sort direction"
+              },
+              {
+                "name": "cols",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list of additional columns to include in the response.\nValid column values: `activateMessage`, `avatarUrl`, `fullName`, `location`,\n`primaryEmail`, `phoneNumbers`, `title`, `companyName`, `companyWebsite`,\n`connectedCustomObjects`, `profiles`, `jobHistory`, `leadScores`, `recentActivities`,\n`recentWebPages`, `recentWebVisitsNumber`, `segments`, `sparkSummary`,\n`recentSparkSummaries`, `tags`, `url`. Use `cf_*` to include all custom fields, or\n`cf_<id>` for a specific one. The meta column `recordCount` can be requested to\nreturn the total number of matching contacts in `meta.recordCount`.\n"
+              },
+              {
+                "name": "organizationId",
+                "value": "",
+                "type": "query",
+                "description": "Filter contacts by prefixed organization ID (format `o_<number>`)"
+              },
+              {
+                "name": "segmentId",
+                "value": "",
+                "type": "query",
+                "description": "Filter contacts by segment ID (e.g. s_123456)"
+              }
+            ]
+          },
+          "docs": "Retrieve a list of contacts with pagination support."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

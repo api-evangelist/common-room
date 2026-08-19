@@ -1,0 +1,61 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Common Room Core Activities Prospector Companies API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Prospector Companies",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List prospector companies",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.commonroom.io/community/v1/prospector-companies",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "The maximum number of companies to return per page"
+              },
+              {
+                "name": "cursor",
+                "value": "",
+                "type": "query",
+                "description": "Pagination cursor from a previous response"
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "Field to sort results by"
+              },
+              {
+                "name": "direction",
+                "value": "",
+                "type": "query",
+                "description": "Sort direction"
+              },
+              {
+                "name": "cols",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list of additional columns to include in the response.\nValid column values: `description`, `employees`, `linkedInHandles`, `location`,\n`logoUrl`, `primaryWebsite`, `raised`, `revenueRange`, `subIndustry`,\n`technologies`. The meta column `recordCount` can be requested to return\nthe total number of matching companies in `meta.recordCount`.\n"
+              }
+            ]
+          },
+          "docs": "Retrieve a paginated list of prospector-discovered companies."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

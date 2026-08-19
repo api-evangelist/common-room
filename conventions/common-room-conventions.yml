@@ -1,0 +1,183 @@
+generated: '2026-08-13'
+method: searched
+source: >-
+  https://api.commonroom.io/docs/api-v2.html + https://www.commonroom.io/docs/using-common-room/cli/
+  + https://www.commonroom.io/docs/using-common-room/mcp-server/ +
+  https://www.commonroom.io/docs/set-preferences/api-tokens/ + openapi/_original/*.yml
+cross_links:
+  errors: errors/common-room-problem-types.yml
+  lifecycle: lifecycle/common-room-lifecycle.yml
+  authentication: authentication/common-room-authentication.yml
+  rate_limits: rate-limits/common-room-rate-limits.yml
+  scopes: scopes/common-room-scopes.yml
+  data_model: data-model/common-room-data-model.yml
+
+authentication:
+  style: bearer-token
+  header: Authorization
+  format: 'Bearer <token>'
+  token_format: JWT
+  provisioning: Settings -> API tokens in https://app.commonroom.io/ (room Admins only)
+  docs: https://www.commonroom.io/docs/set-preferences/api-tokens/
+  introspection: 'GET /api-token-status'
+  alternate:
+  - surface: MCP server
+    style: oauth2.1
+    note: https://mcp.commonroom.io/mcp — per-user delegated OAuth, not an API token
+  - surface: CLI
+    style: oauth2-pkce | device-code | static-token
+    note: >-
+      `cr auth login` (browser PKCE, grant received on localhost:9876),
+      `cr auth login --device`, or COMMONROOM_API_TOKEN for CI/CD. Tokens are
+      stored at ~/.commonroom/config.json with 0600 permissions and refreshed
+      automatically before expiry.
+
+idempotency:
+  supported: true
+  style: upsert-natural-key
+  idempotency_key_header: null
+  scope: create operations on contacts and organizations
+  keys:
+  - entity: contact
+    dedup_key: [primaryEmail, linkedInUrl]
+    statement: >-
+      "Contact creation uses upsert semantics: if a matching record already exists
+      (matched by email or LinkedIn URL), the existing record is updated rather
+      than creating a duplicate."
+  - entity: organization
+    dedup_key: [domain]
+    statement: >-
+      "Organization creation also uses upsert semantics, with the domain as the
+      dedup key."
+  retention: n/a
+  note: >-
+    IMPORTANT DISTINCTION. Common Room does NOT implement request-replay
+    idempotency: there is no Idempotency-Key header or parameter anywhere in the
+    published specs, and no stored-response replay window. What it does publish is
+    a documented natural-key upsert contract — repeating the same contact or
+    organization create converges on one record instead of duplicating, which
+    makes retries after a 429 or a network failure safe for those operations. The
+    v1 write endpoints follow the same shape ("Add or Edit User", "Add or Edit
+    Activity"). Activity and note creation are NOT idempotent — retrying appends
+    another timeline entry.
+  agent_guidance: >-
+    Safe to retry: every GET, plus contact and organization creates/updates.
+    Not safe to retry blindly: activity create and note create.
+
+pagination:
+  style: cursor
+  applies_to: v2 list operations
+  request:
+    limit: {param: limit, in: query, min: 1, max: 200, default: 50}
+    cursor: {param: cursor, in: query, type: string, source: nextCursor of the previous response}
+  response:
+    records_field: records
+    cursor_field: nextCursor
+    truncated_field: truncated
+    hint_field: hint
+    example: |-
+      {
+        "records": [ ... ],
+        "nextCursor": "abc123",
+        "truncated": true,
+        "hint": "Pass --cursor=abc123 to fetch the next page, or narrow with --filter / --limit."
+      }
+  termination: The response no longer carries a nextCursor.
+  total_count:
+    supported: true
+    how: 'request the meta column `recordCount` via cols; total lands in meta.recordCount'
+  note: >-
+    The v1 Core API predates this and has no cursor pagination on its list
+    endpoints.
+
+sorting:
+  params: [sort, direction]
+  direction_values: [asc, desc]
+  direction_default: asc
+  sort_default: id
+  sortable: >-
+    id, latest_activity, name, a lead-score ID (ls_<number>), or a custom-field ID
+    (cf_<number>)
+
+field_selection:
+  style: sparse-fieldsets
+  param: cols
+  format: comma-separated column names
+  example_values: >-
+    activateMessage, avatarUrl, fullName, location, primaryEmail, phoneNumbers,
+    title, companyName, companyWebsite, connectedCustomObjects, profiles,
+    jobHistory, leadScores, recentActivities, recentWebPages,
+    recentWebVisitsNumber, segments, sparkSummary, recentSparkSummaries, tags, url
+  custom_fields: 'cf_* for all custom fields, cf_<id> for one'
+  meta_columns: [recordCount]
+  note: >-
+    Expensive columns are opt-in. A default list call returns a thin record; an
+    agent must ask for what it needs.
+
+filtering:
+  style: structured-json-filter
+  surface: CLI (--filter / --filter-file) and typed query parameters on the REST list operations
+  rest_filters: [organizationId, segmentId, contactId, name, primaryDomain, query, entityType, locationType, objectTypeId, startDate, endDate]
+  json_filter_example: |-
+    {
+      "type": "and",
+      "clauses": [
+        { "type": "stringFilter", "field": "fullName", "params": { "op": "like", "value": "Tracy" } }
+      ]
+    }
+
+identifiers:
+  style: prefixed-opaque-string
+  prefixes:
+  - {prefix: 'c_', entity: Contact}
+  - {prefix: 'o_', entity: Organization}
+  - {prefix: 's_', entity: Segment}
+  - {prefix: 'cf_', entity: CustomField}
+  - {prefix: 'ls_', entity: LeadScore}
+  - {prefix: 'pc_', entity: ProspectorContact}
+  note: >-
+    Prefixes are load-bearing — the CLI infers the object type from the prefix
+    (`cr object get c_8812`), and a malformed prefix produces a distinct
+    invalid_*_id error code.
+
+error_envelope:
+  media_type: application/json
+  shape: '{"success": false, "error": {"code": "<enum>", "message": "<human>"}}'
+  rfc9457: false
+  catalog: errors/common-room-problem-types.yml
+  code_count: 21
+
+rate_limit_signaling:
+  headers: [X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Reset, Retry-After]
+  headers_on: every response, not only 429
+  status: 429
+  body_fields: [reason, rateLimit.intervalLimit, rateLimit.intervalRemaining, rateLimit.intervalResetSeconds, rateLimit.waitMs]
+  detail: rate-limits/common-room-rate-limits.yml
+
+request_tracing:
+  request_id_header: null
+  note: >-
+    No request-id or correlation-id header is declared in any published spec or
+    documented anywhere. The CLI's `--debug` flag emits a client-side log to
+    stderr, which is what support asks for instead.
+
+versioning:
+  style: uri-path
+  current: v2
+  detail: lifecycle/common-room-lifecycle.yml
+
+output_conventions:
+  cli:
+    format_rule: >-
+      JSON when stdout is not a TTY (or with --json), shell-friendly text
+      otherwise. The JSON envelope is the stable contract; the text format is for
+      humans.
+    cursor_in_text_mode: >-
+      printed to stderr as "[next page: --cursor=…]" so stdout stays pipeable
+    dry_run: >-
+      Every create and update accepts --dry-run, which validates inputs and prints
+      the exact payload that would be sent without making the call.
+    agent_context: >-
+      `cr agent-context --json` emits a machine-readable document describing every
+      command, flag, object type, filter and example prompt — the recommended way
+      to ground an agent instead of parsing --help.

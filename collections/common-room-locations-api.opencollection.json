@@ -1,0 +1,74 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Common Room Core Activities Locations API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Locations",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get a location by ID",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.commonroom.io/community/v1/locations/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The prefixed location ID"
+              }
+            ]
+          },
+          "docs": "Retrieve a specific location by its unique identifier."
+        },
+        {
+          "info": {
+            "name": "List locations",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.commonroom.io/community/v1/locations",
+            "params": [
+              {
+                "name": "locationType",
+                "value": "",
+                "type": "query",
+                "description": "The granularity of locations to return (required)"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "The maximum number of locations to return per page"
+              },
+              {
+                "name": "cursor",
+                "value": "",
+                "type": "query",
+                "description": "Pagination cursor from a previous response"
+              },
+              {
+                "name": "cols",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list of meta columns. The meta column `recordCount`\ncan be requested to return the total number of matching locations in\n`meta.recordCount`.\n"
+              }
+            ]
+          },
+          "docs": "Retrieve a paginated list of locations, sorted by member count (descending)."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

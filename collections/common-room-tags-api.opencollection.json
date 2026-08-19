@@ -1,0 +1,105 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Common Room Core Activities Tags API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Tags",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Tags",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.commonroom.io/community/v1/tags"
+          },
+          "docs": "Returns the list of user defined tags\n"
+        },
+        {
+          "info": {
+            "name": "Add Tag",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.commonroom.io/community/v1/tags",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new tag if no matching tag already exists, otherwise returns the existing tag.\n"
+        },
+        {
+          "info": {
+            "name": "Get Tag",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.commonroom.io/community/v1/tags/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The Tag ID to fetch"
+              }
+            ]
+          },
+          "docs": "Returns the tag for a given id\n"
+        },
+        {
+          "info": {
+            "name": "Update Tag",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.commonroom.io/community/v1/tags/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The Tag ID to fetch"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates the name or description for a given id.\n\nIf the tag is deleted, it will be undeleted on update.\n"
+        },
+        {
+          "info": {
+            "name": "Delete Tag",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.commonroom.io/community/v1/tags/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The Tag ID to fetch"
+              }
+            ]
+          },
+          "docs": "Deletes the tag for a given id.\n\nDeleting the tag will remove it from everywhere you added it, and might break alerts or workflows that depend on it.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

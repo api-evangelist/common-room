@@ -1,0 +1,29 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Common Room Core Activities Token Status API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Token Status",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "API Token status information",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.commonroom.io/community/v1/api-token-status"
+          },
+          "docs": "Status information about the API token used in the request.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

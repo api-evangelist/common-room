@@ -1,26 +1,112 @@
-generated: '2026-07-11'
-method: derived
-source: openapi/common-room-core-openapi.yml, openapi/common-room-scim-openapi.yml, openapi/common-room-v2-openapi.yml
-summary:
-  types:
-  - http
-schemes:
-- name: BearerAuth
-  type: http
-  scheme: bearer
-  bearerFormat: JWT
-  description: |-
-    Use a Core API JWT as a Bearer token in the Authentication header.
+generated: '2026-08-13'
+method: searched
+docs: https://www.commonroom.io/docs/set-preferences/api-tokens/
+docs_additional:
+- https://www.commonroom.io/docs/using-common-room/mcp-server/
+- https://www.commonroom.io/docs/using-common-room/cli/
+- https://mcp.commonroom.io/.well-known/oauth-protected-resource
+note: >-
+  The OpenAPI declares ONE scheme (http bearer). That is only the REST story.
+  Common Room actually operates three authentication surfaces, and the other two
+  are OAuth 2.1 — searched from the docs and from the live discovery documents and
+  recorded in surfaces[] below. See scopes/common-room-scopes.yml for the OAuth
+  scope detail.
+surfaces:
+- surface: REST API
+  base: https://api.commonroom.io
+  mechanism: bearer-token
+  scheme: BearerAuth
+  token_format: JWT
+  header: Authorization
+  format: 'Bearer <token>'
+  provisioning: Settings -> API tokens in https://app.commonroom.io/, room Admins only
+  docs: https://www.commonroom.io/docs/set-preferences/api-tokens/
+  introspection: 'GET /api-token-status'
+  scoped: workspace + issuing user
+  rotation: manual
+  expiry: not documented
+- surface: MCP server
+  base: https://mcp.commonroom.io/mcp
+  mechanism: oauth2
+  spec: OAuth 2.1
+  authorization_server: https://login.commonroom.io/
+  protected_resource_metadata: https://mcp.commonroom.io/.well-known/oauth-protected-resource
+  authorization_server_metadata: https://mcp.commonroom.io/.well-known/oauth-authorization-server
+  flows: [authorizationCode+PKCE, refreshToken]
+  dynamic_client_registration: https://login.commonroom.io/oidc/register
+  scopes: [openid, profile, email, offline_access]
+  challenge: 'WWW-Authenticate: Bearer resource_metadata="https://mcp.commonroom.io/.well-known/oauth-protected-resource/mcp"'
+  probe: 'POST tools/list -> HTTP 401'
+- surface: CLI (@commonroomio/cli)
+  mechanism: oauth2 | static-token
+  modes:
+  - {mode: browser-oauth-pkce, command: 'cr auth login', detail: 'grant received on localhost:9876'}
+  - {mode: device-code, command: 'cr auth login --device', endpoint: 'https://login.commonroom.io/oauth/device/code'}
+  - {mode: static-token, env: COMMONROOM_API_TOKEN, detail: 'for CI/CD and deployed agents'}
+  credential_storage: '~/.commonroom/config.json, 0600, auto-refreshed before expiry'
+authorization_model:
+  style: per-user-delegated
+  statement: >-
+    Reads and writes respect the same per-user workspace role-based access
+    controls across the UI, the CLI and the MCP server. There is no elevated
+    service account and no shared token; even COMMONROOM_API_TOKEN is scoped to a
+    specific user.
+  source: https://www.commonroom.io/docs/using-common-room/mcp-server/
+  gap: >-
+    No product-permission scopes. An agent token carries the full reach of the
+    granting user's role — there is no way to grant read-only.
+mtls: false
+openid_connect_discovery:
+  served_by_common_room: false
+  note: >-
+    /.well-known/openid-configuration 404s on every commonroom.io host; discovery
+    runs through the Auth0 tenant at login.commonroom.io.
+derived_from_openapi:
+  source: openapi/common-room-activities-api-openapi.yml, openapi/common-room-contacts-api-openapi.yml,
+    openapi/common-room-custom-fields-api-openapi.yml, openapi/common-room-data-available-api-openapi.yml,
+    openapi/common-room-industries-api-openapi.yml, openapi/common-room-lead-scores-api-openapi.yml,
+    openapi/common-room-locations-api-openapi.yml, openapi/common-room-me-api-openapi.yml, openapi/common-room-object-types-api-openapi.yml,
+    openapi/common-room-objects-api-openapi.yml, openapi/common-room-organizations-api-openapi.yml,
+    openapi/common-room-prospector-companies-api-openapi.yml ...
+  summary:
+    types:
+    - http
+  schemes:
+  - name: BearerAuth
+    type: http
+    scheme: bearer
+    bearerFormat: JWT
+    description: |-
+      Use a Core API JWT as a Bearer token in the Authentication header.
 
-    Tokens can be created by room Admins through https://app.commonroom.io/
+      Tokens can be created by room Admins through https://app.commonroom.io/
 
-    Example:
+      Example:
 
-    ```
-    curl -H "Authorization: Bearer [example key]" \
-      https://api.commonroom.io/community/v1/api-token-status
-    ````
-  sources:
-  - openapi/common-room-core-openapi.yml
-  - openapi/common-room-scim-openapi.yml
-  - openapi/common-room-v2-openapi.yml
+      ```
+      curl -H "Authorization: Bearer abcd123.xzy" \
+        https://api.commonroom.io/community/v1/api-token-status
+      ````
+    sources:
+    - openapi/common-room-activities-api-openapi.yml
+    - openapi/common-room-contacts-api-openapi.yml
+    - openapi/common-room-custom-fields-api-openapi.yml
+    - openapi/common-room-data-available-api-openapi.yml
+    - openapi/common-room-industries-api-openapi.yml
+    - openapi/common-room-lead-scores-api-openapi.yml
+    - openapi/common-room-locations-api-openapi.yml
+    - openapi/common-room-me-api-openapi.yml
+    - openapi/common-room-object-types-api-openapi.yml
+    - openapi/common-room-objects-api-openapi.yml
+    - openapi/common-room-organizations-api-openapi.yml
+    - openapi/common-room-prospector-companies-api-openapi.yml
+    - openapi/common-room-prospector-contacts-api-openapi.yml
+    - openapi/common-room-providers-api-openapi.yml
+    - openapi/common-room-right-to-be-forgotten-api-openapi.yml
+    - openapi/common-room-scim-api-openapi.yml
+    - openapi/common-room-segments-api-openapi.yml
+    - openapi/common-room-tags-api-openapi.yml
+    - openapi/common-room-tech-stack-products-api-openapi.yml
+    - openapi/common-room-token-status-api-openapi.yml
+    - openapi/common-room-topics-api-openapi.yml
+    - openapi/common-room-website-visits-api-openapi.yml

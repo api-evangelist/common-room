@@ -1,0 +1,734 @@
+{
+  "item": [
+    {
+      "id": "3055dd05-0b67-427f-89eb-aa8698cb201b",
+      "name": "Organizations",
+      "description": {
+        "content": "Operations related to organization management",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "8d21a54b-0557-492b-8431-fc63f1ced64a",
+          "name": "Get an organization by ID",
+          "request": {
+            "name": "Get an organization by ID",
+            "description": {
+              "content": "Retrieve a specific organization by its unique identifier.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "organizations",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "cols",
+                  "value": "<string>",
+                  "description": "Comma-separated list of additional columns to include in the response.\nValid values: `about`, `contactsCount`, `employees`, `linkedInUrl`, `profiles`,\n`revenueRangeMax`, `revenueRangeMin`, `subIndustry`, `location`, `leadScores`,\n`recentJobOpenings`, `recentNews`, `researchResults`, `surgingTopics`, `tags`, `topContacts`, `url`.\nUse `cf_*` to include all custom fields, or `cf_<id>` for a specific one.\n"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) The prefixed organization ID (format `o_<number>`)"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "a66b5cb9-b31a-41f0-a363-dcc0a647fd0f",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "organizations",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "cols",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The prefixed organization ID (format `o_<number>`)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "The total amount of requests permitted within the interval",
+                  "key": "X-RateLimit-Limit",
+                  "value": "9999"
+                },
+                {
+                  "disabled": false,
+                  "description": "The total amount of requests remaining within the interval",
+                  "key": "X-RateLimit-Remaining",
+                  "value": "9999"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": true,\n  \"data\": {\n    \"id\": \"string\",\n    \"name\": \"string\",\n    \"primaryDomain\": \"string\",\n    \"about\": \"string\",\n    \"contactsCount\": 4904,\n    \"employees\": 7678,\n    \"linkedInUrl\": \"string\",\n    \"profiles\": [\n      {\n        \"name\": \"string\",\n        \"type\": \"string\",\n        \"url\": \"https://tgpRcNdAZs.yvrb4pcaWCSTUhtGpTmOHPTiO08Z8gofoyPwlhxXe\"\n      },\n      {\n        \"name\": \"string\",\n        \"type\": \"string\",\n        \"url\": \"http://lbkNxafsKwvfFbWAYKnzeotEuFdGYXPf.zufteZkCUSl6d5YXxDXUqAVq1aV09iiU.1XmTW\"\n      }\n    ],\n    \"revenueRangeMax\": 2992,\n    \"revenueRangeMin\": 2142,\n    \"subIndustry\": \"string\",\n    \"location\": {\n      \"city\": \"string\",\n      \"region\": \"string\",\n      \"country\": \"string\"\n    },\n    \"customFields\": {\n      \"key_0\": {\n        \"type\": \"string\",\n        \"value\": \"string\"\n      }\n    },\n    \"leadScores\": [\n      {\n        \"scoreId\": 7710,\n        \"score\": 3611.820398497775,\n        \"percentile\": 6713.245377044941\n      },\n      {\n        \"scoreId\": 5240,\n        \"score\": 3887.2705619092962,\n        \"percentile\": 2563.0878158464343\n      }\n    ],\n    \"researchResults\": [\n      {\n        \"promptId\": \"string\",\n        \"answer\": \"string\",\n        \"isPrimaryPrompt\": true\n      },\n      {\n        \"promptId\": \"string\",\n        \"answer\": \"string\",\n        \"isPrimaryPrompt\": true\n      }\n    ],\n    \"recentJobOpenings\": [\n      {\n        \"jobTitle\": \"string\",\n        \"url\": \"https://IwQoMpvXsngaJkAZk.nwsadDQyTou\",\n        \"firstSeenAt\": \"string\",\n        \"isClosed\": true,\n        \"location\": \"string\",\n        \"jobDescription\": \"string\"\n      },\n      {\n        \"jobTitle\": \"string\",\n        \"url\": \"https://onsQCLItbgPpZWMexi.brOwauU,7q+SkLsK96T.kf55Prnkn1ufKQ,FcyOELzNfcZbKAbuOI369DwhKS7K9-y2KeGTJRuQebM6\",\n        \"firstSeenAt\": \"string\",\n        \"isClosed\": false,\n        \"location\": \"string\",\n        \"jobDescription\": \"string\"\n      }\n    ],\n    \"recentNews\": [\n      {\n        \"title\": \"string\",\n        \"url\": \"https://nCCR.hzxulGwfZKYfqL6YP9HNeKJb7aryVB.sDUPmyeZWKVO195Z.0dz5WtI3HU+W4YKVGK1nQhyN\",\n        \"publishedAt\": \"string\",\n        \"category\": \"string\",\n        \"articleSentence\": \"string\"\n      },\n      {\n        \"title\": \"string\",\n        \"url\": \"http://MtFHlnmrIGNf.xykU-2bgwMTlCI3UJnzkkvDznFyPP0XeujOjSq\",\n        \"publishedAt\": \"string\",\n        \"category\": \"string\",\n        \"articleSentence\": \"string\"\n      }\n    ],\n    \"surgingTopics\": [\n      \"string\",\n      \"string\"\n    ],\n    \"tags\": [\n      \"string\",\n      \"string\"\n    ],\n    \"topContacts\": [\n      {\n        \"id\": \"string\",\n        \"name\": \"string\",\n        \"avatarUrl\": \"https://vuEQviJMgsSApwUxwmmcbMsdpPsJC.yxzlx\",\n        \"fullName\": \"string\",\n        \"location\": {\n          \"city\": \"string\",\n          \"region\": \"string\",\n          \"country\": \"string\"\n        },\n        \"primaryEmail\": \"string\",\n        \"phoneNumbers\": [\n          {\n            \"type\": \"string\",\n            \"value\": \"string\"\n          },\n          {\n            \"type\": \"string\",\n            \"value\": \"string\"\n          }\n        ],\n        \"title\": \"string\",\n        \"companyName\": \"string\",\n        \"companyWebsite\": \"string\",\n        \"connectedCustomObjects\": [\n          {\n            \"id\": \"string\",\n            \"name\": \"string\",\n            \"objectType\": \"string\"\n          },\n          {\n            \"id\": \"string\",\n            \"name\": \"string\",\n            \"objectType\": \"string\"\n          }\n        ],\n        \"customFields\": {\n          \"key_0\": {\n            \"type\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"value\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        },\n        \"profiles\": [\n          {\n            \"type\": \"string\",\n            \"value\": \"string\"\n          },\n          {\n            \"type\": \"string\",\n            \"value\": \"string\"\n          }\n        ],\n        \"jobHistory\": [\n          {\n            \"company\": \"string\",\n            \"title\": \"string\",\n            \"startDate\": \"string\",\n            \"endDate\": \"string\"\n          },\n          {\n            \"company\": \"string\",\n            \"title\": \"string\",\n            \"startDate\": \"string\",\n            \"endDate\": \"string\"\n          }\n        ],\n        \"leadScores\": [\n          {\n            \"scoreId\": 9839,\n            \"score\": 6163.543843286119,\n            \"percentile\": 64.17915489225878\n          },\n          {\n            \"scoreId\": 4251,\n            \"score\": 8558.144898071268,\n            \"percentile\": 2415.862932432217\n          }\n        ],\n        \"segments\": [\n          {\n            \"id\": \"string\",\n            \"name\": \"string\"\n          },\n          {\n            \"id\": \"string\",\n            \"name\": \"string\"\n          }\n        ],\n        \"recentWebPages\": [\n          {\n            \"url\": \"string\",\n            \"numVisits\": 9805\n          },\n          {\n            \"url\": \"string\",\n            \"numVisits\": 4388\n          }\n        ],\n        \"recentWebVisitsNumber\": 3688,\n        \"recentActivities\": [\n          {\n            \"id\": \"string\",\n            \"type\": \"string\",\n            \"activityTime\": \"2024-05-31T06:35:46.623Z\",\n            \"contactId\": \"string\",\n            \"content\": \"string\",\n            \"isUserInitiated\": false,\n            \"participantCount\": 2774,\n            \"providerId\": \"string\",\n            \"providerName\": \"string\",\n            \"replyCount\": 5349,\n            \"sentiment\": \"string\",\n            \"subSourceNames\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ],\n            \"url\": \"http://jqhOgVezKisXUOIP.xmosultfSHDw-5LDWpM2GAg\"\n          },\n          {\n            \"id\": \"string\",\n            \"type\": \"string\",\n            \"activityTime\": \"1994-11-16T02:50:44.938Z\",\n            \"contactId\": \"string\",\n            \"content\": \"string\",\n            \"isUserInitiated\": true,\n            \"participantCount\": 537,\n            \"providerId\": \"string\",\n            \"providerName\": \"string\",\n            \"replyCount\": 4666,\n            \"sentiment\": \"string\",\n            \"subSourceNames\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ],\n            \"url\": \"http://FCdRDADSf.kwKINrCHmHc8qqBB+5ns.NEyJ,KsSIvF7\"\n          }\n        ],\n        \"activateMessage\": {\n          \"title\": \"string\",\n          \"message\": \"string\"\n        },\n        \"sparkSummary\": \"string\",\n        \"recentSparkSummaries\": [\n          \"string\",\n          \"string\"\n        ],\n        \"tags\": [\n          \"string\",\n          \"string\"\n        ],\n        \"url\": \"https://JkDBNSCIjwhdJtyFMAXJxfsZtwFS.jyynQXUg0K4hD.s8fMlRJGyQdRNHxTt1aGy5w9Pw2cjNpDoerNKp\"\n      },\n      {\n        \"id\": \"string\",\n        \"name\": \"string\",\n        \"avatarUrl\": \"http://XjJgXfUMSqZ.vryvmRuH2DqvJcLj3Cr2hHnJWvHYNlCUx8xztf0IKv6gznM2ZcdK2dyzanOGMaZo4\",\n        \"fullName\": \"string\",\n        \"location\": {\n          \"city\": \"string\",\n          \"region\": \"string\",\n          \"country\": \"string\"\n        },\n        \"primaryEmail\": \"string\",\n        \"phoneNumbers\": [\n          {\n            \"type\": \"string\",\n            \"value\": \"string\"\n          },\n          {\n            \"type\": \"string\",\n            \"value\": \"string\"\n          }\n        ],\n        \"title\": \"string\",\n        \"companyName\": \"string\",\n        \"companyWebsite\": \"string\",\n        \"connectedCustomObjects\": [\n          {\n            \"id\": \"string\",\n            \"name\": \"string\",\n            \"objectType\": \"string\"\n          },\n          {\n            \"id\": \"string\",\n            \"name\": \"string\",\n            \"objectType\": \"string\"\n          }\n        ],\n        \"customFields\": {\n          \"key_0\": {\n            \"type\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"value\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        },\n        \"profiles\": [\n          {\n            \"type\": \"string\",\n            \"value\": \"string\"\n          },\n          {\n            \"type\": \"string\",\n            \"value\": \"string\"\n          }\n        ],\n        \"jobHistory\": [\n          {\n            \"company\": \"string\",\n            \"title\": \"string\",\n            \"startDate\": \"string\",\n            \"endDate\": \"string\"\n          },\n          {\n            \"company\": \"string\",\n            \"title\": \"string\",\n            \"startDate\": \"string\",\n            \"endDate\": \"string\"\n          }\n        ],\n        \"leadScores\": [\n          {\n            \"scoreId\": 8528,\n            \"score\": 3311.749933489824,\n            \"percentile\": 3797.4210143890573\n          },\n          {\n            \"scoreId\": 4692,\n            \"score\": 6787.690389277727,\n            \"percentile\": 5832.424109243149\n          }\n        ],\n        \"segments\": [\n          {\n            \"id\": \"string\",\n            \"name\": \"string\"\n          },\n          {\n            \"id\": \"string\",\n            \"name\": \"string\"\n          }\n        ],\n        \"recentWebPages\": [\n          {\n            \"url\": \"string\",\n            \"numVisits\": 5549\n          },\n          {\n            \"url\": \"string\",\n            \"numVisits\": 4426\n          }\n        ],\n        \"recentWebVisitsNumber\": 6187,\n        \"recentActivities\": [\n          {\n            \"id\": \"string\",\n            \"type\": \"string\",\n            \"activityTime\": \"2002-11-03T23:13:49.706Z\",\n            \"contactId\": \"string\",\n            \"content\": \"string\",\n            \"isUserInitiated\": false,\n            \"participantCount\": 717,\n            \"providerId\": \"string\",\n            \"providerName\": \"string\",\n            \"replyCount\": 677,\n            \"sentiment\": \"string\",\n            \"subSourceNames\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ],\n            \"url\": \"http://IEluNbQumCEqvhxhmVyJ.olsM9X0dlLXDgLDQ9pmIBWTyCNL3e9KXBqyJ7GtOiZFhtoJl9AJsDgk2+GpaY1beaWSZDBVq-c\"\n          },\n          {\n            \"id\": \"string\",\n            \"type\": \"string\",\n            \"activityTime\": \"1996-01-13T10:59:32.985Z\",\n            \"contactId\": \"string\",\n            \"content\": \"string\",\n            \"isUserInitiated\": true,\n            \"participantCount\": 4451,\n            \"providerId\": \"string\",\n            \"providerName\": \"string\",\n            \"replyCount\": 4659,\n            \"sentiment\": \"string\",\n            \"subSourceNames\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ],\n            \"url\": \"https://SvadxIrgsfldUFefoAePc.txjMvavcc\"\n          }\n        ],\n        \"activateMessage\": {\n          \"title\": \"string\",\n          \"message\": \"string\"\n        },\n        \"sparkSummary\": \"string\",\n        \"recentSparkSummaries\": [\n          \"string\",\n          \"string\"\n        ],\n        \"tags\": [\n          \"string\",\n          \"string\"\n        ],\n        \"url\": \"https://sCvgRmIlmFQQDJHiuQyuksUlLDb.ytvB8Rm8qWwmd.OvIaBmC\"\n      }\n    ],\n    \"url\": \"https://xMvbXhPUxJFZHDWbjoDbrDCvVRMzsfnUQ.tiggaxAXEqJ3gZxA2rA7NIr7eFXh6GOPvJItnvLFRNeHhnoi\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a7ab57ec-f775-4d30-8352-9d5c43edc569",
+              "name": "Bad Request (e.g. invalid organization ID or invalid parameters)",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "organizations",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "cols",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The prefixed organization ID (format `o_<number>`)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"error\": {\n    \"code\": \"invalid_activity_id\",\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "bcf07c2b-2454-451d-9022-8b8225b480a4",
+              "name": "Forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "organizations",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "cols",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The prefixed organization ID (format `o_<number>`)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"failure\",\n  \"reason\": \"string\",\n  \"errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a152db10-b519-489f-9dca-f80dadbbcb02",
+              "name": "Organization not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "organizations",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "cols",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The prefixed organization ID (format `o_<number>`)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"error\": {\n    \"code\": \"invalid_activity_id\",\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ad0d70f1-37b7-4848-9f92-43957de53cf0",
+              "name": "Rate Limited",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "organizations",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "cols",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The prefixed organization ID (format `o_<number>`)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "The total amount of requests permitted within the interval",
+                  "key": "X-RateLimit-Limit",
+                  "value": "9999"
+                },
+                {
+                  "disabled": false,
+                  "description": "The total amount of requests remaining within the interval",
+                  "key": "X-RateLimit-Remaining",
+                  "value": "9999"
+                },
+                {
+                  "disabled": false,
+                  "description": "The datetime in epoch seconds when the interval resets",
+                  "key": "X-RateLimit-Reset",
+                  "value": "9999"
+                },
+                {
+                  "disabled": false,
+                  "description": "The UTC datetime when the interval resets",
+                  "key": "Retry-After",
+                  "value": "2009-12-17T07:14:35.783Z"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"reason\": \"string\",\n  \"rateLimit\": {\n    \"intervalLimit\": 4216.69954244377,\n    \"intervalRemaining\": 7716.729839225466,\n    \"intervalResetSeconds\": 8254.966778134038,\n    \"waitMs\": 4967.116654094562\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "d7a8e801-fa9a-4b73-aac3-9cd851642836",
+          "name": "List organizations",
+          "request": {
+            "name": "List organizations",
+            "description": {
+              "content": "Retrieve a list of organizations with pagination support.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "organizations"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "50",
+                  "description": "The maximum number of organizations to return per page"
+                },
+                {
+                  "disabled": false,
+                  "key": "cursor",
+                  "value": "<string>",
+                  "description": "Pagination cursor from a previous response"
+                },
+                {
+                  "disabled": false,
+                  "key": "sort",
+                  "value": "id",
+                  "description": "Field to sort results by. One of: `id`, `member_count`,\na lead-score ID (format `ls_<number>`), or a custom-field ID (format `cf_<number>`).\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "direction",
+                  "value": "asc",
+                  "description": "Sort direction"
+                },
+                {
+                  "disabled": false,
+                  "key": "cols",
+                  "value": "<string>",
+                  "description": "Comma-separated list of additional columns to include in the response.\nValid column values: `about`, `contactsCount`, `employees`, `linkedInUrl`, `profiles`,\n`revenueRangeMax`, `revenueRangeMin`, `subIndustry`, `location`, `leadScores`,\n`recentJobOpenings`, `recentNews`, `researchResults`, `surgingTopics`, `tags`, `topContacts`, `url`.\nUse `cf_*` to include all custom fields, or `cf_<id>` for a specific one. The meta\ncolumn `recordCount` can be requested to return the total number of matching\norganizations in `meta.recordCount`.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "name",
+                  "value": "<string>",
+                  "description": "Filter organizations by exact name match"
+                },
+                {
+                  "disabled": false,
+                  "key": "primaryDomain",
+                  "value": "<string>",
+                  "description": "Filter organizations by primary domain (exact match)"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "9399f935-ec47-49d4-85a1-193e61979936",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "organizations"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "limit",
+                      "value": "50"
+                    },
+                    {
+                      "key": "cursor",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "id"
+                    },
+                    {
+                      "key": "direction",
+                      "value": "asc"
+                    },
+                    {
+                      "key": "cols",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "name",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "primaryDomain",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "The total amount of requests permitted within the interval",
+                  "key": "X-RateLimit-Limit",
+                  "value": "9999"
+                },
+                {
+                  "disabled": false,
+                  "description": "The total amount of requests remaining within the interval",
+                  "key": "X-RateLimit-Remaining",
+                  "value": "9999"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": true,\n  \"data\": [\n    {\n      \"id\": \"string\",\n      \"name\": \"string\",\n      \"primaryDomain\": \"string\",\n      \"about\": \"string\",\n      \"contactsCount\": 4504,\n      \"employees\": 6689,\n      \"linkedInUrl\": \"string\",\n      \"profiles\": [\n        {\n          \"name\": \"string\",\n          \"type\": \"string\",\n          \"url\": \"http://CZsfDHyDimglRHQbCtgJTuWJ.lulbGqXHK2SWtzexA62Q5fmx4gHhOgSR.gidzIoi6J76pPGZKF+pArXMYYgUa3O4Z8\"\n        },\n        {\n          \"name\": \"string\",\n          \"type\": \"string\",\n          \"url\": \"http://fwJsToFXBGyYPFlX.jufmOZvFxU.A7zbjoUjFSpabdY0HY3poBXuM2eNMJf2giR+zGo\"\n        }\n      ],\n      \"revenueRangeMax\": 122,\n      \"revenueRangeMin\": 3437,\n      \"subIndustry\": \"string\",\n      \"location\": {\n        \"city\": \"string\",\n        \"region\": \"string\",\n        \"country\": \"string\"\n      },\n      \"customFields\": {\n        \"key_0\": {\n          \"type\": \"string\",\n          \"value\": \"string\"\n        }\n      },\n      \"leadScores\": [\n        {\n          \"scoreId\": 2574,\n          \"score\": 5501.9480229758765,\n          \"percentile\": 9792.211674154698\n        },\n        {\n          \"scoreId\": 6560,\n          \"score\": 2078.589000212966,\n          \"percentile\": 6353.671285473483\n        }\n      ],\n      \"researchResults\": [\n        {\n          \"promptId\": \"string\",\n          \"answer\": \"string\",\n          \"isPrimaryPrompt\": false\n        },\n        {\n          \"promptId\": \"string\",\n          \"answer\": \"string\",\n          \"isPrimaryPrompt\": false\n        }\n      ],\n      \"recentJobOpenings\": [\n        {\n          \"jobTitle\": \"string\",\n          \"url\": \"https://AKGUPlX.ihntehlHtI\",\n          \"firstSeenAt\": \"string\",\n          \"isClosed\": true,\n          \"location\": \"string\",\n          \"jobDescription\": \"string\"\n        },\n        {\n          \"jobTitle\": \"string\",\n          \"url\": \"http://adZtMADmfNK.npxjhoY,FvX\",\n          \"firstSeenAt\": \"string\",\n          \"isClosed\": true,\n          \"location\": \"string\",\n          \"jobDescription\": \"string\"\n        }\n      ],\n      \"recentNews\": [\n        {\n          \"title\": \"string\",\n          \"url\": \"http://rVxKnlLl.yaY1HT20m7bSZyktbsxnAGP8kmtzjWMRQbjPfn6DQuG3ijRukaNrNBq9wv5a6x\",\n          \"publishedAt\": \"string\",\n          \"category\": \"string\",\n          \"articleSentence\": \"string\"\n        },\n        {\n          \"title\": \"string\",\n          \"url\": \"http://KRKcJgRkGVTzisgnAIgNBrWGNftIkoei.wymDz+2.ydZR+Kuwp\",\n          \"publishedAt\": \"string\",\n          \"category\": \"string\",\n          \"articleSentence\": \"string\"\n        }\n      ],\n      \"surgingTopics\": [\n        \"string\",\n        \"string\"\n      ],\n      \"tags\": [\n        \"string\",\n        \"string\"\n      ],\n      \"topContacts\": [\n        {\n          \"id\": \"string\",\n          \"name\": \"string\",\n          \"avatarUrl\": \"https://xixwNkkBxdyvaGCawhuNhxAsiGTMGYS.anF+F42R\",\n          \"fullName\": \"string\",\n          \"location\": {\n            \"city\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"region\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"country\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"primaryEmail\": \"string\",\n          \"phoneNumbers\": [\n            {\n              \"type\": \"string\",\n              \"value\": \"string\"\n            },\n            {\n              \"type\": \"string\",\n              \"value\": \"string\"\n            }\n          ],\n          \"title\": \"string\",\n          \"companyName\": \"string\",\n          \"companyWebsite\": \"string\",\n          \"connectedCustomObjects\": [\n            {\n              \"id\": \"string\",\n              \"name\": \"string\",\n              \"objectType\": \"string\"\n            },\n            {\n              \"id\": \"string\",\n              \"name\": \"string\",\n              \"objectType\": \"string\"\n            }\n          ],\n          \"customFields\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_1\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"profiles\": [\n            {\n              \"type\": \"string\",\n              \"value\": \"string\"\n            },\n            {\n              \"type\": \"string\",\n              \"value\": \"string\"\n            }\n          ],\n          \"jobHistory\": [\n            {\n              \"company\": \"string\",\n              \"title\": \"string\",\n              \"startDate\": \"string\",\n              \"endDate\": \"string\"\n            },\n            {\n              \"company\": \"string\",\n              \"title\": \"string\",\n              \"startDate\": \"string\",\n              \"endDate\": \"string\"\n            }\n          ],\n          \"leadScores\": [\n            {\n              \"scoreId\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"score\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"percentile\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"scoreId\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"score\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"percentile\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ],\n          \"segments\": [\n            {\n              \"id\": \"string\",\n              \"name\": \"string\"\n            },\n            {\n              \"id\": \"string\",\n              \"name\": \"string\"\n            }\n          ],\n          \"recentWebPages\": [\n            {\n              \"url\": \"string\",\n              \"numVisits\": 7397\n            },\n            {\n              \"url\": \"string\",\n              \"numVisits\": 9131\n            }\n          ],\n          \"recentWebVisitsNumber\": 209,\n          \"recentActivities\": [\n            {\n              \"id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"type\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"activityTime\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"contactId\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"content\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"isUserInitiated\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"participantCount\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"providerId\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"providerName\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"replyCount\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"sentiment\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"subSourceNames\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"url\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"type\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"activityTime\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"contactId\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"content\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"isUserInitiated\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"participantCount\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"providerId\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"providerName\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"replyCount\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"sentiment\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"subSourceNames\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"url\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ],\n          \"activateMessage\": {\n            \"title\": \"string\",\n            \"message\": \"string\"\n          },\n          \"sparkSummary\": \"string\",\n          \"recentSparkSummaries\": [\n            \"string\",\n            \"string\"\n          ],\n          \"tags\": [\n            \"string\",\n            \"string\"\n          ],\n          \"url\": \"https://pWFLWwRxLKJiNHoV.cokbLPwV73h1zE-MiVNyXjO3K0rsQZqiiSSkaKv-LL1J-\"\n        },\n        {\n          \"id\": \"string\",\n          \"name\": \"string\",\n          \"avatarUrl\": \"http://XMLpUso.yzRubIG6cibiKRoSs1WEulsBz0sNP4JRlCBc\",\n          \"fullName\": \"string\",\n          \"location\": {\n            \"city\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"region\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"country\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"primaryEmail\": \"string\",\n          \"phoneNumbers\": [\n            {\n              \"type\": \"string\",\n              \"value\": \"string\"\n            },\n            {\n              \"type\": \"string\",\n              \"value\": \"string\"\n            }\n          ],\n          \"title\": \"string\",\n          \"companyName\": \"string\",\n          \"companyWebsite\": \"string\",\n          \"connectedCustomObjects\": [\n            {\n              \"id\": \"string\",\n              \"name\": \"string\",\n              \"objectType\": \"string\"\n            },\n            {\n              \"id\": \"string\",\n              \"name\": \"string\",\n              \"objectType\": \"string\"\n            }\n          ],\n          \"customFields\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"profiles\": [\n            {\n              \"type\": \"string\",\n              \"value\": \"string\"\n            },\n            {\n              \"type\": \"string\",\n              \"value\": \"string\"\n            }\n          ],\n          \"jobHistory\": [\n            {\n              \"company\": \"string\",\n              \"title\": \"string\",\n              \"startDate\": \"string\",\n              \"endDate\": \"string\"\n            },\n            {\n              \"company\": \"string\",\n              \"title\": \"string\",\n              \"startDate\": \"string\",\n              \"endDate\": \"string\"\n            }\n          ],\n          \"leadScores\": [\n            {\n              \"scoreId\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"score\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"percentile\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"scoreId\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"score\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"percentile\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ],\n          \"segments\": [\n            {\n              \"id\": \"string\",\n              \"name\": \"string\"\n            },\n            {\n              \"id\": \"string\",\n              \"name\": \"string\"\n            }\n          ],\n          \"recentWebPages\": [\n            {\n              \"url\": \"string\",\n              \"numVisits\": 1470\n            },\n            {\n              \"url\": \"string\",\n              \"numVisits\": 8735\n            }\n          ],\n          \"recentWebVisitsNumber\": 92,\n          \"recentActivities\": [\n            {\n              \"id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"type\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"activityTime\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"contactId\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"content\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"isUserInitiated\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"participantCount\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"providerId\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"providerName\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"replyCount\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"sentiment\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"subSourceNames\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"url\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"type\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"activityTime\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"contactId\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"content\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"isUserInitiated\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"participantCount\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"providerId\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"providerName\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"replyCount\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"sentiment\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"subSourceNames\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"url\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ],\n          \"activateMessage\": {\n            \"title\": \"string\",\n            \"message\": \"string\"\n          },\n          \"sparkSummary\": \"string\",\n          \"recentSparkSummaries\": [\n            \"string\",\n            \"string\"\n          ],\n          \"tags\": [\n            \"string\",\n            \"string\"\n          ],\n          \"url\": \"http://SXwYm.xgSIXGAqlyp54Oyq6iIOZGm94m\"\n        }\n      ],\n      \"url\": \"http://lnbVSHZuzZsGvRBdxkO.keoiVYvwdCVamNC0pMM4N.L9hCtBgb0b5P7DN,qGMe+nUC7TGvO0WMUDnDKjxw4ztYioqbEvIPCgdYn\"\n    },\n    {\n      \"id\": \"string\",\n      \"name\": \"string\",\n      \"primaryDomain\": \"string\",\n      \"about\": \"string\",\n      \"contactsCount\": 5592,\n      \"employees\": 7888,\n      \"linkedInUrl\": \"string\",\n      \"profiles\": [\n        {\n          \"name\": \"string\",\n          \"type\": \"string\",\n          \"url\": \"http://ZsHdDoHrnyOjwgzoJKFmK.moYE2WAHROKnyGTxovinqYnYVC0zc8yLCBN4,iC7tARa4OFXZ,DFfgokB6VAjWtnAy9U\"\n        },\n        {\n          \"name\": \"string\",\n          \"type\": \"string\",\n          \"url\": \"http://HKFoTtHDpVUhbQDzV.wvqvgAjVAY5AKMGS.Cb\"\n        }\n      ],\n      \"revenueRangeMax\": 881,\n      \"revenueRangeMin\": 9347,\n      \"subIndustry\": \"string\",\n      \"location\": {\n        \"city\": \"string\",\n        \"region\": \"string\",\n        \"country\": \"string\"\n      },\n      \"customFields\": {\n        \"key_0\": {\n          \"type\": \"string\",\n          \"value\": \"string\"\n        }\n      },\n      \"leadScores\": [\n        {\n          \"scoreId\": 5580,\n          \"score\": 3701.758034917837,\n          \"percentile\": 8844.159203088826\n        },\n        {\n          \"scoreId\": 99,\n          \"score\": 1423.796332406333,\n          \"percentile\": 9207.68231874508\n        }\n      ],\n      \"researchResults\": [\n        {\n          \"promptId\": \"string\",\n          \"answer\": \"string\",\n          \"isPrimaryPrompt\": false\n        },\n        {\n          \"promptId\": \"string\",\n          \"answer\": \"string\",\n          \"isPrimaryPrompt\": true\n        }\n      ],\n      \"recentJobOpenings\": [\n        {\n          \"jobTitle\": \"string\",\n          \"url\": \"http://qFNj.hdodYa.rX2X9d88ZFY8jqm,DPKNFIsql0OALpjyydorgHaQpKlngazUNBYJKQ\",\n          \"firstSeenAt\": \"string\",\n          \"isClosed\": false,\n          \"location\": \"string\",\n          \"jobDescription\": \"string\"\n        },\n        {\n          \"jobTitle\": \"string\",\n          \"url\": \"https://paQfR.yrnew8RlB7wp,oCbBzgKtJzjvyfMDPGLcMBQ,jZRH,+Jg6xiiWeKEd\",\n          \"firstSeenAt\": \"string\",\n          \"isClosed\": false,\n          \"location\": \"string\",\n          \"jobDescription\": \"string\"\n        }\n      ],\n      \"recentNews\": [\n        {\n          \"title\": \"string\",\n          \"url\": \"http://KxSNkXfKZTAMAUvLZwzxBqQQXjyRnUg.nzhObPEy\",\n          \"publishedAt\": \"string\",\n          \"category\": \"string\",\n          \"articleSentence\": \"string\"\n        },\n        {\n          \"title\": \"string\",\n          \"url\": \"http://z.yarZZ9ldF7tBxRYZ8id8qVHBDJePqydy5ov2Gj6PDU\",\n          \"publishedAt\": \"string\",\n          \"category\": \"string\",\n          \"articleSentence\": \"string\"\n        }\n      ],\n      \"surgingTopics\": [\n        \"string\",\n        \"string\"\n      ],\n      \"tags\": [\n        \"string\",\n        \"string\"\n      ],\n      \"topContacts\": [\n        {\n          \"id\": \"string\",\n          \"name\": \"string\",\n          \"avatarUrl\": \"http://lVXYvHGBaZ.micjibgCk2\",\n          \"fullName\": \"string\",\n          \"location\": {\n            \"city\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"region\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"country\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"primaryEmail\": \"string\",\n          \"phoneNumbers\": [\n            {\n              \"type\": \"string\",\n              \"value\": \"string\"\n            },\n            {\n              \"type\": \"string\",\n              \"value\": \"string\"\n            }\n          ],\n          \"title\": \"string\",\n          \"companyName\": \"string\",\n          \"companyWebsite\": \"string\",\n          \"connectedCustomObjects\": [\n            {\n              \"id\": \"string\",\n              \"name\": \"string\",\n              \"objectType\": \"string\"\n            },\n            {\n              \"id\": \"string\",\n              \"name\": \"string\",\n              \"objectType\": \"string\"\n            }\n          ],\n          \"customFields\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"profiles\": [\n            {\n              \"type\": \"string\",\n              \"value\": \"string\"\n            },\n            {\n              \"type\": \"string\",\n              \"value\": \"string\"\n            }\n          ],\n          \"jobHistory\": [\n            {\n              \"company\": \"string\",\n              \"title\": \"string\",\n              \"startDate\": \"string\",\n              \"endDate\": \"string\"\n            },\n            {\n              \"company\": \"string\",\n              \"title\": \"string\",\n              \"startDate\": \"string\",\n              \"endDate\": \"string\"\n            }\n          ],\n          \"leadScores\": [\n            {\n              \"scoreId\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"score\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"percentile\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"scoreId\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"score\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"percentile\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ],\n          \"segments\": [\n            {\n              \"id\": \"string\",\n              \"name\": \"string\"\n            },\n            {\n              \"id\": \"string\",\n              \"name\": \"string\"\n            }\n          ],\n          \"recentWebPages\": [\n            {\n              \"url\": \"string\",\n              \"numVisits\": 7568\n            },\n            {\n              \"url\": \"string\",\n              \"numVisits\": 3495\n            }\n          ],\n          \"recentWebVisitsNumber\": 694,\n          \"recentActivities\": [\n            {\n              \"id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"type\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"activityTime\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"contactId\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"content\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"isUserInitiated\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"participantCount\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"providerId\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"providerName\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"replyCount\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"sentiment\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"subSourceNames\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"url\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"type\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"activityTime\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"contactId\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"content\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"isUserInitiated\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"participantCount\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"providerId\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"providerName\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"replyCount\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"sentiment\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"subSourceNames\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"url\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ],\n          \"activateMessage\": {\n            \"title\": \"string\",\n            \"message\": \"string\"\n          },\n          \"sparkSummary\": \"string\",\n          \"recentSparkSummaries\": [\n            \"string\",\n            \"string\"\n          ],\n          \"tags\": [\n            \"string\",\n            \"string\"\n          ],\n          \"url\": \"https://ACjDglDnPTfIGaIJKsaO.bbnmC5XMl2Ni4RSk9irLyI3WCliJs3RriFzaVTQP9VA8XSx,y\"\n        },\n        {\n          \"id\": \"string\",\n          \"name\": \"string\",\n          \"avatarUrl\": \"https://BnLikaksBSsmnCVvLvPMZsChJJi.pkTmxFCyNDp,pbVQBF+k7VLy+.bJTz\",\n          \"fullName\": \"string\",\n          \"location\": {\n            \"city\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"region\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"country\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"primaryEmail\": \"string\",\n          \"phoneNumbers\": [\n            {\n              \"type\": \"string\",\n              \"value\": \"string\"\n            },\n            {\n              \"type\": \"string\",\n              \"value\": \"string\"\n            }\n          ],\n          \"title\": \"string\",\n          \"companyName\": \"string\",\n          \"companyWebsite\": \"string\",\n          \"connectedCustomObjects\": [\n            {\n              \"id\": \"string\",\n              \"name\": \"string\",\n              \"objectType\": \"string\"\n            },\n            {\n              \"id\": \"string\",\n              \"name\": \"string\",\n              \"objectType\": \"string\"\n            }\n          ],\n          \"customFields\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_1\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_2\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"profiles\": [\n            {\n              \"type\": \"string\",\n              \"value\": \"string\"\n            },\n            {\n              \"type\": \"string\",\n              \"value\": \"string\"\n            }\n          ],\n          \"jobHistory\": [\n            {\n              \"company\": \"string\",\n              \"title\": \"string\",\n              \"startDate\": \"string\",\n              \"endDate\": \"string\"\n            },\n            {\n              \"company\": \"string\",\n              \"title\": \"string\",\n              \"startDate\": \"string\",\n              \"endDate\": \"string\"\n            }\n          ],\n          \"leadScores\": [\n            {\n              \"scoreId\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"score\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"percentile\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"scoreId\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"score\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"percentile\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ],\n          \"segments\": [\n            {\n              \"id\": \"string\",\n              \"name\": \"string\"\n            },\n            {\n              \"id\": \"string\",\n              \"name\": \"string\"\n            }\n          ],\n          \"recentWebPages\": [\n            {\n              \"url\": \"string\",\n              \"numVisits\": 4521\n            },\n            {\n              \"url\": \"string\",\n              \"numVisits\": 9927\n            }\n          ],\n          \"recentWebVisitsNumber\": 8907,\n          \"recentActivities\": [\n            {\n              \"id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"type\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"activityTime\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"contactId\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"content\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"isUserInitiated\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"participantCount\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"providerId\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"providerName\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"replyCount\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"sentiment\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"subSourceNames\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"url\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"type\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"activityTime\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"contactId\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"content\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"isUserInitiated\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"participantCount\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"providerId\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"providerName\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"replyCount\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"sentiment\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"subSourceNames\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"url\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ],\n          \"activateMessage\": {\n            \"title\": \"string\",\n            \"message\": \"string\"\n          },\n          \"sparkSummary\": \"string\",\n          \"recentSparkSummaries\": [\n            \"string\",\n            \"string\"\n          ],\n          \"tags\": [\n            \"string\",\n            \"string\"\n          ],\n          \"url\": \"http://OcXeKgXR.wuaxyJEQW,aM.yJ,\"\n        }\n      ],\n      \"url\": \"http://BtXaDvjJpY.aeiwp8pDhKNTTGN-Gkp4UBA.YiXaAK4dwDj4Yr7+XjL3AFxEHg-y8FYVPSa,f4Zc\"\n    }\n  ],\n  \"meta\": {\n    \"nextCursor\": \"string\",\n    \"recordCount\": 9241\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "cda5cb55-e5a3-487f-a43f-a37a58401ff8",
+              "name": "Bad Request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "organizations"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "limit",
+                      "value": "50"
+                    },
+                    {
+                      "key": "cursor",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "id"
+                    },
+                    {
+                      "key": "direction",
+                      "value": "asc"
+                    },
+                    {
+                      "key": "cols",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "name",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "primaryDomain",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"error\": {\n    \"code\": \"invalid_activity_id\",\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "63c86bbb-f55f-453f-9bff-0d298a8876a8",
+              "name": "Forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "organizations"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "limit",
+                      "value": "50"
+                    },
+                    {
+                      "key": "cursor",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "id"
+                    },
+                    {
+                      "key": "direction",
+                      "value": "asc"
+                    },
+                    {
+                      "key": "cols",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "name",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "primaryDomain",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"ok\",\n  \"reason\": \"string\",\n  \"errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2609b1bc-1fb5-489e-b4c7-75e214374e9f",
+              "name": "Rate Limited",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "organizations"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "limit",
+                      "value": "50"
+                    },
+                    {
+                      "key": "cursor",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "id"
+                    },
+                    {
+                      "key": "direction",
+                      "value": "asc"
+                    },
+                    {
+                      "key": "cols",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "name",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "primaryDomain",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "The total amount of requests permitted within the interval",
+                  "key": "X-RateLimit-Limit",
+                  "value": "9999"
+                },
+                {
+                  "disabled": false,
+                  "description": "The total amount of requests remaining within the interval",
+                  "key": "X-RateLimit-Remaining",
+                  "value": "9999"
+                },
+                {
+                  "disabled": false,
+                  "description": "The datetime in epoch seconds when the interval resets",
+                  "key": "X-RateLimit-Reset",
+                  "value": "9999"
+                },
+                {
+                  "disabled": false,
+                  "description": "The UTC datetime when the interval resets",
+                  "key": "Retry-After",
+                  "value": "2009-12-17T07:14:35.783Z"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"reason\": \"string\",\n  \"rateLimit\": {\n    \"intervalLimit\": 4216.69954244377,\n    \"intervalRemaining\": 7716.729839225466,\n    \"intervalResetSeconds\": 8254.966778134038,\n    \"waitMs\": 4967.116654094562\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.commonroom.io/community/v1",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "8eb2ee7a-1433-484f-b1c4-6c67b241f3f9",
+    "name": "Common Room Core Activities Organizations API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Common Room Core REST APIs for getting data in to Common Room.\n<br/><br/>\nFor SCIM APIs <a href=\"./scim.html\">see the SCIM documentation</a>.\n<br/><br/>\nFor New, V2 APIs <a href=\"./api-v2.html\">see the V2 API documentation</a>.\n<br/><br/>\nTo use the Common Room API, or get started with the Common Room Zapier integration, you will need to create an API token.\nTo create an API token:\n<ol>\n  <li>Navigate to Setting | API tokens\n  <li>Create a “New Token\"\n</ol>\n\n# Authentication\n\n<!-- ReDoc-Inject: <security-definitions> -->",
+      "type": "text/plain"
+    }
+  }
+}

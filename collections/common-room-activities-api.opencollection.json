@@ -1,0 +1,177 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Common Room Core Activities API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Activities",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Add or Edit Activity",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.commonroom.io/community/v1/source/:destinationSourceId/activity",
+            "params": [
+              {
+                "name": "destinationSourceId",
+                "value": "",
+                "type": "path",
+                "description": "The Destination Source ID of the created API signal. See https://www.commonroom.io/docs/signals/custom-integrations/zapier-api/#create-an-api-signal for details."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Adds new activity into the destination source, or updates existing activity previously added via API with the same activity ID and activity type\n"
+        },
+        {
+          "info": {
+            "name": "Get Activity Types",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.commonroom.io/community/v1/activityTypes"
+          },
+          "docs": "Gets all activity types\n"
+        },
+        {
+          "info": {
+            "name": "Get an activity by ID",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.commonroom.io/community/v1/activities/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The prefixed activity ID (format `a_<number>`)"
+              },
+              {
+                "name": "cols",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list of additional columns to include in the response.\nValid values: `contactId`, `content`, `isUserInitiated`, `participantCount`,\n`providerId`, `providerName`, `replyCount`, `sentiment`, `subSourceNames`,\n`url`.\n"
+              }
+            ]
+          },
+          "docs": "Retrieve a specific activity by its unique identifier."
+        },
+        {
+          "info": {
+            "name": "List activities",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.commonroom.io/community/v1/activities",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "The maximum number of activities to return per page"
+              },
+              {
+                "name": "cursor",
+                "value": "",
+                "type": "query",
+                "description": "Pagination cursor from a previous response"
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "Field to sort results by."
+              },
+              {
+                "name": "direction",
+                "value": "",
+                "type": "query",
+                "description": "Sort direction"
+              },
+              {
+                "name": "cols",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list of additional columns to include in the response.\nValid column values: `contactId`, `content`, `isUserInitiated`,\n`participantCount`, `providerId`, `providerName`, `replyCount`, `sentiment`,\n`subSourceNames`, `url`. The meta column `recordCount` can be\nrequested to return the total number of matching activities in\n`meta.recordCount`.\n"
+              },
+              {
+                "name": "contactId",
+                "value": "",
+                "type": "query",
+                "description": "Filter activities by prefixed contact ID (format `c_<number>`)"
+              },
+              {
+                "name": "organizationId",
+                "value": "",
+                "type": "query",
+                "description": "Filter activities by prefixed organization ID (format `o_<number>`)"
+              },
+              {
+                "name": "startDate",
+                "value": "",
+                "type": "query",
+                "description": "Only return activities occurring at or after this ISO-8601 datetime"
+              },
+              {
+                "name": "endDate",
+                "value": "",
+                "type": "query",
+                "description": "Only return activities occurring at or before this ISO-8601 datetime"
+              }
+            ]
+          },
+          "docs": "Retrieve a list of activities with pagination support."
+        },
+        {
+          "info": {
+            "name": "List activity types",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.commonroom.io/community/v1/activity-types"
+          },
+          "docs": "List all activity type identifiers supported by Common Room, along with\ntheir human-readable display names. Use the `id` as the `type` value\nreturned by `/activities`.\n"
+        },
+        {
+          "info": {
+            "name": "List activity categories",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.commonroom.io/community/v1/activity-categories"
+          },
+          "docs": "List all activity category labels for the community."
+        },
+        {
+          "info": {
+            "name": "List activity sentiment labels",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.commonroom.io/community/v1/activity-sentiment"
+          },
+          "docs": "List all activity sentiment classifications for the community."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

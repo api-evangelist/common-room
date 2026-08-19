@@ -1,0 +1,95 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Common Room Core Activities Segments API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Segments",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get segments in a room",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.commonroom.io/community/v1/segments"
+          },
+          "docs": "Gets all segments in a room\n"
+        },
+        {
+          "info": {
+            "name": "Create a segment",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.commonroom.io/community/v1/segments",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a new segment in the community."
+        },
+        {
+          "info": {
+            "name": "Gets all status for a segment",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.commonroom.io/community/v1/segments/:id/status"
+          },
+          "docs": "Gets all status for a segment\n"
+        },
+        {
+          "info": {
+            "name": "Get a segment by ID",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.commonroom.io/community/v1/segments/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The prefixed segment ID (format `s_<number>`)"
+              },
+              {
+                "name": "cols",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list of additional columns to include in the response.\nValid values: `entityCount`, `url`.\n"
+              }
+            ]
+          },
+          "docs": "Retrieve a specific segment by its unique identifier."
+        },
+        {
+          "info": {
+            "name": "Add Contact(s) to Segment",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.commonroom.io/community/v1/segments/:id",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Add existing contacts to an existing segment\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

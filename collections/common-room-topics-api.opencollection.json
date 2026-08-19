@@ -1,0 +1,74 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Common Room Core Activities Topics API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Topics",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get a topic by ID",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.commonroom.io/community/v1/topics/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The prefixed topic ID (format `tp_<number>`)"
+              }
+            ]
+          },
+          "docs": "Retrieve a specific topic by its unique identifier."
+        },
+        {
+          "info": {
+            "name": "List topics",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.commonroom.io/community/v1/topics",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "The maximum number of topics to return per page"
+              },
+              {
+                "name": "cursor",
+                "value": "",
+                "type": "query",
+                "description": "Pagination cursor from a previous response"
+              },
+              {
+                "name": "query",
+                "value": "",
+                "type": "query",
+                "description": "Filter topics by display name prefix"
+              },
+              {
+                "name": "cols",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list of meta columns. The meta column `recordCount`\ncan be requested to return the total number of matching topics in\n`meta.recordCount`.\n"
+              }
+            ]
+          },
+          "docs": "Retrieve a paginated list of topics, sorted alphabetically by name."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

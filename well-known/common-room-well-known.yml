@@ -1,0 +1,164 @@
+generated: '2026-08-13'
+method: probed
+source: live GET of /.well-known/* on every Common Room host in apis.yml + OpenAPI servers[]
+note: >-
+  Four hosts probed. www.commonroom.io serves a real RFC 9116 security.txt.
+  mcp.commonroom.io serves real RFC 8414 + RFC 9728 OAuth discovery documents for
+  the hosted MCP server. api.commonroom.io 404s every path. app.commonroom.io and
+  docs.commonroom.io answer HTTP 200 with an HTML single-page-app shell for EVERY
+  /.well-known/* path including paths that cannot exist — those are catch-all
+  false positives, recorded below as misses, not documents.
+hosts:
+- host: https://www.commonroom.io
+  documents:
+  - path: /.well-known/security.txt
+    status: 200
+    content_type: text/plain
+    file: common-room-security.txt
+    document: true
+  - path: /.well-known/openid-configuration
+    status: 404
+    document: false
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+    document: false
+  - path: /.well-known/api-catalog
+    status: 404
+    document: false
+  - path: /.well-known/ai-plugin.json
+    status: 404
+    document: false
+  - path: /.well-known/agent-card.json
+    status: 404
+    document: false
+  - path: /.well-known/agent.json
+    status: 404
+    document: false
+- host: https://mcp.commonroom.io
+  documents:
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+    content_type: application/json
+    file: common-room-oauth-authorization-server.json
+    document: true
+    note: RFC 8414 authorization server metadata; issuer https://login.commonroom.io/
+  - path: /.well-known/oauth-protected-resource
+    status: 200
+    content_type: application/json
+    file: common-room-oauth-protected-resource.json
+    document: true
+    note: >-
+      RFC 9728 protected resource metadata for https://mcp.commonroom.io/. Also
+      advertised in the WWW-Authenticate header of an unauthenticated
+      tools/list call.
+  - path: /.well-known/openid-configuration
+    status: 404
+    document: false
+  - path: /.well-known/security.txt
+    status: 404
+    document: false
+  - path: /.well-known/agent-card.json
+    status: 404
+    document: false
+  - path: /.well-known/agent.json
+    status: 404
+    document: false
+- host: https://api.commonroom.io
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+    document: false
+  - path: /.well-known/openid-configuration
+    status: 404
+    document: false
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+    document: false
+  - path: /.well-known/api-catalog
+    status: 404
+    document: false
+  - path: /.well-known/ai-plugin.json
+    status: 404
+    document: false
+  - path: /.well-known/agent-card.json
+    status: 404
+    document: false
+  - path: /.well-known/agent.json
+    status: 404
+    document: false
+- host: https://app.commonroom.io
+  spa_catch_all: true
+  note: >-
+    Returns HTTP 200 with an HTML application shell for every /.well-known/* path
+    probed, including /.well-known/agent-card.json and /.well-known/ai-plugin.json.
+    No document was served. Every row below is a MISS.
+  documents:
+  - path: /.well-known/security.txt
+    status: 200
+    content_type: text/html
+    document: false
+    note: HTML app shell, not a security.txt
+  - path: /.well-known/openid-configuration
+    status: 200
+    content_type: text/html
+    document: false
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+    content_type: text/html
+    document: false
+  - path: /.well-known/api-catalog
+    status: 200
+    content_type: text/html
+    document: false
+  - path: /.well-known/ai-plugin.json
+    status: 200
+    content_type: text/html
+    document: false
+  - path: /.well-known/agent-card.json
+    status: 200
+    content_type: text/html
+    document: false
+  - path: /.well-known/agent.json
+    status: 200
+    content_type: text/html
+    document: false
+- host: https://docs.commonroom.io
+  spa_catch_all: true
+  note: Same catch-all behaviour as app.commonroom.io. Every row is a MISS.
+  documents:
+  - path: /.well-known/security.txt
+    status: 200
+    content_type: text/html
+    document: false
+  - path: /.well-known/openid-configuration
+    status: 200
+    content_type: text/html
+    document: false
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+    content_type: text/html
+    document: false
+  - path: /.well-known/api-catalog
+    status: 200
+    content_type: text/html
+    document: false
+  - path: /.well-known/ai-plugin.json
+    status: 200
+    content_type: text/html
+    document: false
+  - path: /.well-known/agent-card.json
+    status: 200
+    content_type: text/html
+    document: false
+  - path: /.well-known/agent.json
+    status: 200
+    content_type: text/html
+    document: false
+summary:
+  hosts_probed: 5
+  paths_probed: 33
+  real_documents: 3
+  security_txt: true
+  oauth_metadata: true
+  api_catalog: false
+  agent_card: false

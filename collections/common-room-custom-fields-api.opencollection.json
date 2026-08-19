@@ -1,0 +1,56 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Common Room Core Activities Custom Fields API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Custom Fields",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get a custom field by ID",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.commonroom.io/community/v1/custom-fields/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The prefixed custom field ID (format `cf_<number>`)"
+              }
+            ]
+          },
+          "docs": "Retrieve a specific custom field definition by its unique identifier."
+        },
+        {
+          "info": {
+            "name": "List custom fields",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.commonroom.io/community/v1/custom-fields",
+            "params": [
+              {
+                "name": "entityType",
+                "value": "",
+                "type": "query",
+                "description": "Filter fields by entity type. Valid values: `contact`, `organization`,\nor a prefixed object type ID (format `cot_<number>`).\n"
+              }
+            ]
+          },
+          "docs": "Retrieve all custom field definitions for the community, optionally\nfiltered by entity type.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

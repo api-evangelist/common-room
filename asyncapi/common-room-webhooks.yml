@@ -1,0 +1,124 @@
+generated: '2026-08-13'
+method: searched
+source: https://www.commonroom.io/docs/set-preferences/webhooks/
+spec_type: none
+asyncapi_published: false
+asyncapi_note: >-
+  Common Room publishes NO AsyncAPI document. Probed the docs host, the API host
+  (/asyncapi.yaml, /asyncapi.json) and the GitHub org — nothing. The event surface
+  below is a webhook catalog transcribed from the provider's own webhook
+  documentation, not a fabricated spec.
+docs_last_updated: '2026-02-13'
+surface: webhooks
+delivery:
+  style: http-post
+  destination: customer-supplied Payload URL, configured per webhook in Settings -> Webhooks
+  content_type: application/json
+  security:
+    mechanism: shared-secret-header
+    header: x-commonroom-webhook-secret
+    required: false
+    note: >-
+      Optional. Set when creating the webhook; Common Room echoes it in the
+      request header so the receiver can verify the payload. There is no HMAC
+      signature, no timestamp header and no replay protection.
+  testing: >-
+    Test payloads can be sent to the Payload URL directly from the webhook
+    settings page before saving.
+  retries: undocumented
+  ordering: undocumented
+  rate_limits: >-
+    None documented. Delivery frequency follows event occurrence and daily
+    workflow schedules.
+availability: >-
+  Plan-gated — "For more information on which plans can purchase webhooks or have
+  webhooks included in their plan, visit our pricing page."
+triggering:
+  model: workflow-rule
+  note: >-
+    Webhooks are not subscribed to event types directly. A webhook is a
+    destination; a WORKFLOW decides when to fire. Common Room ships six workflow
+    templates that target a webhook.
+events:
+- name: New contact
+  trigger: A new contact is found in Common Room
+  cadence: realtime
+  payload: contact
+- name: New organization
+  trigger: A new organization is found in Common Room
+  cadence: realtime
+  payload: organization
+- name: New activity
+  trigger: A new activity happens in Common Room
+  cadence: realtime
+  payload: activity
+- name: Contacts that meet criteria
+  trigger: Contacts matching the workflow's filter criteria
+  cadence: daily
+  payload: contact
+  note: >-
+    Runs once a day. After the initial run it only processes NEW contacts that
+    meet the criteria.
+- name: Anonymous website visit
+  trigger: An anonymous visitor from an organization visits your website
+  cadence: realtime
+  payload: organization
+- name: Contact identified from website visit
+  trigger: An identified contact visits your website
+  cadence: realtime
+  payload: contact
+event_count: 6
+payloads:
+- name: contact
+  envelope: '{ "payload": { ... } }'
+  fields:
+  - primaryEmail
+  - allEmails
+  - fullName
+  - title
+  - previousTitle
+  - organization.name
+  - organization.domain
+  - organization.location.city
+  - organization.location.region
+  - organization.location.country
+  - previousOrganization.name
+  - previousOrganization.domain
+  - organizationChangeDate
+  - linkedIn
+  - twitter
+  - github
+  - discord
+  - youtube
+  - linkedInUrl
+  - twitterUrl
+  - githubUrl
+  - discordUrl
+  - youtubeUrl
+  - type
+  - version
+  - avatarUrl
+  - commonRoomContactLink
+- name: organization
+  envelope: '{ "payload": { ... } }'
+- name: activity
+  envelope: '{ "payload": { ... } }'
+payload_count: 3
+compatibility_policy:
+  statement: >-
+    "Note that we do not consider additive fields to the payload as breaking
+    changes. For renamed or deleted fields, we will notify you of changes."
+  additive_fields_are_breaking: false
+  rename_delete_notification: true
+  note: >-
+    This is the ONLY written change-compatibility commitment Common Room
+    publishes anywhere — see lifecycle/common-room-lifecycle.yml.
+consumers_documented:
+- Zapier (native integration)
+- Any HTTP endpoint the customer builds
+gaps:
+- No AsyncAPI or machine-readable event schema
+- No HMAC signature — verification relies on an optional plaintext shared secret
+- No documented retry, backoff or delivery-guarantee semantics
+- No documented event-ordering guarantee
+- Full organization and activity payload field lists are shown only as JSON samples in the docs

@@ -1,0 +1,13 @@
+{
+  "resource": "https://mcp.commonroom.io/",
+  "authorization_servers": [
+    "https://login.commonroom.io/"
+  ],
+  "scopes_supported": [
+    "openid",
+    "profile",
+    "email",
+    "offline_access"
+  ],
+  "resource_name": "https://mcp.commonroom.io/"
+}

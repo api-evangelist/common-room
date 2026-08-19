@@ -1,0 +1,1765 @@
+{
+  "item": [
+    {
+      "id": "1b9b76f5-ed5d-40f4-998f-038dbbfc1375",
+      "name": "Activities",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "2ebdfbf2-b8a0-4b03-96d3-95dc7d9f3c67",
+          "name": "Add or Edit Activity",
+          "request": {
+            "name": "Add or Edit Activity",
+            "description": {
+              "content": "Adds new activity into the destination source, or updates existing activity previously added via API with the same activity ID and activity type\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "source",
+                ":destinationSourceId",
+                "activity"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "destinationSourceId",
+                  "description": "(Required) The Destination Source ID of the created API signal. See https://www.commonroom.io/docs/signals/custom-integrations/zapier-api/#create-an-api-signal for details."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": \"<string>\",\n  \"activityType\": \"<string>\",\n  \"user\": {\n    \"id\": \"<string>\",\n    \"fullName\": \"<string>\",\n    \"firstName\": \"<string>\",\n    \"lastName\": \"<string>\",\n    \"username\": \"<string>\",\n    \"avatarUrl\": \"<string>\",\n    \"bio\": \"<string>\",\n    \"email\": \"<email>\",\n    \"linkedin\": {\n      \"type\": \"<string>\",\n      \"value\": \"<string>\"\n    },\n    \"github\": {\n      \"type\": \"<string>\",\n      \"value\": \"<string>\"\n    },\n    \"twitter\": {\n      \"type\": \"<string>\",\n      \"value\": \"<string>\"\n    },\n    \"discord\": {\n      \"username\": \"<string>\",\n      \"discriminator\": {},\n      \"type\": \"<string>\"\n    },\n    \"externalProfiles\": [\n      {\n        \"url\": \"<string>\",\n        \"name\": \"<string>\"\n      },\n      {\n        \"url\": \"<string>\",\n        \"name\": \"<string>\"\n      }\n    ],\n    \"roleAtCompany\": \"<string>\",\n    \"titleAtCompany\": \"<string>\",\n    \"companyName\": \"<string>\",\n    \"companyDomain\": \"<string>\",\n    \"country\": \"<string>\",\n    \"city\": \"<string>\",\n    \"region\": \"<string>\",\n    \"rawLocation\": \"<string>\",\n    \"tags\": [\n      {\n        \"type\": \"<string>\",\n        \"id\": \"<string>\"\n      },\n      {\n        \"type\": \"<string>\",\n        \"id\": \"<string>\"\n      }\n    ],\n    \"customFields\": [\n      {\n        \"id\": \"<number>\",\n        \"value\": {\n          \"type\": \"<string>\",\n          \"value\": \"<string>\"\n        }\n      },\n      {\n        \"id\": \"<number>\",\n        \"value\": {\n          \"type\": \"<string>\",\n          \"value\": \"<string>\"\n        }\n      }\n    ]\n  },\n  \"activityTitle\": {\n    \"type\": \"<string>\",\n    \"value\": \"<string>\"\n  },\n  \"content\": {\n    \"type\": \"<string>\",\n    \"value\": \"<string>\"\n  },\n  \"timestamp\": \"<dateTime>\",\n  \"url\": \"<string>\",\n  \"tags\": [\n    {\n      \"type\": \"<string>\",\n      \"id\": \"<string>\"\n    },\n    {\n      \"type\": \"<string>\",\n      \"id\": \"<string>\"\n    }\n  ],\n  \"parentActivity\": {\n    \"id\": \"<string>\",\n    \"activityType\": \"<string>\"\n  },\n  \"subSource\": {\n    \"type\": \"<string>\",\n    \"name\": \"<string>\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "0781856d-772e-445a-adce-cbfc87797bd3",
+              "name": "OK - Activity info accepted and will be processed",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "source",
+                    ":destinationSourceId",
+                    "activity"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "destinationSourceId",
+                      "description": "(Required) The Destination Source ID of the created API signal. See https://www.commonroom.io/docs/signals/custom-integrations/zapier-api/#create-an-api-signal for details."
+                    }
+                  ]
+                },
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": \"<string>\",\n  \"activityType\": \"<string>\",\n  \"user\": {\n    \"id\": \"<string>\",\n    \"fullName\": \"<string>\",\n    \"firstName\": \"<string>\",\n    \"lastName\": \"<string>\",\n    \"username\": \"<string>\",\n    \"avatarUrl\": \"<string>\",\n    \"bio\": \"<string>\",\n    \"email\": \"<email>\",\n    \"linkedin\": {\n      \"type\": \"<string>\",\n      \"value\": \"in/person\"\n    },\n    \"github\": {\n      \"type\": \"<string>\",\n      \"value\": \"Person\"\n    },\n    \"twitter\": {\n      \"type\": \"<string>\",\n      \"value\": \"@Person\"\n    },\n    \"discord\": {\n      \"username\": \"person\",\n      \"discriminator\": {},\n      \"type\": \"<string>\"\n    },\n    \"externalProfiles\": [\n      {\n        \"url\": \"<string>\",\n        \"name\": \"<string>\"\n      },\n      {\n        \"url\": \"<string>\",\n        \"name\": \"<string>\"\n      }\n    ],\n    \"roleAtCompany\": \"Engineering\",\n    \"titleAtCompany\": \"<string>\",\n    \"companyName\": \"Common Room\",\n    \"companyDomain\": \"commonroom.io\",\n    \"country\": \"<string>\",\n    \"city\": \"<string>\",\n    \"region\": \"Washington\",\n    \"rawLocation\": \"Seattle, WA\",\n    \"tags\": [\n      {\n        \"type\": \"<string>\",\n        \"id\": \"<string>\"\n      },\n      {\n        \"type\": \"<string>\",\n        \"id\": \"<string>\"\n      }\n    ],\n    \"customFields\": [\n      {\n        \"id\": \"<number>\",\n        \"value\": {\n          \"type\": \"boolean\",\n          \"value\": \"<string>\"\n        }\n      },\n      {\n        \"id\": \"<number>\",\n        \"value\": {\n          \"type\": \"boolean\",\n          \"value\": \"<string>\"\n        }\n      }\n    ]\n  },\n  \"activityTitle\": {\n    \"type\": \"<string>\",\n    \"value\": \"<string>\"\n  },\n  \"content\": {\n    \"type\": \"<string>\",\n    \"value\": \"<string>\"\n  },\n  \"timestamp\": \"<dateTime>\",\n  \"url\": \"<string>\",\n  \"tags\": [\n    {\n      \"type\": \"<string>\",\n      \"id\": \"<string>\"\n    },\n    {\n      \"type\": \"<string>\",\n      \"id\": \"<string>\"\n    }\n  ],\n  \"parentActivity\": {\n    \"id\": \"<string>\",\n    \"activityType\": \"<string>\"\n  },\n  \"subSource\": {\n    \"type\": \"<string>\",\n    \"name\": \"slack-channel-1\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Accepted",
+              "code": 202,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "The total amount of requests permitted within the interval",
+                  "key": "X-RateLimit-Limit",
+                  "value": "5170"
+                },
+                {
+                  "disabled": false,
+                  "description": "The total amount of requests remaining within the interval",
+                  "key": "X-RateLimit-Remaining",
+                  "value": "5170"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "9696c1f1-df47-48b3-a1fc-bd864e4b2581",
+              "name": "Invalid Request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "source",
+                    ":destinationSourceId",
+                    "activity"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "destinationSourceId",
+                      "description": "(Required) The Destination Source ID of the created API signal. See https://www.commonroom.io/docs/signals/custom-integrations/zapier-api/#create-an-api-signal for details."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": \"<string>\",\n  \"activityType\": \"<string>\",\n  \"user\": {\n    \"id\": \"<string>\",\n    \"fullName\": \"<string>\",\n    \"firstName\": \"<string>\",\n    \"lastName\": \"<string>\",\n    \"username\": \"<string>\",\n    \"avatarUrl\": \"<string>\",\n    \"bio\": \"<string>\",\n    \"email\": \"<email>\",\n    \"linkedin\": {\n      \"type\": \"<string>\",\n      \"value\": \"in/person\"\n    },\n    \"github\": {\n      \"type\": \"<string>\",\n      \"value\": \"Person\"\n    },\n    \"twitter\": {\n      \"type\": \"<string>\",\n      \"value\": \"@Person\"\n    },\n    \"discord\": {\n      \"username\": \"person\",\n      \"discriminator\": {},\n      \"type\": \"<string>\"\n    },\n    \"externalProfiles\": [\n      {\n        \"url\": \"<string>\",\n        \"name\": \"<string>\"\n      },\n      {\n        \"url\": \"<string>\",\n        \"name\": \"<string>\"\n      }\n    ],\n    \"roleAtCompany\": \"Engineering\",\n    \"titleAtCompany\": \"<string>\",\n    \"companyName\": \"Common Room\",\n    \"companyDomain\": \"commonroom.io\",\n    \"country\": \"<string>\",\n    \"city\": \"<string>\",\n    \"region\": \"Washington\",\n    \"rawLocation\": \"Seattle, WA\",\n    \"tags\": [\n      {\n        \"type\": \"<string>\",\n        \"id\": \"<string>\"\n      },\n      {\n        \"type\": \"<string>\",\n        \"id\": \"<string>\"\n      }\n    ],\n    \"customFields\": [\n      {\n        \"id\": \"<number>\",\n        \"value\": {\n          \"type\": \"boolean\",\n          \"value\": \"<string>\"\n        }\n      },\n      {\n        \"id\": \"<number>\",\n        \"value\": {\n          \"type\": \"boolean\",\n          \"value\": \"<string>\"\n        }\n      }\n    ]\n  },\n  \"activityTitle\": {\n    \"type\": \"<string>\",\n    \"value\": \"<string>\"\n  },\n  \"content\": {\n    \"type\": \"<string>\",\n    \"value\": \"<string>\"\n  },\n  \"timestamp\": \"<dateTime>\",\n  \"url\": \"<string>\",\n  \"tags\": [\n    {\n      \"type\": \"<string>\",\n      \"id\": \"<string>\"\n    },\n    {\n      \"type\": \"<string>\",\n      \"id\": \"<string>\"\n    }\n  ],\n  \"parentActivity\": {\n    \"id\": \"<string>\",\n    \"activityType\": \"<string>\"\n  },\n  \"subSource\": {\n    \"type\": \"<string>\",\n    \"name\": \"slack-channel-1\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "The total amount of requests permitted within the interval",
+                  "key": "X-RateLimit-Limit",
+                  "value": "5170"
+                },
+                {
+                  "disabled": false,
+                  "description": "The total amount of requests remaining within the interval",
+                  "key": "X-RateLimit-Remaining",
+                  "value": "5170"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"reason\": \"string\",\n  \"docs\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4fbf2020-3482-4e94-bb94-e2a5b6443a49",
+              "name": "Destination Source Not Found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "source",
+                    ":destinationSourceId",
+                    "activity"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "destinationSourceId",
+                      "description": "(Required) The Destination Source ID of the created API signal. See https://www.commonroom.io/docs/signals/custom-integrations/zapier-api/#create-an-api-signal for details."
+                    }
+                  ]
+                },
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": \"<string>\",\n  \"activityType\": \"<string>\",\n  \"user\": {\n    \"id\": \"<string>\",\n    \"fullName\": \"<string>\",\n    \"firstName\": \"<string>\",\n    \"lastName\": \"<string>\",\n    \"username\": \"<string>\",\n    \"avatarUrl\": \"<string>\",\n    \"bio\": \"<string>\",\n    \"email\": \"<email>\",\n    \"linkedin\": {\n      \"type\": \"<string>\",\n      \"value\": \"in/person\"\n    },\n    \"github\": {\n      \"type\": \"<string>\",\n      \"value\": \"Person\"\n    },\n    \"twitter\": {\n      \"type\": \"<string>\",\n      \"value\": \"@Person\"\n    },\n    \"discord\": {\n      \"username\": \"person\",\n      \"discriminator\": {},\n      \"type\": \"<string>\"\n    },\n    \"externalProfiles\": [\n      {\n        \"url\": \"<string>\",\n        \"name\": \"<string>\"\n      },\n      {\n        \"url\": \"<string>\",\n        \"name\": \"<string>\"\n      }\n    ],\n    \"roleAtCompany\": \"Engineering\",\n    \"titleAtCompany\": \"<string>\",\n    \"companyName\": \"Common Room\",\n    \"companyDomain\": \"commonroom.io\",\n    \"country\": \"<string>\",\n    \"city\": \"<string>\",\n    \"region\": \"Washington\",\n    \"rawLocation\": \"Seattle, WA\",\n    \"tags\": [\n      {\n        \"type\": \"<string>\",\n        \"id\": \"<string>\"\n      },\n      {\n        \"type\": \"<string>\",\n        \"id\": \"<string>\"\n      }\n    ],\n    \"customFields\": [\n      {\n        \"id\": \"<number>\",\n        \"value\": {\n          \"type\": \"boolean\",\n          \"value\": \"<string>\"\n        }\n      },\n      {\n        \"id\": \"<number>\",\n        \"value\": {\n          \"type\": \"boolean\",\n          \"value\": \"<string>\"\n        }\n      }\n    ]\n  },\n  \"activityTitle\": {\n    \"type\": \"<string>\",\n    \"value\": \"<string>\"\n  },\n  \"content\": {\n    \"type\": \"<string>\",\n    \"value\": \"<string>\"\n  },\n  \"timestamp\": \"<dateTime>\",\n  \"url\": \"<string>\",\n  \"tags\": [\n    {\n      \"type\": \"<string>\",\n      \"id\": \"<string>\"\n    },\n    {\n      \"type\": \"<string>\",\n      \"id\": \"<string>\"\n    }\n  ],\n  \"parentActivity\": {\n    \"id\": \"<string>\",\n    \"activityType\": \"<string>\"\n  },\n  \"subSource\": {\n    \"type\": \"<string>\",\n    \"name\": \"slack-channel-1\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "The total amount of requests permitted within the interval",
+                  "key": "X-RateLimit-Limit",
+                  "value": "5170"
+                },
+                {
+                  "disabled": false,
+                  "description": "The total amount of requests remaining within the interval",
+                  "key": "X-RateLimit-Remaining",
+                  "value": "5170"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "dac1d233-9ff6-4a6c-8040-15c346d5058b",
+              "name": "Rate Limited",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "source",
+                    ":destinationSourceId",
+                    "activity"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "destinationSourceId",
+                      "description": "(Required) The Destination Source ID of the created API signal. See https://www.commonroom.io/docs/signals/custom-integrations/zapier-api/#create-an-api-signal for details."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": \"<string>\",\n  \"activityType\": \"<string>\",\n  \"user\": {\n    \"id\": \"<string>\",\n    \"fullName\": \"<string>\",\n    \"firstName\": \"<string>\",\n    \"lastName\": \"<string>\",\n    \"username\": \"<string>\",\n    \"avatarUrl\": \"<string>\",\n    \"bio\": \"<string>\",\n    \"email\": \"<email>\",\n    \"linkedin\": {\n      \"type\": \"<string>\",\n      \"value\": \"in/person\"\n    },\n    \"github\": {\n      \"type\": \"<string>\",\n      \"value\": \"Person\"\n    },\n    \"twitter\": {\n      \"type\": \"<string>\",\n      \"value\": \"@Person\"\n    },\n    \"discord\": {\n      \"username\": \"person\",\n      \"discriminator\": {},\n      \"type\": \"<string>\"\n    },\n    \"externalProfiles\": [\n      {\n        \"url\": \"<string>\",\n        \"name\": \"<string>\"\n      },\n      {\n        \"url\": \"<string>\",\n        \"name\": \"<string>\"\n      }\n    ],\n    \"roleAtCompany\": \"Engineering\",\n    \"titleAtCompany\": \"<string>\",\n    \"companyName\": \"Common Room\",\n    \"companyDomain\": \"commonroom.io\",\n    \"country\": \"<string>\",\n    \"city\": \"<string>\",\n    \"region\": \"Washington\",\n    \"rawLocation\": \"Seattle, WA\",\n    \"tags\": [\n      {\n        \"type\": \"<string>\",\n        \"id\": \"<string>\"\n      },\n      {\n        \"type\": \"<string>\",\n        \"id\": \"<string>\"\n      }\n    ],\n    \"customFields\": [\n      {\n        \"id\": \"<number>\",\n        \"value\": {\n          \"type\": \"boolean\",\n          \"value\": \"<string>\"\n        }\n      },\n      {\n        \"id\": \"<number>\",\n        \"value\": {\n          \"type\": \"boolean\",\n          \"value\": \"<string>\"\n        }\n      }\n    ]\n  },\n  \"activityTitle\": {\n    \"type\": \"<string>\",\n    \"value\": \"<string>\"\n  },\n  \"content\": {\n    \"type\": \"<string>\",\n    \"value\": \"<string>\"\n  },\n  \"timestamp\": \"<dateTime>\",\n  \"url\": \"<string>\",\n  \"tags\": [\n    {\n      \"type\": \"<string>\",\n      \"id\": \"<string>\"\n    },\n    {\n      \"type\": \"<string>\",\n      \"id\": \"<string>\"\n    }\n  ],\n  \"parentActivity\": {\n    \"id\": \"<string>\",\n    \"activityType\": \"<string>\"\n  },\n  \"subSource\": {\n    \"type\": \"<string>\",\n    \"name\": \"slack-channel-1\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "The total amount of requests permitted within the interval",
+                  "key": "X-RateLimit-Limit",
+                  "value": "5170"
+                },
+                {
+                  "disabled": false,
+                  "description": "The total amount of requests remaining within the interval",
+                  "key": "X-RateLimit-Remaining",
+                  "value": "5170"
+                },
+                {
+                  "disabled": false,
+                  "description": "The datetime in epoch seconds when the interval resets",
+                  "key": "X-RateLimit-Reset",
+                  "value": "5170"
+                },
+                {
+                  "disabled": false,
+                  "description": "The UTC datetime when the interval resets",
+                  "key": "Retry-After",
+                  "value": "1970-06-02T00:16:28.963Z"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"reason\": \"string\",\n  \"rateLimit\": {\n    \"intervalLimit\": 5175.6240854156495,\n    \"intervalRemaining\": 2509.007293815577,\n    \"intervalResetSeconds\": 2147.670900139522,\n    \"waitMs\": 6017.489522345974\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "315fcd88-8db2-414a-9628-a98020a84b19",
+          "name": "Get Activity Types",
+          "request": {
+            "name": "Get Activity Types",
+            "description": {
+              "content": "Gets all activity types\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "activityTypes"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "4010a2bb-8b58-4366-843a-8e78874b55e1",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "activityTypes"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "The total amount of requests permitted within the interval",
+                  "key": "X-RateLimit-Limit",
+                  "value": "5170"
+                },
+                {
+                  "disabled": false,
+                  "description": "The total amount of requests remaining within the interval",
+                  "key": "X-RateLimit-Remaining",
+                  "value": "5170"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"id\": \"started_training\",\n    \"displayName\": \"Started training\"\n  },\n  {\n    \"id\": \"started_training\",\n    \"displayName\": \"Started training\"\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "13051949-b882-437f-8491-5ff43226bbc2",
+              "name": "Rate Limited",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "activityTypes"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "The total amount of requests permitted within the interval",
+                  "key": "X-RateLimit-Limit",
+                  "value": "5170"
+                },
+                {
+                  "disabled": false,
+                  "description": "The total amount of requests remaining within the interval",
+                  "key": "X-RateLimit-Remaining",
+                  "value": "5170"
+                },
+                {
+                  "disabled": false,
+                  "description": "The datetime in epoch seconds when the interval resets",
+                  "key": "X-RateLimit-Reset",
+                  "value": "5170"
+                },
+                {
+                  "disabled": false,
+                  "description": "The UTC datetime when the interval resets",
+                  "key": "Retry-After",
+                  "value": "1970-06-02T00:16:28.963Z"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"reason\": \"string\",\n  \"rateLimit\": {\n    \"intervalLimit\": 5175.6240854156495,\n    \"intervalRemaining\": 2509.007293815577,\n    \"intervalResetSeconds\": 2147.670900139522,\n    \"waitMs\": 6017.489522345974\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "9ea444ad-43c2-48b5-a4f3-20314e164f16",
+          "name": "Get an activity by ID",
+          "request": {
+            "name": "Get an activity by ID",
+            "description": {
+              "content": "Retrieve a specific activity by its unique identifier.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "activities",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "cols",
+                  "value": "<string>",
+                  "description": "Comma-separated list of additional columns to include in the response.\nValid values: `contactId`, `content`, `isUserInitiated`, `participantCount`,\n`providerId`, `providerName`, `replyCount`, `sentiment`, `subSourceNames`,\n`url`.\n"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) The prefixed activity ID (format `a_<number>`)"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "b2b98841-4e0d-44be-828f-bb9ac97d9470",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "activities",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "cols",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The prefixed activity ID (format `a_<number>`)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "The total amount of requests permitted within the interval",
+                  "key": "X-RateLimit-Limit",
+                  "value": "5170"
+                },
+                {
+                  "disabled": false,
+                  "description": "The total amount of requests remaining within the interval",
+                  "key": "X-RateLimit-Remaining",
+                  "value": "5170"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": true,\n  \"data\": {\n    \"id\": \"string\",\n    \"type\": \"string\",\n    \"activityTime\": \"1996-10-23T14:07:58.539Z\",\n    \"contactId\": \"string\",\n    \"content\": \"string\",\n    \"isUserInitiated\": false,\n    \"participantCount\": 364,\n    \"providerId\": \"string\",\n    \"providerName\": \"string\",\n    \"replyCount\": 1210,\n    \"sentiment\": \"string\",\n    \"subSourceNames\": [\n      \"string\",\n      \"string\"\n    ],\n    \"url\": \"http://DtjEuKWp.xfvkGD8,0SNApp.CDjEnz9H9M61FX-IVPNgWuqyQnC2hFmQLc.Lk1-b6zv-vIgr9qrjVxq.xzDWlaXkUIbSeXDhf\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "737a2a38-572b-4add-bdd8-15f439d1f888",
+              "name": "Bad Request (e.g. invalid activity ID or invalid parameters)",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "activities",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "cols",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The prefixed activity ID (format `a_<number>`)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"error\": {\n    \"code\": \"object_type_not_found\",\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "030b5b56-d7f4-4f8d-8959-257b6b1b492c",
+              "name": "Forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "activities",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "cols",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The prefixed activity ID (format `a_<number>`)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"ok\",\n  \"reason\": \"string\",\n  \"errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "234bf13e-8cab-49ef-ae86-4f67e856fcba",
+              "name": "Activity not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "activities",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "cols",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The prefixed activity ID (format `a_<number>`)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"error\": {\n    \"code\": \"object_type_not_found\",\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0b66c2fe-5eae-431d-aa52-b142e9fe42be",
+              "name": "Rate Limited",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "activities",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "cols",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The prefixed activity ID (format `a_<number>`)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "The total amount of requests permitted within the interval",
+                  "key": "X-RateLimit-Limit",
+                  "value": "5170"
+                },
+                {
+                  "disabled": false,
+                  "description": "The total amount of requests remaining within the interval",
+                  "key": "X-RateLimit-Remaining",
+                  "value": "5170"
+                },
+                {
+                  "disabled": false,
+                  "description": "The datetime in epoch seconds when the interval resets",
+                  "key": "X-RateLimit-Reset",
+                  "value": "5170"
+                },
+                {
+                  "disabled": false,
+                  "description": "The UTC datetime when the interval resets",
+                  "key": "Retry-After",
+                  "value": "1970-06-02T00:16:28.963Z"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"reason\": \"string\",\n  \"rateLimit\": {\n    \"intervalLimit\": 5175.6240854156495,\n    \"intervalRemaining\": 2509.007293815577,\n    \"intervalResetSeconds\": 2147.670900139522,\n    \"waitMs\": 6017.489522345974\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "2bf4926c-7a1e-4f7e-b307-c2a42ff6ab9c",
+          "name": "List activities",
+          "request": {
+            "name": "List activities",
+            "description": {
+              "content": "Retrieve a list of activities with pagination support.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "activities"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "50",
+                  "description": "The maximum number of activities to return per page"
+                },
+                {
+                  "disabled": false,
+                  "key": "cursor",
+                  "value": "<string>",
+                  "description": "Pagination cursor from a previous response"
+                },
+                {
+                  "disabled": false,
+                  "key": "sort",
+                  "value": "activityTime",
+                  "description": "Field to sort results by."
+                },
+                {
+                  "disabled": false,
+                  "key": "direction",
+                  "value": "asc",
+                  "description": "Sort direction"
+                },
+                {
+                  "disabled": false,
+                  "key": "cols",
+                  "value": "<string>",
+                  "description": "Comma-separated list of additional columns to include in the response.\nValid column values: `contactId`, `content`, `isUserInitiated`,\n`participantCount`, `providerId`, `providerName`, `replyCount`, `sentiment`,\n`subSourceNames`, `url`. The meta column `recordCount` can be\nrequested to return the total number of matching activities in\n`meta.recordCount`.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "contactId",
+                  "value": "<string>",
+                  "description": "Filter activities by prefixed contact ID (format `c_<number>`)"
+                },
+                {
+                  "disabled": false,
+                  "key": "organizationId",
+                  "value": "<string>",
+                  "description": "Filter activities by prefixed organization ID (format `o_<number>`)"
+                },
+                {
+                  "disabled": false,
+                  "key": "startDate",
+                  "value": "<dateTime>",
+                  "description": "Only return activities occurring at or after this ISO-8601 datetime"
+                },
+                {
+                  "disabled": false,
+                  "key": "endDate",
+                  "value": "<dateTime>",
+                  "description": "Only return activities occurring at or before this ISO-8601 datetime"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "4717f423-5526-4741-8798-ba1cf6422d64",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "activities"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "limit",
+                      "value": "50"
+                    },
+                    {
+                      "key": "cursor",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "activityTime"
+                    },
+                    {
+                      "key": "direction",
+                      "value": "asc"
+                    },
+                    {
+                      "key": "cols",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "contactId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "organizationId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "startDate",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "endDate",
+                      "value": "<dateTime>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "The total amount of requests permitted within the interval",
+                  "key": "X-RateLimit-Limit",
+                  "value": "5170"
+                },
+                {
+                  "disabled": false,
+                  "description": "The total amount of requests remaining within the interval",
+                  "key": "X-RateLimit-Remaining",
+                  "value": "5170"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": true,\n  \"data\": [\n    {\n      \"id\": \"string\",\n      \"type\": \"string\",\n      \"activityTime\": \"2015-01-30T09:42:39.862Z\",\n      \"contactId\": \"string\",\n      \"content\": \"string\",\n      \"isUserInitiated\": false,\n      \"participantCount\": 312,\n      \"providerId\": \"string\",\n      \"providerName\": \"string\",\n      \"replyCount\": 4256,\n      \"sentiment\": \"string\",\n      \"subSourceNames\": [\n        \"string\",\n        \"string\"\n      ],\n      \"url\": \"https://zrAilwZEsTtX.fxavSQUyXISV3BHGNdZFYgtX7HVRYv\"\n    },\n    {\n      \"id\": \"string\",\n      \"type\": \"string\",\n      \"activityTime\": \"1951-03-07T08:30:22.314Z\",\n      \"contactId\": \"string\",\n      \"content\": \"string\",\n      \"isUserInitiated\": true,\n      \"participantCount\": 3650,\n      \"providerId\": \"string\",\n      \"providerName\": \"string\",\n      \"replyCount\": 786,\n      \"sentiment\": \"string\",\n      \"subSourceNames\": [\n        \"string\",\n        \"string\"\n      ],\n      \"url\": \"http://fVGVyanJYumiTJmtVgZxeChbuwDb.zqazxg7Ku4krO4rJY2etR-FJm\"\n    }\n  ],\n  \"meta\": {\n    \"nextCursor\": \"string\",\n    \"recordCount\": 1899\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "281b39e0-f155-441d-9a84-b1eaa5428124",
+              "name": "Bad Request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "activities"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "limit",
+                      "value": "50"
+                    },
+                    {
+                      "key": "cursor",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "activityTime"
+                    },
+                    {
+                      "key": "direction",
+                      "value": "asc"
+                    },
+                    {
+                      "key": "cols",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "contactId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "organizationId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "startDate",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "endDate",
+                      "value": "<dateTime>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"error\": {\n    \"code\": \"object_type_not_found\",\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5d911f19-f4b6-4699-b7c5-07bffe0d791c",
+              "name": "Forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "activities"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "limit",
+                      "value": "50"
+                    },
+                    {
+                      "key": "cursor",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "activityTime"
+                    },
+                    {
+                      "key": "direction",
+                      "value": "asc"
+                    },
+                    {
+                      "key": "cols",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "contactId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "organizationId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "startDate",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "endDate",
+                      "value": "<dateTime>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"failure\",\n  \"reason\": \"string\",\n  \"errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "bd349cc1-e3a8-419b-9d64-6136e94ed8c6",
+              "name": "Rate Limited",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "activities"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "limit",
+                      "value": "50"
+                    },
+                    {
+                      "key": "cursor",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "activityTime"
+                    },
+                    {
+                      "key": "direction",
+                      "value": "asc"
+                    },
+                    {
+                      "key": "cols",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "contactId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "organizationId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "startDate",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "endDate",
+                      "value": "<dateTime>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "The total amount of requests permitted within the interval",
+                  "key": "X-RateLimit-Limit",
+                  "value": "5170"
+                },
+                {
+                  "disabled": false,
+                  "description": "The total amount of requests remaining within the interval",
+                  "key": "X-RateLimit-Remaining",
+                  "value": "5170"
+                },
+                {
+                  "disabled": false,
+                  "description": "The datetime in epoch seconds when the interval resets",
+                  "key": "X-RateLimit-Reset",
+                  "value": "5170"
+                },
+                {
+                  "disabled": false,
+                  "description": "The UTC datetime when the interval resets",
+                  "key": "Retry-After",
+                  "value": "1970-06-02T00:16:28.963Z"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"reason\": \"string\",\n  \"rateLimit\": {\n    \"intervalLimit\": 5175.6240854156495,\n    \"intervalRemaining\": 2509.007293815577,\n    \"intervalResetSeconds\": 2147.670900139522,\n    \"waitMs\": 6017.489522345974\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "f7d21a6f-682d-4af0-8bbb-6bdbdeaeb68e",
+          "name": "List activity types",
+          "request": {
+            "name": "List activity types",
+            "description": {
+              "content": "List all activity type identifiers supported by Common Room, along with\ntheir human-readable display names. Use the `id` as the `type` value\nreturned by `/activities`.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "activity-types"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "b9b77eee-8f2c-405c-bd6d-0d0dafe0090b",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "activity-types"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "The total amount of requests permitted within the interval",
+                  "key": "X-RateLimit-Limit",
+                  "value": "5170"
+                },
+                {
+                  "disabled": false,
+                  "description": "The total amount of requests remaining within the interval",
+                  "key": "X-RateLimit-Remaining",
+                  "value": "5170"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": true,\n  \"data\": [\n    {\n      \"id\": \"string\",\n      \"displayName\": \"string\"\n    },\n    {\n      \"id\": \"string\",\n      \"displayName\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7ec5c527-28b8-4e2e-9ea9-8fa24eb0649e",
+              "name": "Forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "activity-types"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"failure\",\n  \"reason\": \"string\",\n  \"errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0080ea62-6762-4eed-88b8-d67bdfeed944",
+              "name": "Rate Limited",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "activity-types"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "The total amount of requests permitted within the interval",
+                  "key": "X-RateLimit-Limit",
+                  "value": "5170"
+                },
+                {
+                  "disabled": false,
+                  "description": "The total amount of requests remaining within the interval",
+                  "key": "X-RateLimit-Remaining",
+                  "value": "5170"
+                },
+                {
+                  "disabled": false,
+                  "description": "The datetime in epoch seconds when the interval resets",
+                  "key": "X-RateLimit-Reset",
+                  "value": "5170"
+                },
+                {
+                  "disabled": false,
+                  "description": "The UTC datetime when the interval resets",
+                  "key": "Retry-After",
+                  "value": "1970-06-02T00:16:28.963Z"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"reason\": \"string\",\n  \"rateLimit\": {\n    \"intervalLimit\": 5175.6240854156495,\n    \"intervalRemaining\": 2509.007293815577,\n    \"intervalResetSeconds\": 2147.670900139522,\n    \"waitMs\": 6017.489522345974\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "320c80b7-b6bb-4632-a025-b49c531a0eff",
+          "name": "List activity categories",
+          "request": {
+            "name": "List activity categories",
+            "description": {
+              "content": "List all activity category labels for the community.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "activity-categories"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "418a3657-5871-4e05-a509-c15d1b5af78b",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "activity-categories"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "The total amount of requests permitted within the interval",
+                  "key": "X-RateLimit-Limit",
+                  "value": "5170"
+                },
+                {
+                  "disabled": false,
+                  "description": "The total amount of requests remaining within the interval",
+                  "key": "X-RateLimit-Remaining",
+                  "value": "5170"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": true,\n  \"data\": [\n    {\n      \"id\": \"string\",\n      \"name\": \"string\",\n      \"value\": \"string\"\n    },\n    {\n      \"id\": \"string\",\n      \"name\": \"string\",\n      \"value\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a0e243e6-79ab-4473-b532-fbf233f123b8",
+              "name": "Forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "activity-categories"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"failure\",\n  \"reason\": \"string\",\n  \"errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "27c298d7-279a-4754-a69b-d397e4f64d13",
+              "name": "Rate Limited",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "activity-categories"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "The total amount of requests permitted within the interval",
+                  "key": "X-RateLimit-Limit",
+                  "value": "5170"
+                },
+                {
+                  "disabled": false,
+                  "description": "The total amount of requests remaining within the interval",
+                  "key": "X-RateLimit-Remaining",
+                  "value": "5170"
+                },
+                {
+                  "disabled": false,
+                  "description": "The datetime in epoch seconds when the interval resets",
+                  "key": "X-RateLimit-Reset",
+                  "value": "5170"
+                },
+                {
+                  "disabled": false,
+                  "description": "The UTC datetime when the interval resets",
+                  "key": "Retry-After",
+                  "value": "1970-06-02T00:16:28.963Z"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"reason\": \"string\",\n  \"rateLimit\": {\n    \"intervalLimit\": 5175.6240854156495,\n    \"intervalRemaining\": 2509.007293815577,\n    \"intervalResetSeconds\": 2147.670900139522,\n    \"waitMs\": 6017.489522345974\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "5ad39376-2bd6-4678-a4f1-039488a03357",
+          "name": "List activity sentiment labels",
+          "request": {
+            "name": "List activity sentiment labels",
+            "description": {
+              "content": "List all activity sentiment classifications for the community.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "activity-sentiment"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "201854b4-315a-4754-a0cd-166ef0300a91",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "activity-sentiment"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "The total amount of requests permitted within the interval",
+                  "key": "X-RateLimit-Limit",
+                  "value": "5170"
+                },
+                {
+                  "disabled": false,
+                  "description": "The total amount of requests remaining within the interval",
+                  "key": "X-RateLimit-Remaining",
+                  "value": "5170"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": true,\n  \"data\": [\n    {\n      \"id\": \"string\",\n      \"name\": \"string\"\n    },\n    {\n      \"id\": \"string\",\n      \"name\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6bc5a4cf-f134-4090-8ee1-a73aeae767f7",
+              "name": "Forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "activity-sentiment"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"failure\",\n  \"reason\": \"string\",\n  \"errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "753f794a-f6b7-4a1c-98f1-c81027f79042",
+              "name": "Rate Limited",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "activity-sentiment"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "The total amount of requests permitted within the interval",
+                  "key": "X-RateLimit-Limit",
+                  "value": "5170"
+                },
+                {
+                  "disabled": false,
+                  "description": "The total amount of requests remaining within the interval",
+                  "key": "X-RateLimit-Remaining",
+                  "value": "5170"
+                },
+                {
+                  "disabled": false,
+                  "description": "The datetime in epoch seconds when the interval resets",
+                  "key": "X-RateLimit-Reset",
+                  "value": "5170"
+                },
+                {
+                  "disabled": false,
+                  "description": "The UTC datetime when the interval resets",
+                  "key": "Retry-After",
+                  "value": "1970-06-02T00:16:28.963Z"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"reason\": \"string\",\n  \"rateLimit\": {\n    \"intervalLimit\": 5175.6240854156495,\n    \"intervalRemaining\": 2509.007293815577,\n    \"intervalResetSeconds\": 2147.670900139522,\n    \"waitMs\": 6017.489522345974\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.commonroom.io/community/v1",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "178ffc64-6861-4650-b2e0-7eaf60c77488",
+    "name": "Common Room Core Activities API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Common Room Core REST APIs for getting data in to Common Room.\n<br/><br/>\nFor SCIM APIs <a href=\"./scim.html\">see the SCIM documentation</a>.\n<br/><br/>\nFor New, V2 APIs <a href=\"./api-v2.html\">see the V2 API documentation</a>.\n<br/><br/>\nTo use the Common Room API, or get started with the Common Room Zapier integration, you will need to create an API token.\nTo create an API token:\n<ol>\n  <li>Navigate to Setting | API tokens\n  <li>Create a “New Token\"\n</ol>\n\n# Authentication\n\n<!-- ReDoc-Inject: <security-definitions> -->",
+      "type": "text/plain"
+    }
+  }
+}

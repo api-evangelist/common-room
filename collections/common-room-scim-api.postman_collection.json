@@ -1,0 +1,597 @@
+{
+  "item": [
+    {
+      "id": "8cd9e72e-6629-4cc6-b8c3-4e6c57917073",
+      "name": "SCIM",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "833e1439-63dd-4688-8988-df760a198338",
+          "name": "Active contacts by role",
+          "request": {
+            "name": "Active contacts by role",
+            "description": {
+              "content": "Returns the list of active owners, filtered based on the query parameters",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "users"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "startIndex",
+                  "value": "<integer>"
+                },
+                {
+                  "disabled": false,
+                  "key": "count",
+                  "value": "<integer>"
+                },
+                {
+                  "disabled": false,
+                  "key": "filter",
+                  "value": "<string>"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "288397b4-e56b-4e88-870c-e6d39fa361c2",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "users"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "startIndex",
+                      "value": "1"
+                    },
+                    {
+                      "key": "count",
+                      "value": "15"
+                    },
+                    {
+                      "key": "filter",
+                      "value": "userName eq 'test.user@domain.io'"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"schemas\": [\n    \"urn:ietf:params:scim:api:messages:2.0:ListResponse\",\n    \"urn:ietf:params:scim:api:messages:2.0:ListResponse\"\n  ],\n  \"Resources\": [\n    {\n      \"id\": \"user@domain.com\",\n      \"userName\": \"user@domain.com\",\n      \"name\": {\n        \"givenName\": \"John\",\n        \"familyName\": \"Doe\"\n      },\n      \"emails\": [\n        {\n          \"value\": \"user@domain.com\",\n          \"primary\": true,\n          \"type\": \"work\"\n        },\n        {\n          \"value\": \"user@domain.com\",\n          \"primary\": true,\n          \"type\": \"work\"\n        }\n      ],\n      \"active\": true,\n      \"schemas\": [\n        \"urn:ietf:params:scim:api:messages:2.0:User\",\n        \"urn:ietf:params:scim:api:messages:2.0:User\"\n      ]\n    },\n    {\n      \"id\": \"user@domain.com\",\n      \"userName\": \"user@domain.com\",\n      \"name\": {\n        \"givenName\": \"John\",\n        \"familyName\": \"Doe\"\n      },\n      \"emails\": [\n        {\n          \"value\": \"user@domain.com\",\n          \"primary\": true,\n          \"type\": \"work\"\n        },\n        {\n          \"value\": \"user@domain.com\",\n          \"primary\": true,\n          \"type\": \"work\"\n        }\n      ],\n      \"active\": true,\n      \"schemas\": [\n        \"urn:ietf:params:scim:api:messages:2.0:User\",\n        \"urn:ietf:params:scim:api:messages:2.0:User\"\n      ]\n    }\n  ],\n  \"totalResults\": 8921,\n  \"itemsPerPage\": 638,\n  \"startIndex\": 3546\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "2d25fe19-e42d-4767-8bcd-c9da66a60e33",
+          "name": "Creates the contact with specific role",
+          "request": {
+            "name": "Creates the contact with specific role",
+            "description": {
+              "content": "Creates the contact with owner role",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "users"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "startIndex",
+                  "value": "<integer>"
+                },
+                {
+                  "disabled": false,
+                  "key": "count",
+                  "value": "<integer>"
+                },
+                {
+                  "disabled": false,
+                  "key": "filter",
+                  "value": "<string>"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/scim+json; charset=utf-8"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"schemas\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"userName\": \"<string>\",\n  \"name\": {\n    \"givenName\": \"<string>\",\n    \"familyName\": \"<string>\"\n  },\n  \"emails\": [\n    {\n      \"value\": \"<string>\",\n      \"primary\": \"<boolean>\",\n      \"type\": \"<string>\"\n    },\n    {\n      \"value\": \"<string>\",\n      \"primary\": \"<boolean>\",\n      \"type\": \"<string>\"\n    }\n  ],\n  \"active\": \"<boolean>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "ccd164d1-a310-48f2-b4af-b67159bec68a",
+              "name": "Created",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "users"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "startIndex",
+                      "value": "1"
+                    },
+                    {
+                      "key": "count",
+                      "value": "15"
+                    },
+                    {
+                      "key": "filter",
+                      "value": "userName eq 'test.user@domain.io'"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"schemas\": [\n    \"urn:ietf:params:scim:schemas:core:2.0:User\",\n    \"urn:ietf:params:scim:schemas:core:2.0:User\"\n  ],\n  \"userName\": \"test.user@domain.io\",\n  \"name\": {\n    \"givenName\": \"John\",\n    \"familyName\": \"Doe\"\n  },\n  \"emails\": [\n    {\n      \"value\": \"user@domain.com\",\n      \"primary\": true,\n      \"type\": \"work\"\n    },\n    {\n      \"value\": \"user@domain.com\",\n      \"primary\": true,\n      \"type\": \"work\"\n    }\n  ],\n  \"active\": true\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"user@domain.com\",\n  \"userName\": \"user@domain.com\",\n  \"name\": {\n    \"givenName\": \"John\",\n    \"familyName\": \"Doe\"\n  },\n  \"emails\": [\n    {\n      \"value\": \"user@domain.com\",\n      \"primary\": true,\n      \"type\": \"work\"\n    },\n    {\n      \"value\": \"user@domain.com\",\n      \"primary\": true,\n      \"type\": \"work\"\n    }\n  ],\n  \"active\": true,\n  \"schemas\": [\n    \"urn:ietf:params:scim:api:messages:2.0:User\",\n    \"urn:ietf:params:scim:api:messages:2.0:User\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "1e013f42-67ff-4bde-9e5c-f7ab54c7ee42",
+              "name": "BadRequest",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "users"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "startIndex",
+                      "value": "1"
+                    },
+                    {
+                      "key": "count",
+                      "value": "15"
+                    },
+                    {
+                      "key": "filter",
+                      "value": "userName eq 'test.user@domain.io'"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"schemas\": [\n    \"urn:ietf:params:scim:schemas:core:2.0:User\",\n    \"urn:ietf:params:scim:schemas:core:2.0:User\"\n  ],\n  \"userName\": \"test.user@domain.io\",\n  \"name\": {\n    \"givenName\": \"John\",\n    \"familyName\": \"Doe\"\n  },\n  \"emails\": [\n    {\n      \"value\": \"user@domain.com\",\n      \"primary\": true,\n      \"type\": \"work\"\n    },\n    {\n      \"value\": \"user@domain.com\",\n      \"primary\": true,\n      \"type\": \"work\"\n    }\n  ],\n  \"active\": true\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"schemas\": [\n    \"urn:ietf:params:scim:schemas:core:2.0:Error\",\n    \"urn:ietf:params:scim:schemas:core:2.0:Error\"\n  ],\n  \"detail\": \"Failed to create user\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "da9d1d21-7c12-4255-b35a-3821b9977d72",
+          "name": "Retrieves a specific user account",
+          "request": {
+            "name": "Retrieves a specific user account",
+            "description": {},
+            "url": {
+              "path": [
+                "users",
+                ":email"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "email",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "95ab4f20-f12b-4299-be4e-7411d4a49421",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "users",
+                    ":email"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "email",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"user@domain.com\",\n  \"userName\": \"user@domain.com\",\n  \"name\": {\n    \"givenName\": \"John\",\n    \"familyName\": \"Doe\"\n  },\n  \"emails\": [\n    {\n      \"value\": \"user@domain.com\",\n      \"primary\": true,\n      \"type\": \"work\"\n    },\n    {\n      \"value\": \"user@domain.com\",\n      \"primary\": true,\n      \"type\": \"work\"\n    }\n  ],\n  \"active\": true,\n  \"schemas\": [\n    \"urn:ietf:params:scim:api:messages:2.0:User\",\n    \"urn:ietf:params:scim:api:messages:2.0:User\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "dcea9644-af73-4df3-baa7-ab0acba55401",
+              "name": "Not Found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "users",
+                    ":email"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "email",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"schemas\": [\n    \"urn:ietf:params:scim:schemas:core:2.0:Error\",\n    \"urn:ietf:params:scim:schemas:core:2.0:Error\"\n  ],\n  \"detail\": \"No user found for user: {userName}\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "6c9865f1-4426-4d8d-ac1e-7b1998d674c9",
+          "name": "Updates an user account",
+          "request": {
+            "name": "Updates an user account",
+            "description": {
+              "content": "Updates the user account specified in the query",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "users",
+                ":email"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "email",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/scim+json; charset=utf-8"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PATCH",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"schemas\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"Operations\": [\n    {\n      \"op\": \"<string>\",\n      \"value\": {\n        \"active\": \"<boolean>\"\n      }\n    },\n    {\n      \"op\": \"<string>\",\n      \"value\": {\n        \"active\": \"<boolean>\"\n      }\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "4fd2bebf-1976-482e-b041-724fb348c5b3",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "users",
+                    ":email"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "email",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"schemas\": [\n    \"urn:ietf:params:scim:schemas:core:2.0:PatchOp\",\n    \"urn:ietf:params:scim:schemas:core:2.0:PatchOp\"\n  ],\n  \"Operations\": [\n    {\n      \"op\": \"replace\",\n      \"value\": {\n        \"active\": true\n      }\n    },\n    {\n      \"op\": \"replace\",\n      \"value\": {\n        \"active\": true\n      }\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"user@domain.com\",\n  \"userName\": \"user@domain.com\",\n  \"name\": {\n    \"givenName\": \"John\",\n    \"familyName\": \"Doe\"\n  },\n  \"emails\": [\n    {\n      \"value\": \"user@domain.com\",\n      \"primary\": true,\n      \"type\": \"work\"\n    },\n    {\n      \"value\": \"user@domain.com\",\n      \"primary\": true,\n      \"type\": \"work\"\n    }\n  ],\n  \"active\": true,\n  \"schemas\": [\n    \"urn:ietf:params:scim:api:messages:2.0:User\",\n    \"urn:ietf:params:scim:api:messages:2.0:User\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e44f71a3-2845-436c-9232-abdf3bfba108",
+              "name": "Not Found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "users",
+                    ":email"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "email",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"schemas\": [\n    \"urn:ietf:params:scim:schemas:core:2.0:PatchOp\",\n    \"urn:ietf:params:scim:schemas:core:2.0:PatchOp\"\n  ],\n  \"Operations\": [\n    {\n      \"op\": \"replace\",\n      \"value\": {\n        \"active\": true\n      }\n    },\n    {\n      \"op\": \"replace\",\n      \"value\": {\n        \"active\": true\n      }\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"schemas\": [\n    \"urn:ietf:params:scim:schemas:core:2.0:Error\",\n    \"urn:ietf:params:scim:schemas:core:2.0:Error\"\n  ],\n  \"detail\": \"No user found for user: {userName}\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.commonroom.io/community/v1",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "f664e0d4-b02a-43c3-a615-a40c4b392056",
+    "name": "Common Room Core Activities SCIM API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Common Room Core REST APIs for getting data in to Common Room.\n<br/><br/>\nFor SCIM APIs <a href=\"./scim.html\">see the SCIM documentation</a>.\n<br/><br/>\nFor New, V2 APIs <a href=\"./api-v2.html\">see the V2 API documentation</a>.\n<br/><br/>\nTo use the Common Room API, or get started with the Common Room Zapier integration, you will need to create an API token.\nTo create an API token:\n<ol>\n  <li>Navigate to Setting | API tokens\n  <li>Create a “New Token\"\n</ol>\n\n# Authentication\n\n<!-- ReDoc-Inject: <security-definitions> -->",
+      "type": "text/plain"
+    }
+  }
+}

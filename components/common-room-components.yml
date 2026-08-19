@@ -1,0 +1,78 @@
+generated: '2026-08-13'
+method: searched
+source: >-
+  https://www.commonroom.io/docs/signals/website-visitor-tracking/ +
+  https://www.commonroom.io/docs/signals/common-room-native-signals/chrome-extension/
+  + https://www.commonroom.io/docs/signals/business-integrations/salesforce-widget/
+  + https://github.com/common-room/claude-plugin
+note: >-
+  Common Room ships no npm-distributed UI element library. What it does ship is a
+  set of client-side and embedded surfaces that a customer installs into somewhere
+  they already work — a JS tracker in their own site, a browser extension, a
+  widget inside Salesforce, and a plugin inside Claude. Grouped by family below.
+families:
+- family: web-tracker
+  name: Common Room web tracking snippet
+  kind: client-side-javascript
+  docs: https://www.commonroom.io/docs/signals/website-visitor-tracking/
+  availability: all plans
+  distribution: workspace-unique snippet copied from Settings -> Signals and integrations -> Website visits
+  registry: none
+  version: null
+  version_note: >-
+    The snippet is generated per workspace and is not published to npm or a
+    versioned CDN path, so a consumer cannot pin or inspect a version. Recorded as
+    null deliberately — checked, nothing to record.
+  install_methods:
+  - method: direct
+    detail: Paste the snippet inside the <body> tag
+  - method: google-tag-manager
+    detail: Custom HTML tag, All Pages trigger
+  - method: react-next-gatsby
+    detail: Inject into a high-level layout component via dangerouslySetInnerHTML, avoiding duplicate <script> tags
+  global: window.signals
+  api:
+  - call: 'window.signals.identify({ email: userEmail })'
+    description: >-
+      Associates an anonymous visit with a known identity. Common Room states this
+      raises deanonymization rates by over 50%. Standard email/name form fields
+      are de-anonymized automatically.
+  partner: >-
+    Enhanced US visitor tracking rewrites the snippet to use identification
+    technology from Vector.
+- family: browser-extension
+  name: Common Room Chrome extension
+  kind: browser-extension
+  docs: https://www.commonroom.io/docs/signals/common-room-native-signals/chrome-extension/
+  registry: chrome-web-store
+  version: null
+  version_note: Version not published in the documentation; not read from the store listing.
+  description: >-
+    Extracts signals from LinkedIn — contacts, posts, comments and reactions can
+    be added directly into Common Room from anywhere on LinkedIn.
+- family: embedded-crm-surface
+  name: Salesforce Widget
+  kind: embedded-panel
+  docs: https://www.commonroom.io/docs/signals/business-integrations/salesforce-managed-package/salesforce-widget/
+  registry: salesforce-appexchange
+  version: null
+  description: >-
+    A Common Room surface embedded inside Salesforce record pages, distributed
+    alongside the Salesforce Managed Package.
+  siblings:
+  - Salesforce Managed Package
+- family: ai-client-plugin
+  name: Common Room plugin for Claude
+  kind: assistant-plugin
+  docs: https://www.commonroom.io/docs/using-common-room/common-room-for-claude-connector-and-plugin/
+  repo: https://github.com/common-room/claude-plugin
+  registry: github
+  version: null
+  version_note: No tagged release read; repo last pushed 2026-02-19.
+  description: >-
+    A purpose-built plugin for Claude desktop (Cowork mode), complementing the
+    generic Common Room connector that any MCP client can use.
+  related: mcp/common-room-mcp.yml
+component_count: 4
+loader_libraries:
+- window.signals (web tracking snippet)

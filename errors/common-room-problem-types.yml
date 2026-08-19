@@ -1,0 +1,142 @@
+generated: '2026-08-13'
+method: derived
+source: openapi/_original/common-room-v2-openapi.yml + openapi/_original/common-room-core-openapi.yml
+format: proprietary
+note: >-
+  NOT RFC 9457. Common Room v2 returns a proprietary envelope with a
+  machine-readable code enum. The 21 codes below are transcribed verbatim from the
+  ApiV2Error `code` enum in the published spec — nothing invented. The v1 Core API
+  and the SCIM API use plain descriptions with no code enum.
+envelope:
+  media_type: application/json
+  schema: ApiV2ErrorResponse
+  shape: |-
+    {
+      "success": false,
+      "error": {
+        "code": "contact_not_found",
+        "message": "A human-readable description of the error."
+      }
+    }
+  fields:
+  - name: success
+    type: boolean
+    always: false
+  - name: error.code
+    type: string
+    required: true
+    description: A machine-readable error code identifying the failure.
+  - name: error.message
+    type: string
+    required: true
+    description: A human-readable description of the error.
+statuses:
+- status: 400
+  title: Bad Request
+  description: Invalid ID or invalid parameters
+  count_operations: 36
+  schema: ApiV2ErrorResponse
+- status: 403
+  title: Forbidden
+  description: Token missing, invalid, or lacking access to the requested resource
+  count_operations: 35
+  schema: Status
+  body_example: '{"status":"forbidden"}'
+  note: The v1 Core API returns {"reason":"Token not valid"} for an invalid token.
+- status: 404
+  title: Not Found
+  description: Resource does not exist in this workspace
+  count_operations: 22
+  schema: ApiV2ErrorResponse
+- status: 409
+  title: Conflict
+  description: A segment with this name already exists
+  count_operations: 1
+  schema: ApiV2ErrorResponse
+- status: 429
+  title: Rate Limited
+  description: Interval request budget exhausted
+  count_operations: 49
+  headers: [X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Reset, Retry-After]
+  body_fields:
+  - reason
+  - rateLimit.intervalLimit
+  - rateLimit.intervalRemaining
+  - rateLimit.intervalResetSeconds
+  - rateLimit.waitMs
+  remediation: >-
+    Sleep rateLimit.waitMs (or until Retry-After) and retry. Reads are safe to
+    retry; creates are upserts on a natural key so they are also safe to retry.
+codes:
+- code: invalid_parameters
+  status: 400
+  meaning: One or more query parameters or body fields failed validation.
+  remediation: Check limit (1-200), cursor, sort, direction and cols against the spec.
+- code: invalid_organization_id
+  status: 400
+  meaning: Organization ID is malformed.
+  remediation: Organization IDs are prefixed `o_<number>`.
+- code: org_not_found
+  status: 404
+  meaning: No organization with that ID in this workspace.
+- code: invalid_contact_id
+  status: 400
+  meaning: Contact ID is malformed.
+  remediation: Contact IDs are prefixed `c_<number>`.
+- code: contact_not_found
+  status: 404
+  meaning: No contact with that ID in this workspace.
+- code: invalid_object_id
+  status: 400
+  meaning: Custom object ID is malformed.
+- code: object_not_found
+  status: 404
+  meaning: No custom object with that ID in this workspace.
+- code: invalid_object_type_id
+  status: 400
+  meaning: Object type ID is malformed.
+- code: object_type_not_found
+  status: 404
+  meaning: No object type with that ID in this workspace.
+- code: invalid_segment_id
+  status: 400
+  meaning: Segment ID is malformed.
+  remediation: Segment IDs are prefixed `s_<number>`.
+- code: segment_not_found
+  status: 404
+  meaning: No segment with that ID in this workspace.
+- code: invalid_activity_id
+  status: 400
+  meaning: Activity ID is malformed.
+- code: activity_not_found
+  status: 404
+  meaning: No activity with that ID in this workspace.
+- code: conflict
+  status: 409
+  meaning: The resource already exists (e.g. a segment with the same name).
+  remediation: Reuse the existing resource or choose a different name.
+- code: internal_server_error
+  status: 500
+  meaning: Unhandled server-side failure.
+  remediation: Retry with backoff; contact support@commonroom.io if persistent.
+- code: invalid_custom_field_id
+  status: 400
+  meaning: Custom field ID is malformed.
+  remediation: Custom field IDs are prefixed `cf_<number>`; list them with GET /custom-fields.
+- code: custom_field_not_found
+  status: 404
+  meaning: No custom field with that ID in this workspace.
+- code: invalid_prospector_contact_id
+  status: 400
+  meaning: Prospector contact ID is malformed.
+  remediation: Prospector contact IDs are prefixed `pc_`.
+- code: prospector_contact_not_found
+  status: 404
+  meaning: No prospector contact with that ID.
+- code: invalid_prospector_company_id
+  status: 400
+  meaning: Prospector company ID is malformed.
+- code: prospector_company_not_found
+  status: 404
+  meaning: No prospector company with that ID.
+code_count: 21

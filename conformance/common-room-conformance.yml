@@ -1,0 +1,133 @@
+generated: '2026-08-13'
+method: searched
+source: >-
+  https://www.commonroom.io/security/ + https://mcp.commonroom.io/.well-known/oauth-authorization-server
+  + https://mcp.commonroom.io/.well-known/oauth-protected-resource +
+  https://www.commonroom.io/.well-known/security.txt + openapi/_original/*.yml
+standards:
+- id: oauth2
+  conforms: true
+  evidence: >-
+    RFC 8414 authorization server metadata served at
+    https://mcp.commonroom.io/.well-known/oauth-authorization-server (HTTP 200);
+    issuer https://login.commonroom.io/, authorization_endpoint /authorize,
+    token_endpoint /oauth/token. The CLI documents browser PKCE and device-flow
+    sign-in.
+- id: oauth2.1
+  conforms: true
+  evidence: >-
+    Provider states "Authentication: OAuth 2.1" for the hosted MCP server at
+    https://www.commonroom.io/docs/using-common-room/mcp-server/
+- id: rfc8414-oauth-authorization-server-metadata
+  conforms: true
+  evidence: 200 JSON at https://mcp.commonroom.io/.well-known/oauth-authorization-server
+- id: rfc9728-oauth-protected-resource-metadata
+  conforms: true
+  evidence: >-
+    200 JSON at https://mcp.commonroom.io/.well-known/oauth-protected-resource and
+    advertised in the WWW-Authenticate header of an unauthenticated MCP request
+- id: rfc7591-dynamic-client-registration
+  conforms: true
+  evidence: registration_endpoint https://login.commonroom.io/oidc/register in the AS metadata
+- id: oidc
+  conforms: true
+  evidence: >-
+    AS metadata advertises the openid scope, id_token response types and OIDC
+    claims (profile, email, email_verified, picture); the AS is an OIDC provider
+    at login.commonroom.io. No /.well-known/openid-configuration is served on any
+    Common Room host itself (404), so discovery runs through the authorization
+    server.
+- id: mcp
+  conforms: true
+  evidence: >-
+    Hosted Streamable-HTTP MCP server at https://mcp.commonroom.io/mcp; JSON-RPC
+    tools/list answers 401 with a standards-shaped OAuth challenge.
+- id: scim2
+  conforms: true
+  evidence: >-
+    SCIM 2.0 API at https://api.commonroom.io/scim/v2 with /users and
+    /users/{email}; the spec's User schema cites RFC 7643 section 4.1. Okta SAML
+    and Okta SCIM provisioning are documented integrations.
+- id: rfc9116-security-txt
+  conforms: true
+  evidence: >-
+    https://www.commonroom.io/.well-known/security.txt (200) with Contact,
+    Expires and Preferred-Languages fields
+- id: rfc9457-problem-details
+  conforms: false
+  evidence: >-
+    No application/problem+json anywhere in the published specs. Errors use a
+    proprietary envelope {success:false, error:{code, message}} with a
+    21-value machine-readable code enum (see errors/common-room-problem-types.yml).
+- id: rfc6585-429
+  conforms: true
+  evidence: >-
+    429 declared on 49 operations across the core and v2 specs, with a
+    Retry-After header on the shared RateLimited response.
+- id: rfc8594-sunset-header
+  conforms: false
+  evidence: >-
+    Operations are flagged with OpenAPI `deprecated: true` (3 of them) but no
+    Sunset or Deprecation response header is declared and no deprecation policy
+    page is published.
+- id: cursor-pagination
+  conforms: true
+  evidence: >-
+    v2 list operations take limit (1-200, default 50) + cursor and return a
+    nextCursor; the CLI documents the same envelope with a `truncated` flag.
+- id: sparse-fieldsets
+  conforms: true
+  evidence: v2 `cols` query parameter selects additional columns per request
+- id: idempotency-key-header
+  conforms: false
+  evidence: >-
+    No Idempotency-Key header or parameter in any published spec. Write
+    idempotency is achieved by natural-key upsert instead — see
+    conventions/common-room-conventions.yml.
+- id: json-api
+  conforms: false
+- id: odata
+  conforms: false
+- id: graphql
+  conforms: partial
+  evidence: >-
+    An internal GraphQL endpoint exists at https://api.commonroom.io/graphql and
+    returns a GraphQL error envelope, but introspection is auth-gated (HTTP 401,
+    NOT_AUTHORIZED) and it is not documented as a public API surface.
+- id: webhooks
+  conforms: true
+  evidence: >-
+    Documented webhook surface with six workflow triggers and three payload types;
+    optional shared secret delivered in the x-commonroom-webhook-secret header.
+    See asyncapi/common-room-webhooks.yml.
+- id: asyncapi
+  conforms: false
+  evidence: No AsyncAPI document published for the webhook surface.
+compliance:
+  published: true
+  url: https://www.commonroom.io/security/
+  certifications:
+  - SOC 2 Type 2
+  regulations:
+  - GDPR
+  - CCPA
+  programs:
+  - name: Independent penetration testing
+    evidence: >-
+      "We engage regularly with a penetration testing firm to provide independent
+      assurance that we stay updated with security best practices."
+  - name: Right to be forgotten
+    evidence: >-
+      "We adhere to GDPR and CCPA regulations and provide a programmatic
+      integration to remove all personally identifiable information." Implemented
+      as DELETE /user/{email} in the Core API.
+  - name: SSO / RBAC / SAML / SCIM
+    evidence: Okta, Microsoft Entra ID and other IdPs; SCIM 2.0 provisioning API
+  - name: Audit log streaming
+    evidence: >-
+      https://www.commonroom.io/docs/using-common-room/streaming-audit-logs-to-your-siem/
+      — sign-ins, role changes, seat changes and API token activity streamed to a
+      customer-owned S3 bucket
+  documents:
+  - Subscription services agreement (PDF)
+  - Data processing addendum (PDF)

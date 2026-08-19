@@ -1,3 +1,16 @@
+generated: '2026-08-13'
+method: searched
+source: https://www.commonroom.io/pricing/
+plan_count: 3
+note: >-
+  Re-read from the live pricing page on 2026-08-13. Only the Essential tier
+  publishes a price ($2,500/mo billed annually); Advanced and Enterprise are
+  "Custom" with a Request demo CTA and are recorded with price 0 + a note rather
+  than a guessed figure. Bombora Company Surge topic counts and the website
+  deanonymization allowance were CORRECTED against the live page this pass
+  (topics 5/10/25 -> 6/12/25; deanonymization 1,000/year -> 1k/mo on Essential and
+  Advanced, Unlimited on Enterprise). Common Room MCP and the CLI are listed as
+  plan features on every tier.
 name: Common Room Plans and Pricing
 description: Pricing plans for Common Room community intelligence platform, offering tiered access to contact management, AI research credits, prospecting, integrations, and enterprise features.
 version: '0.1'
@@ -24,7 +37,7 @@ plans:
         unit: credits
       - name: Bombora Company Surge Topics
         description: Intent data topics from Bombora
-        limit: 5
+        limit: 6
         unit: topics
       - name: Website Activity Enrichment
         description: Annual IP enrichment for website visitor identification
@@ -35,9 +48,9 @@ plans:
         limit: 100
         unit: credits
       - name: Website Deanonymization
-        description: Annual deanonymization credits
+        description: Monthly deanonymization allowance
         limit: 1000
-        unit: visits/year
+        unit: visits/month
       - name: Support
         description: Ticketed support
         value: Ticketed
@@ -84,7 +97,7 @@ plans:
         unit: credits
       - name: Bombora Company Surge Topics
         description: Intent data topics from Bombora
-        limit: 10
+        limit: 12
         unit: topics
       - name: Website Activity Enrichment
         description: Annual IP enrichment
@@ -95,9 +108,9 @@ plans:
         limit: 100
         unit: credits
       - name: Website Deanonymization
-        description: Annual deanonymization credits
+        description: Monthly deanonymization allowance
         limit: 1000
-        unit: visits/year
+        unit: visits/month
       - name: Support
         description: Ticketed support
         value: Ticketed
@@ -145,3 +158,6 @@ plans:
       - name: Product Signal Integration
         description: Native product usage signal integration
         value: Included
+    agent_surfaces:
+      - Common Room MCP
+      - CLI

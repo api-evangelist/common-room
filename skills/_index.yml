@@ -1,0 +1,70 @@
+generated: '2026-08-13'
+method: generated
+source: >-
+  openapi/_original/*.yml (operations verified against the published specs) +
+  conventions/common-room-conventions.yml + errors/common-room-problem-types.yml +
+  lifecycle/common-room-lifecycle.yml + mcp/common-room-mcp.yml + cli/common-room-cli.yml
+note: >-
+  Common Room's published v2 spec assigns operationIds to almost none of its
+  operations — only addUpdateUserToSource, addUpdateActivityToSource,
+  getActivityTypes, getSegments, getSegmentStatuses, addContactsToSegment,
+  listTags, createTag, getTag, updateTag and deleteTag exist verbatim. Where a
+  skill step has no operationId to cite, it cites METHOD + path from the spec.
+  Nothing is invented.
+skills:
+- file: common-room-account-research-brief.md
+  name: Common Room account research brief
+  description: >-
+    Assemble a grounded intelligence brief on one company — firmographics, lead
+    scores, the people who matter, their recent activity, and web-visit signal.
+  api: openapi/common-room-organizations-api-openapi.yml
+  operations:
+  - 'GET /organizations'
+  - 'GET /organizations/{id}'
+  - 'GET /contacts'
+  - 'GET /activities'
+  - 'GET /website-visits'
+  - 'GET /providers'
+- file: common-room-build-a-segment.md
+  name: Common Room build and populate a segment
+  description: >-
+    Create a static segment and get the right contacts or organizations into it,
+    routing membership through MCP or the CLI because v2 REST has no membership
+    operation and the v1 one is deprecated.
+  api: openapi/common-room-segments-api-openapi.yml
+  operations:
+  - 'POST /segments'
+  - 'GET /segments'
+  - 'GET /segments/{id}'
+  - getSegments
+  - getSegmentStatuses
+  - addContactsToSegment
+- file: common-room-ingest-contacts-and-activity.md
+  name: Common Room ingest contacts and activity from your own source
+  description: >-
+    Push people and their behaviour into Common Room from a system it does not
+    natively integrate with, using the v1 source-scoped upsert operations.
+  api: openapi/common-room-contacts-api-openapi.yml
+  operations:
+  - addUpdateUserToSource
+  - addUpdateActivityToSource
+  - getActivityTypes
+  - 'POST /data-available'
+- file: common-room-right-to-be-forgotten.md
+  name: Common Room right to be forgotten
+  description: >-
+    Execute a GDPR/CCPA erasure request correctly — verify, anonymize, confirm,
+    and stop the pipes that would re-create the record.
+  api: openapi/common-room-right-to-be-forgotten-api-openapi.yml
+  operations:
+  - 'DELETE /user/{email}'
+  - 'GET /contacts'
+  - 'GET /api-token-status'
+skill_count: 4
+provider_published_skills: none
+provider_published_skills_note: >-
+  No AGENTS.md, skills/ directory or published agent skill files were found on the
+  docs host or in the github.com/common-room organization. The nearest
+  provider-published equivalent is `cr agent-context --json`, which emits a
+  machine-readable map of the CLI surface intended for injection into an agent
+  system prompt — recorded in cli/common-room-cli.yml.

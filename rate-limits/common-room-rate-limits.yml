@@ -1,38 +1,117 @@
+generated: '2026-08-13'
+method: searched
+source: >-
+  https://api.commonroom.io/docs/api-v2.html + https://api.commonroom.io/docs/community.html
+  + openapi/_original/common-room-v2-openapi.yml (components.responses.RateLimited,
+  components.headers)
 name: Common Room API Rate Limits
-description: Rate limit information for the Common Room Core API and SCIM API. Specific numeric rate limits are not publicly documented; limits are enforced at the API token level and vary by plan tier.
-version: '0.1'
-url: https://api.commonroom.io/docs/community.html
-notes: Common Room does not publicly disclose specific numeric rate limit thresholds in their documentation. Rate limiting is enforced per API token. Contact Common Room support for plan-specific rate limit details.
+description: >-
+  Rate limits for the Common Room Core (v1), v2 and SCIM APIs. Common Room does not
+  publish a numeric threshold anywhere, but it DOES publish a complete runtime
+  signal — four response headers plus a structured 429 body that tells a client
+  exactly how long to wait. For an agent that is the more useful contract.
+url: https://api.commonroom.io/docs/api-v2.html
+limit_count: 0
+limit_count_note: >-
+  Zero PUBLISHED numeric limits. No requests-per-second, per-minute or per-day
+  figure appears in the docs or the specs; the ceiling is enforced per API token
+  and varies by plan tier. This is an honest zero, not an unchecked field — the
+  runtime signal below is fully documented and machine-readable.
+scope: per-api-token
+status_code: 429
+headers:
+- name: X-RateLimit-Limit
+  description: The total amount of requests permitted within the interval
+  type: integer
+  on: every response
+  source: openapi components.headers
+- name: X-RateLimit-Remaining
+  description: The total amount of requests remaining within the interval
+  type: integer
+  on: every response
+  source: openapi components.headers
+- name: X-RateLimit-Reset
+  description: The datetime in epoch seconds when the interval resets
+  type: integer
+  on: 429
+  source: openapi components.responses.RateLimited
+- name: Retry-After
+  description: The UTC datetime when the interval resets
+  type: string
+  format: date-time
+  on: 429
+  source: openapi components.responses.RateLimited
+  note: >-
+    NON-STANDARD VALUE. RFC 9110 Retry-After carries either delta-seconds or an
+    HTTP-date; Common Room declares it as an ISO 8601 date-time. A client using an
+    off-the-shelf Retry-After parser may fail to read it — prefer
+    rateLimit.waitMs from the body.
+response_body:
+  media_type: application/json
+  fields:
+  - {name: reason, type: string}
+  - {name: rateLimit.intervalLimit, type: number, description: The total amount of requests permitted within the interval}
+  - {name: rateLimit.intervalRemaining, type: number, description: The amount of requests remaining within the interval}
+  - {name: rateLimit.intervalResetSeconds, type: number, description: The amount of time in seconds representing a single interval}
+  - {name: rateLimit.waitMs, type: number, description: The amount of time to wait until the next interval}
+  agent_guidance: >-
+    On 429, sleep rateLimit.waitMs and retry. All reads are safe to retry; contact
+    and organization creates are natural-key upserts and are also safe. Activity
+    and note creates are NOT — they append.
+apis:
+- name: Common Room API (v2)
+  baseURL: https://api.commonroom.io/community/v2
+  spec: openapi/_original/common-room-v2-openapi.yml
+  operations_declaring_429: 34
+  operations_total: 34
+  coverage: every operation
+  headers: [X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Reset, Retry-After]
+  status_code: 429
+- name: Common Room Core API (v1)
+  baseURL: https://api.commonroom.io/community/v1
+  spec: openapi/_original/common-room-core-openapi.yml
+  operations_declaring_429: 15
+  operations_total: 16
+  coverage: all but one operation
+  headers: [X-RateLimit-Limit, X-RateLimit-Remaining]
+  status_code: 429
+- name: Common Room SCIM API
+  baseURL: https://api.commonroom.io/scim/v2
+  spec: openapi/_original/common-room-scim-openapi.yml
+  operations_declaring_429: 0
+  operations_total: 4
+  coverage: none
+  note: >-
+    The SCIM spec declares no 429 and no rate-limit headers. Whether limits apply
+    to the SCIM surface is undocumented — assume they do and handle 429 anyway.
+  status_code: unknown
+pagination_pressure:
+  note: >-
+    v2 list operations cap `limit` at 200 (default 50), so a full-workspace crawl
+    of a 750k-contact Enterprise room is at minimum 3,750 requests. Budget for
+    429s on any bulk read.
+  detail: conventions/common-room-conventions.yml
 authentication:
   type: Bearer Token
-  description: API tokens are created in Settings > API Tokens and used as JWT Bearer tokens in the Authorization header.
+  description: >-
+    API tokens are created in Settings > API Tokens and used as JWT Bearer tokens
+    in the Authorization header. Limits are enforced per token, so issuing a
+    separate token per workload isolates their budgets.
   header: Authorization
   format: 'Bearer <token>'
-  tokenStatusEndpoint: GET /api/v1/token/status
-apis:
-  - name: Common Room Core API
-    baseURL: https://api.commonroom.io
-    rateLimits:
-      - scope: token
-        description: Rate limits are enforced per API token. Specific thresholds are not publicly documented.
-        headers:
-          - name: x-ratelimit-limit
-            description: Maximum number of requests allowed in the current window (if returned)
-          - name: x-ratelimit-remaining
-            description: Number of requests remaining in the current window (if returned)
-          - name: x-ratelimit-reset
-            description: Unix timestamp when the rate limit window resets (if returned)
-        statusCode: 429
-        statusDescription: Too Many Requests — returned when rate limit is exceeded
-  - name: Common Room SCIM API
-    baseURL: https://api.commonroom.io
-    rateLimits:
-      - scope: token
-        description: Rate limits are enforced per API token. Specific thresholds are not publicly documented.
-        statusCode: 429
-        statusDescription: Too Many Requests — returned when rate limit is exceeded
+  tokenStatusEndpoint: 'GET /api-token-status'
+mcp:
+  endpoint: https://mcp.commonroom.io/mcp
+  limits: undocumented
+  note: >-
+    No rate-limit documentation exists for the hosted MCP server. tools/list is
+    OAuth-gated (401) so no limit headers could be observed anonymously.
 webhooks:
-  description: Webhook deliveries are triggered by workflow rules in Common Room. No explicit rate limits on webhook delivery frequency are documented, but webhook payloads are delivered based on event occurrence and daily workflow schedules.
+  description: >-
+    Webhook deliveries are triggered by workflow rules. No explicit delivery-rate
+    limit is documented; realtime workflows fire on event occurrence and the
+    "contacts that meet criteria" workflow runs once daily.
   secret:
     header: x-commonroom-webhook-secret
-    description: Optional shared secret sent in webhook request header for payload verification
+    description: Optional shared secret sent in the webhook request header for payload verification
+  detail: asyncapi/common-room-webhooks.yml

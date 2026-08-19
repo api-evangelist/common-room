@@ -1,0 +1,98 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Common Room Core Activities Organizations API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Organizations",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get an organization by ID",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.commonroom.io/community/v1/organizations/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The prefixed organization ID (format `o_<number>`)"
+              },
+              {
+                "name": "cols",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list of additional columns to include in the response.\nValid values: `about`, `contactsCount`, `employees`, `linkedInUrl`, `profiles`,\n`revenueRangeMax`, `revenueRangeMin`, `subIndustry`, `location`, `leadScores`,\n`recentJobOpenings`, `recentNews`, `researchResults`, `surgingTopics`, `tags`, `topContacts`, `url`.\nUse `cf_*` to include all custom fields, or `cf_<id>` for a specific one.\n"
+              }
+            ]
+          },
+          "docs": "Retrieve a specific organization by its unique identifier."
+        },
+        {
+          "info": {
+            "name": "List organizations",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.commonroom.io/community/v1/organizations",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "The maximum number of organizations to return per page"
+              },
+              {
+                "name": "cursor",
+                "value": "",
+                "type": "query",
+                "description": "Pagination cursor from a previous response"
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "Field to sort results by. One of: `id`, `member_count`,\na lead-score ID (format `ls_<number>`), or a custom-field ID (format `cf_<number>`).\n"
+              },
+              {
+                "name": "direction",
+                "value": "",
+                "type": "query",
+                "description": "Sort direction"
+              },
+              {
+                "name": "cols",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list of additional columns to include in the response.\nValid column values: `about`, `contactsCount`, `employees`, `linkedInUrl`, `profiles`,\n`revenueRangeMax`, `revenueRangeMin`, `subIndustry`, `location`, `leadScores`,\n`recentJobOpenings`, `recentNews`, `researchResults`, `surgingTopics`, `tags`, `topContacts`, `url`.\nUse `cf_*` to include all custom fields, or `cf_<id>` for a specific one. The meta\ncolumn `recordCount` can be requested to return the total number of matching\norganizations in `meta.recordCount`.\n"
+              },
+              {
+                "name": "name",
+                "value": "",
+                "type": "query",
+                "description": "Filter organizations by exact name match"
+              },
+              {
+                "name": "primaryDomain",
+                "value": "",
+                "type": "query",
+                "description": "Filter organizations by primary domain (exact match)"
+              }
+            ]
+          },
+          "docs": "Retrieve a list of organizations with pagination support."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

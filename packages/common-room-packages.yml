@@ -1,0 +1,64 @@
+generated: '2026-08-13'
+method: searched
+source: https://www.commonroom.io/docs/using-common-room/cli/ + registry.npmjs.org + github.com/common-room/homebrew-tap
+note: >-
+  Common Room publishes exactly one first-party distributable package — the `cr`
+  CLI. No server-side client SDK (JavaScript, Python, Java, Go, Ruby, PHP, .NET,
+  Rust) is published by Common Room in any public registry; npm scope search for
+  `commonroomio` returned a single package and PyPI returned 404 for every
+  candidate name. Integrators call the REST API directly, use the CLI, or use the
+  MCP server.
+registries_probed:
+- registry: npm
+  query: 'scope:commonroomio + text search "commonroom"'
+  result: 1 package (@commonroomio/cli)
+- registry: pypi
+  query: commonroom / common-room / commonroomio
+  result: 404 — no package
+- registry: rubygems
+  result: not published
+- registry: packagist
+  result: not published
+- registry: crates.io
+  result: not published
+- registry: nuget
+  result: not published
+- registry: pkg.go.dev
+  result: not published
+packages:
+- language: javascript
+  registry: npm
+  name: '@commonroomio/cli'
+  url: https://www.npmjs.com/package/@commonroomio/cli
+  install: npm install -g @commonroomio/cli
+  binary: cr
+  official: true
+  kind: cli
+  license: Apache-2.0
+  version: 0.1.2
+  published: '2026-05-29'
+  versions_published: 3
+  requires: Node.js >=22.0.0
+  note: >-
+    Read from registry.npmjs.org dist-tags.latest + time map. This is the `cr`
+    CLI documented at https://www.commonroom.io/docs/using-common-room/cli/, not
+    a client SDK.
+- language: shell
+  registry: homebrew
+  name: common-room/tap/cr
+  url: https://github.com/common-room/homebrew-tap
+  install: brew install common-room/tap/cr
+  binary: cr
+  official: true
+  kind: cli
+  license: Apache-2.0
+  version: 0.1.1
+  published: null
+  note: >-
+    Homebrew has no version-dated metadata endpoint. Version read directly from
+    the pinned tarball URL in Formula/cr.rb
+    (registry.npmjs.org/@commonroomio/cli/-/cli-0.1.1.tgz). CURRENCY GAP: the tap
+    pins 0.1.1 while npm latest is 0.1.2 (2026-05-29) — a Homebrew installer gets
+    an older CLI than an npm installer.
+sdk_count: 0
+cli_count: 1

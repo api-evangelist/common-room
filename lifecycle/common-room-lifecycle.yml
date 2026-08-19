@@ -1,0 +1,107 @@
+generated: '2026-08-13'
+method: searched
+source: >-
+  https://api.commonroom.io/docs/community.html + https://api.commonroom.io/docs/api-v2.html
+  + https://api.commonroom.io/docs/scim.html + https://www.commonroom.io/security/
+  + https://www.commonroom.io/docs/set-preferences/webhooks/ + openapi/_original/*.yml
+versioning:
+  scheme: uri-path
+  current: v2
+  trains:
+  - version: v1
+    base: https://api.commonroom.io/community/v1
+    title: Common Room Core API
+    docs: https://api.commonroom.io/docs/community.html
+    status: supported-legacy
+    note: Still documented and still serves the only public write operations.
+  - version: v2
+    base: https://api.commonroom.io/community/v2
+    title: Common Room API (v2)
+    docs: https://api.commonroom.io/docs/api-v2.html
+    status: current
+  - version: scim/v2
+    base: https://api.commonroom.io/scim/v2
+    title: Common Room SCIM API
+    docs: https://api.commonroom.io/docs/scim.html
+    status: current
+  note: >-
+    No version header, no date-based versioning, no version negotiation. Nothing
+    in the docs states a support window or an end-of-life date for v1.
+deprecation:
+  policy_url: null
+  policy_published: false
+  sunset_header: false
+  deprecation_header: false
+  note: >-
+    Common Room flags deprecated operations inside the OpenAPI itself but
+    publishes NO deprecation policy page, no notice period, and no
+    Sunset/Deprecation response headers (RFC 8594). The only written change
+    commitment found anywhere is scoped to webhook payloads.
+  payload_change_commitment:
+    scope: webhook payloads
+    source: https://www.commonroom.io/docs/set-preferences/webhooks/
+    statement: >-
+      "Note that we do not consider additive fields to the payload as breaking
+      changes. For renamed or deleted fields, we will notify you of changes."
+deprecated_operations:
+- operation: 'GET /user/{email}'
+  spec: openapi/common-room-contacts-api-openapi.yml
+  title: Get Contact by E-Mail
+  replacement: 'GET /contacts (v2) with an email filter'
+- operation: 'GET /members'
+  spec: openapi/common-room-contacts-api-openapi.yml
+  title: Get Contact By E-Mail or Socials
+  replacement: 'GET /contacts (v2)'
+- operation: addContactsToSegment
+  spec: openapi/common-room-segments-api-openapi.yml
+  path: 'POST /segments/{id}'
+  title: Add Contact(s) to Segment
+  replacement: >-
+    Set segmentId on the contact via the MCP commonroom_update_object tool or
+    `cr contact update ... --segment-id`.
+deprecated_operation_count: 3
+sla:
+  url: https://www.commonroom.io/security/
+  uptime_target: '99.9%'
+  statement: >-
+    "Reliability — 99.9% uptime. Service-level agreement with 24/7 uptime
+    monitoring."
+  note: >-
+    The uptime target is published on the security page; the SLA document itself
+    is contractual (subscription services agreement PDF) rather than a public
+    page.
+status_page: null
+status_page_probes:
+- url: https://status.commonroom.io
+  status: 000
+  note: DNS does not resolve
+- url: https://www.commonroom.io/status/
+  status: 404
+- url: https://commonroom.statuspage.io/
+  status: 200
+  note: >-
+    FALSE POSITIVE — resolves to Atlassian's Statuspage marketing site, not a
+    Common Room status page.
+- url: https://commonroom.instatus.com
+  status: 200
+  note: FALSE POSITIVE — Instatus marketing site, no Common Room page.
+status_page_finding: >-
+  Common Room advertises 99.9% uptime with 24/7 monitoring but publishes NO public
+  status page. Every candidate host either failed to resolve or resolved to a
+  status-page vendor's own marketing site.
+changelog: null
+changelog_probes:
+- url: https://www.commonroom.io/docs/changelog/
+  status: 200
+  note: Soft 404 — returns the generic docs landing page, not a dated changelog.
+- url: https://www.commonroom.io/docs/whats-new/
+  status: 200
+  note: Soft 404 — same generic docs landing page.
+- url: https://www.commonroom.io/changelog/
+  status: 404
+- url: https://www.commonroom.io/release-notes/
+  status: 404
+changelog_finding: >-
+  No dated changelog or release-notes feed exists. Individual docs pages carry a
+  "Last updated" date (MCP server Jun 19 2026, CLI Jun 15 2026, Webhooks Feb 13
+  2026), which is the closest thing to a change signal Common Room publishes.

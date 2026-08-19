@@ -1,0 +1,98 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Common Room Core Activities Objects API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Objects",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get a custom object by ID",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.commonroom.io/community/v1/objects/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The prefixed custom object ID (format `co_<number>`)"
+              },
+              {
+                "name": "cols",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list of additional columns to include in the response.\nValid values: `recordKey`. Use `cf_*` to include all custom fields,\nor `cf_<id>` for a specific one.\n"
+              }
+            ]
+          },
+          "docs": "Retrieve a specific custom object by its unique identifier."
+        },
+        {
+          "info": {
+            "name": "List custom objects",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.commonroom.io/community/v1/objects",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "The maximum number of objects to return per page"
+              },
+              {
+                "name": "cursor",
+                "value": "",
+                "type": "query",
+                "description": "Pagination cursor from a previous response"
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "Field to sort results by"
+              },
+              {
+                "name": "direction",
+                "value": "",
+                "type": "query",
+                "description": "Sort direction"
+              },
+              {
+                "name": "objectTypeId",
+                "value": "",
+                "type": "query",
+                "description": "Filter objects by prefixed object type ID (format `cot_<number>`)"
+              },
+              {
+                "name": "segmentId",
+                "value": "",
+                "type": "query",
+                "description": "Filter objects by prefixed segment ID (format `s_<number>`)"
+              },
+              {
+                "name": "cols",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list of additional columns to include in the response.\nValid column values: `recordKey`. Use `cf_*` to include all custom fields,\nor `cf_<id>` for a specific one. The meta column `recordCount` can be\nrequested to return the total number of matching objects in `meta.recordCount`.\n"
+              }
+            ]
+          },
+          "docs": "Retrieve a paginated list of custom objects."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
