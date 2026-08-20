@@ -29,6 +29,23 @@ specificationVersion: '0.23'
 aid: common-room
 tags:
 - Community Intelligence
+- Go-To-Market
+- Member Signals
+- GitHub
+- Slack
+- Discord
+- LinkedIn
+- Sales Intelligence
+- Contact Management
+- Webhook
+- Buyer Intelligence
+- MCP
+- Agent Tooling
+- CLI
+- SCIM
+- Signal Intelligence
+tags_raw:
+- Community Intelligence
 - Go-to-Market
 - Member Signals
 - GitHub
@@ -224,6 +241,8 @@ apis:
   humanURL: https://www.commonroom.io/developers/
   baseURL: https://api.commonroom.io
   tags:
+  - Organization
+  tags_raw:
   - Organizations
   properties:
   - type: OpenAPI
@@ -289,6 +308,8 @@ apis:
   humanURL: https://www.commonroom.io/developers/
   baseURL: https://api.commonroom.io
   tags:
+  - Right to Be Forgotten
+  tags_raw:
   - Right to be Forgotten
   properties:
   - type: OpenAPI
