@@ -1,0 +1,48 @@
+# Kin Score artifact — common-room — 2026-08-20T191845
+# The API Evangelist rating (https://github.com/api-evangelist/kin-score). Generated; do not edit.
+---
+kin_score:
+  slug: common-room
+  schema_version: 0.12.0
+  scored_at: '2026-08-20'
+  run_ts: 2026-08-20T191845
+  composite: 68.1
+  band: exemplar
+  facets:
+    discoverability: 92.6
+    contract_quality: 76.2
+    governance: 40.2
+    operational_transparency: 23.7
+    developer_ergonomics: 66.1
+    commercial_clarity: 93.4
+    contract_governance: 40.2
+    access_clarity: 93.4
+  agent_readiness:
+    score: 62.0
+    band: agent-native
+    dimensions:
+      spec_presence: true
+      agentic_access: derived
+      reversibility_documented: false
+      mcp_server: documented
+      auth_clarity: true
+      idempotency: documented
+      error_semantics: verified
+      openapi_examples: partial
+      rate_limit_signal: verified
+      event_surface_described: true
+      agent_skills: derived
+      well_known_catalog: true
+      consent_identity: true
+      agent_card: false
+      dry_run_mode: false
+  provenance:
+    mcp: first-party
+    skills: derived
+    agentic_access: derived
+    conformance: first-party
+    contracts:
+      total: 22
+      derived: 0
+      coverage: 0.0
+      callable: 100.0
