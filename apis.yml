@@ -8,6 +8,18 @@ description: Common Room is an AI-native go-to-market and buyer-intelligence pla
   webhook surface driven by workflow rules, a hosted OAuth 2.1 MCP server at
   mcp.commonroom.io for AI clients, and a first-party `cr` CLI for scripted and
   agent-driven access.
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: true
+  label: Hosted service · you call their endpoint
+  confidence: high
+  source:
+  - openapi
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 accessModel:
   pricing: freemium
   onboarding: self-serve
