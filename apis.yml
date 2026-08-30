@@ -41,7 +41,7 @@ specificationVersion: '0.23'
 aid: common-room
 tags:
 - Community Intelligence
-- Go-To-Market
+- Go-to-Market
 - Member Signals
 - GitHub
 - Slack
@@ -320,7 +320,7 @@ apis:
   humanURL: https://www.commonroom.io/developers/
   baseURL: https://api.commonroom.io
   tags:
-  - Right to Be Forgotten
+  - Right to be Forgotten
   tags_raw:
   - Right to be Forgotten
   properties:
