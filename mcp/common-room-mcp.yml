@@ -7,13 +7,12 @@ probe:
   method: POST
   body: '{"jsonrpc":"2.0","id":1,"method":"tools/list"}'
   http_status: 401
-  response: '{"error":"unauthorized","message":"Authentication required. Reconnect the MCP server to sign in again."}'
+  response: '{"error":"unauthorized","message":"Authentication required. Reconnect the MCP server to sign
+    in again."}'
   www_authenticate: Bearer resource_metadata="https://mcp.commonroom.io/.well-known/oauth-protected-resource/mcp"
-  note: >-
-    The live tools/list manifest is OAuth-gated, so per-tool inputSchema could not
-    be read anonymously. The tool NAMES and DESCRIPTIONS below are transcribed
-    verbatim from the provider's own "Available Tools" table in the MCP docs page;
-    input schemas require authenticated introspection.
+  note: The live tools/list manifest is OAuth-gated, so per-tool inputSchema could not be read anonymously.
+    The tool NAMES and DESCRIPTIONS below are transcribed verbatim from the provider's own "Available
+    Tools" table in the MCP docs page; input schemas require authenticated introspection.
 deployment:
   mode: remote
   endpoint: https://mcp.commonroom.io/mcp
@@ -28,22 +27,27 @@ deployment:
     protected_resource_metadata: https://mcp.commonroom.io/.well-known/oauth-protected-resource
     authorization_server_metadata: https://mcp.commonroom.io/.well-known/oauth-authorization-server
     dynamic_client_registration: https://login.commonroom.io/oidc/register
-    scopes: [openid, profile, email, offline_access]
-  note: >-
-    Remote only. Common Room ships NO stdio/npx MCP package — the docs configure
-    every client (Claude, ChatGPT, Cursor, VS Code Copilot) against the hosted
-    HTTP URL. The separate `@commonroomio/cli` npm package is a CLI, not an MCP
-    stdio server.
+    scopes:
+    - openid
+    - profile
+    - email
+    - offline_access
+  note: Remote only. Common Room ships NO stdio/npx MCP package — the docs configure every client (Claude,
+    ChatGPT, Cursor, VS Code Copilot) against the hosted HTTP URL. The separate `@commonroomio/cli` npm
+    package is a CLI, not an MCP stdio server.
+  probe_prior: (never probed)
+  probe: gated
+  probe_why: RFC 9728 challenge on the MCP path only
+  checked: '2026-09-11'
+  source: claimed-backlog re-probe 2026-09-11
 server:
   name: common-room
   transport: http
   url: https://mcp.commonroom.io/mcp
   read_write: true
-  permissions: >-
-    Write operations respect the same per-user OAuth permissions as reads. Users
-    can only create or update data their Common Room account already has access
-    to; workspace role-based access controls apply to every write. There is no
-    elevated service account or shared token.
+  permissions: Write operations respect the same per-user OAuth permissions as reads. Users can only create
+    or update data their Common Room account already has access to; workspace role-based access controls
+    apply to every write. There is no elevated service account or shared token.
 clients_documented:
 - name: Claude
   mechanism: Connectors -> Common Room connector (OAuth)
