@@ -189,6 +189,8 @@ apis:
   humanURL: https://www.commonroom.io/developers/
   baseURL: https://api.commonroom.io
   tags:
+  - Location
+  tags_raw:
   - Locations
   properties:
   - type: OpenAPI
@@ -418,6 +420,8 @@ apis:
   humanURL: https://www.commonroom.io/developers/
   baseURL: https://api.commonroom.io
   tags:
+  - Topic
+  tags_raw:
   - Topics
   properties:
   - type: OpenAPI
