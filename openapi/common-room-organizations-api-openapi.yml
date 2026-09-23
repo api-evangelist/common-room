@@ -1,13 +1,35 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
-  title: Common Room Core Activities Organizations API
-  version: 1.0.0
-  description: "Common Room Core REST APIs for getting data in to Common Room.\n<br/><br/>\nFor SCIM APIs <a href=\"./scim.html\">see the SCIM documentation</a>.\n<br/><br/>\nFor New, V2 APIs <a href=\"./api-v2.html\">see the V2 API documentation</a>.\n<br/><br/>\nTo use the Common Room API, or get started with the Common Room Zapier integration, you will need to create an API token.\nTo create an API token:\n<ol>\n  <li>Navigate to Setting | API tokens\n  <li>Create a “New Token\"\n</ol>\n\n# Authentication\n\n<!-- ReDoc-Inject: <security-definitions> -->"
+  title: Common Room API (v2) Organizations API
+  version: 2.0.0
+  description: 'Common Room API v2 for accessing contact and organization data.
+
+
+    For v1 and RTBF APIs see the V1 API documentation.
+
+
+    To use the Common Room API, you will need to create an API token.
+
+    To create an API token:
+
+
+    Navigate to Setting | API tokens
+
+
+    Create a "New Token"
+
+
+    # Authentication
+
+
+    -->'
   x-logo:
     url: /common-room-api-logo.svg
 servers:
-- url: https://api.commonroom.io/community/v1
-  description: Common Room Core API v1
+- url: https://api.commonroom.io/community/v2
+  description: Common Room API v2
+security:
+- BearerAuth: []
 tags:
 - name: Organizations
   description: Operations related to organization management
@@ -73,6 +95,8 @@ paths:
                 $ref: '#/components/schemas/ApiV2ErrorResponse'
         '429':
           $ref: '#/components/responses/RateLimited'
+      operationId: getOrganizationsById
+      x-operation-id-source: derived
   /organizations:
     get:
       summary: List organizations
@@ -174,6 +198,8 @@ paths:
                 $ref: '#/components/schemas/Status'
         '429':
           $ref: '#/components/responses/RateLimited'
+      operationId: getOrganizations
+      x-operation-id-source: derived
 components:
   schemas:
     ApiLeadScore:
@@ -192,6 +218,95 @@ components:
         percentile:
           type: number
           description: The percentile rank of the score within the community
+    ApiLocation:
+      type: object
+      description: A best-effort location, with each component populated when known.
+      properties:
+        city:
+          type: string
+          description: City name
+        region:
+          type: string
+          description: State, province, or region name
+        country:
+          type: string
+          description: Country name
+    ApiActivity:
+      type: object
+      required:
+      - id
+      - type
+      - activityTime
+      properties:
+        id:
+          type: string
+          description: Prefixed activity ID (format `a_<number>`)
+        type:
+          type: string
+          description: Activity type identifier (e.g. `tweet`, `pr_comment`)
+        activityTime:
+          type: string
+          format: date-time
+          description: When the activity occurred
+        contactId:
+          type: string
+          description: Prefixed contact ID (format `c_<number>`)
+        content:
+          type:
+          - string
+          - 'null'
+        isUserInitiated:
+          type: boolean
+        participantCount:
+          type: integer
+        providerId:
+          type: string
+          description: Prefixed signal source ID (format `sig_<number>`)
+        providerName:
+          type:
+          - string
+          - 'null'
+        replyCount:
+          type: integer
+        sentiment:
+          type:
+          - string
+          - 'null'
+        subSourceNames:
+          type: array
+          items:
+            type: string
+        url:
+          type: string
+          format: uri
+    OrganizationList:
+      type: object
+      required:
+      - success
+      - data
+      - meta
+      properties:
+        success:
+          type: boolean
+          enum:
+          - true
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Organization'
+        meta:
+          type: object
+          required:
+          - nextCursor
+          properties:
+            nextCursor:
+              type:
+              - string
+              - 'null'
+              description: Cursor for pagination; pass as the `cursor` query parameter to fetch the next page.
+            recordCount:
+              type: integer
+              description: Total number of records matching the query. Only returned when `cols=recordCount` is requested.
     ApiFieldValue:
       description: A typed custom-field value. The `type` discriminator indicates the value's runtime type.
       oneOf:
@@ -263,18 +378,18 @@ components:
             - boolean
           value:
             type: boolean
-    ApiV2ErrorResponse:
+    OrganizationResponse:
       type: object
       required:
       - success
-      - error
+      - data
       properties:
         success:
           type: boolean
           enum:
-          - false
-        error:
-          $ref: '#/components/schemas/ApiV2Error'
+          - true
+        data:
+          $ref: '#/components/schemas/Organization'
     ApiV2Error:
       type: object
       required:
@@ -309,63 +424,6 @@ components:
         message:
           type: string
           description: A human-readable description of the error.
-    OrganizationResponse:
-      type: object
-      required:
-      - success
-      - data
-      properties:
-        success:
-          type: boolean
-          enum:
-          - true
-        data:
-          $ref: '#/components/schemas/Organization'
-    ApiActivity:
-      type: object
-      required:
-      - id
-      - type
-      - activityTime
-      properties:
-        id:
-          type: string
-          description: Prefixed activity ID (format `a_<number>`)
-        type:
-          type: string
-          description: Activity type identifier (e.g. `tweet`, `pr_comment`)
-        activityTime:
-          type: string
-          format: date-time
-          description: When the activity occurred
-        contactId:
-          type: string
-          description: Prefixed contact ID (format `c_<number>`)
-        content:
-          type: string
-          nullable: true
-        isUserInitiated:
-          type: boolean
-        participantCount:
-          type: integer
-        providerId:
-          type: string
-          description: Prefixed signal source ID (format `sig_<number>`)
-        providerName:
-          type: string
-          nullable: true
-        replyCount:
-          type: integer
-        sentiment:
-          type: string
-          nullable: true
-        subSourceNames:
-          type: array
-          items:
-            type: string
-        url:
-          type: string
-          format: uri
     Organization:
       type: object
       required:
@@ -383,17 +441,21 @@ components:
           type: string
           description: The organization's primary domain name
         about:
-          type: string
-          nullable: true
+          type:
+          - string
+          - 'null'
         contactsCount:
-          type: integer
-          nullable: true
+          type:
+          - integer
+          - 'null'
         employees:
-          type: integer
-          nullable: true
+          type:
+          - integer
+          - 'null'
         linkedInUrl:
-          type: string
-          nullable: true
+          type:
+          - string
+          - 'null'
         profiles:
           type: array
           items:
@@ -408,22 +470,25 @@ components:
               type:
                 type: string
               url:
-                type: string
+                type:
+                - string
+                - 'null'
                 format: uri
-                nullable: true
         revenueRangeMax:
-          type: integer
-          nullable: true
+          type:
+          - integer
+          - 'null'
         revenueRangeMin:
-          type: integer
-          nullable: true
+          type:
+          - integer
+          - 'null'
         subIndustry:
-          type: string
-          nullable: true
+          type:
+          - string
+          - 'null'
         location:
           allOf:
           - $ref: '#/components/schemas/ApiLocation'
-          nullable: true
         customFields:
           type: object
           description: Map of custom-field ID (format `cf_<number>`) to its typed value.
@@ -462,8 +527,9 @@ components:
               jobTitle:
                 type: string
               jobDescription:
-                type: string
-                nullable: true
+                type:
+                - string
+                - 'null'
               url:
                 type: string
                 format: uri
@@ -472,8 +538,9 @@ components:
               isClosed:
                 type: boolean
               location:
-                type: string
-                nullable: true
+                type:
+                - string
+                - 'null'
         recentNews:
           type: array
           items:
@@ -495,8 +562,9 @@ components:
               category:
                 type: string
               articleSentence:
-                type: string
-                nullable: true
+                type:
+                - string
+                - 'null'
         surgingTopics:
           type: array
           description: Bombora surging topic names this organization is showing buyer intent for. Empty unless the Bombora integration is enabled.
@@ -515,19 +583,18 @@ components:
           type: string
           format: uri
           description: Common Room URL for this organization
-    ApiLocation:
+    ApiV2ErrorResponse:
       type: object
-      description: A best-effort location, with each component populated when known.
+      required:
+      - success
+      - error
       properties:
-        city:
-          type: string
-          description: City name
-        region:
-          type: string
-          description: State, province, or region name
-        country:
-          type: string
-          description: Country name
+        success:
+          type: boolean
+          enum:
+          - false
+        error:
+          $ref: '#/components/schemas/ApiV2Error'
     Contact:
       type: object
       required:
@@ -541,19 +608,21 @@ components:
           type: string
           description: The contact's display name
         avatarUrl:
-          type: string
+          type:
+          - string
+          - 'null'
           format: uri
-          nullable: true
         fullName:
-          type: string
-          nullable: true
+          type:
+          - string
+          - 'null'
         location:
           allOf:
           - $ref: '#/components/schemas/ApiLocation'
-          nullable: true
         primaryEmail:
-          type: string
-          nullable: true
+          type:
+          - string
+          - 'null'
         phoneNumbers:
           type: array
           items:
@@ -567,14 +636,17 @@ components:
               value:
                 type: string
         title:
-          type: string
-          nullable: true
+          type:
+          - string
+          - 'null'
         companyName:
-          type: string
-          nullable: true
+          type:
+          - string
+          - 'null'
         companyWebsite:
-          type: string
-          nullable: true
+          type:
+          - string
+          - 'null'
         connectedCustomObjects:
           type: array
           items:
@@ -621,13 +693,15 @@ components:
               company:
                 type: string
               title:
-                type: string
-                nullable: true
+                type:
+                - string
+                - 'null'
               startDate:
                 type: string
               endDate:
-                type: string
-                nullable: true
+                type:
+                - string
+                - 'null'
         leadScores:
           type: array
           items:
@@ -664,8 +738,9 @@ components:
           items:
             $ref: '#/components/schemas/ApiActivity'
         activateMessage:
-          type: object
-          nullable: true
+          type:
+          - object
+          - 'null'
           required:
           - title
           - message
@@ -673,11 +748,13 @@ components:
             title:
               type: string
             message:
-              type: string
-              nullable: true
+              type:
+              - string
+              - 'null'
         sparkSummary:
-          type: string
-          nullable: true
+          type:
+          - string
+          - 'null'
         recentSparkSummaries:
           type: array
           items:
@@ -691,33 +768,6 @@ components:
           type: string
           format: uri
           description: Common Room URL for this contact
-    OrganizationList:
-      type: object
-      required:
-      - success
-      - data
-      - meta
-      properties:
-        success:
-          type: boolean
-          enum:
-          - true
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/Organization'
-        meta:
-          type: object
-          required:
-          - nextCursor
-          properties:
-            nextCursor:
-              type: string
-              nullable: true
-              description: Cursor for pagination; pass as the `cursor` query parameter to fetch the next page.
-            recordCount:
-              type: integer
-              description: Total number of records matching the query. Only returned when `cols=recordCount` is requested.
     Status:
       type: object
       properties:

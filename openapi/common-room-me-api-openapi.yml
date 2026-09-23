@@ -1,13 +1,35 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
-  title: Common Room Core Activities Me API
-  version: 1.0.0
-  description: "Common Room Core REST APIs for getting data in to Common Room.\n<br/><br/>\nFor SCIM APIs <a href=\"./scim.html\">see the SCIM documentation</a>.\n<br/><br/>\nFor New, V2 APIs <a href=\"./api-v2.html\">see the V2 API documentation</a>.\n<br/><br/>\nTo use the Common Room API, or get started with the Common Room Zapier integration, you will need to create an API token.\nTo create an API token:\n<ol>\n  <li>Navigate to Setting | API tokens\n  <li>Create a “New Token\"\n</ol>\n\n# Authentication\n\n<!-- ReDoc-Inject: <security-definitions> -->"
+  title: Common Room API (v2) Me API
+  version: 2.0.0
+  description: 'Common Room API v2 for accessing contact and organization data.
+
+
+    For v1 and RTBF APIs see the V1 API documentation.
+
+
+    To use the Common Room API, you will need to create an API token.
+
+    To create an API token:
+
+
+    Navigate to Setting | API tokens
+
+
+    Create a "New Token"
+
+
+    # Authentication
+
+
+    -->'
   x-logo:
     url: /common-room-api-logo.svg
 servers:
-- url: https://api.commonroom.io/community/v1
-  description: Common Room Core API v1
+- url: https://api.commonroom.io/community/v2
+  description: Common Room API v2
+security:
+- BearerAuth: []
 tags:
 - name: Me
   description: Information about the authenticated user
@@ -17,9 +39,7 @@ paths:
       summary: Get current user info
       description: 'Retrieve information about the authenticated user, including their profile,
 
-        bookmarked segments, personas, and company details.
-
-        '
+        bookmarked segments, personas, and company details.'
       tags:
       - Me
       responses:
@@ -42,16 +62,9 @@ paths:
                 $ref: '#/components/schemas/Status'
         '429':
           $ref: '#/components/responses/RateLimited'
+      operationId: getMe
+      x-operation-id-source: derived
 components:
-  headers:
-    X-RateLimit-Remaining:
-      description: The total amount of requests remaining within the interval
-      schema:
-        type: integer
-    X-RateLimit-Limit:
-      description: The total amount of requests permitted within the interval
-      schema:
-        type: integer
   schemas:
     MeResponse:
       type: object
@@ -81,15 +94,17 @@ components:
               type: string
               description: The authenticated user's display name
             title:
-              type: string
-              nullable: true
+              type:
+              - string
+              - 'null'
               description: The user's job title
             role:
               type: string
               description: The user's role in the community
             loginEmail:
-              type: string
-              nullable: true
+              type:
+              - string
+              - 'null'
               description: The user's login email address
             profiles:
               type: array
@@ -132,15 +147,17 @@ components:
               type: object
               properties:
                 name:
-                  type: string
-                  nullable: true
+                  type:
+                  - string
+                  - 'null'
                 domains:
                   type: array
                   items:
                     type: string
                 summary:
-                  type: string
-                  nullable: true
+                  type:
+                  - string
+                  - 'null'
     Status:
       type: object
       properties:
@@ -163,6 +180,15 @@ components:
         status: not created
         errors:
         - name is missing
+  headers:
+    X-RateLimit-Remaining:
+      description: The total amount of requests remaining within the interval
+      schema:
+        type: integer
+    X-RateLimit-Limit:
+      description: The total amount of requests permitted within the interval
+      schema:
+        type: integer
   responses:
     RateLimited:
       description: Rate Limited

@@ -1,13 +1,35 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
-  title: Common Room Core Activities Custom Fields API
-  version: 1.0.0
-  description: "Common Room Core REST APIs for getting data in to Common Room.\n<br/><br/>\nFor SCIM APIs <a href=\"./scim.html\">see the SCIM documentation</a>.\n<br/><br/>\nFor New, V2 APIs <a href=\"./api-v2.html\">see the V2 API documentation</a>.\n<br/><br/>\nTo use the Common Room API, or get started with the Common Room Zapier integration, you will need to create an API token.\nTo create an API token:\n<ol>\n  <li>Navigate to Setting | API tokens\n  <li>Create a “New Token\"\n</ol>\n\n# Authentication\n\n<!-- ReDoc-Inject: <security-definitions> -->"
+  title: Common Room API (v2) Custom Fields API
+  version: 2.0.0
+  description: 'Common Room API v2 for accessing contact and organization data.
+
+
+    For v1 and RTBF APIs see the V1 API documentation.
+
+
+    To use the Common Room API, you will need to create an API token.
+
+    To create an API token:
+
+
+    Navigate to Setting | API tokens
+
+
+    Create a "New Token"
+
+
+    # Authentication
+
+
+    -->'
   x-logo:
     url: /common-room-api-logo.svg
 servers:
-- url: https://api.commonroom.io/community/v1
-  description: Common Room Core API v1
+- url: https://api.commonroom.io/community/v2
+  description: Common Room API v2
+security:
+- BearerAuth: []
 tags:
 - name: Custom Fields
   description: Operations related to custom field definitions
@@ -57,14 +79,14 @@ paths:
                 $ref: '#/components/schemas/ApiV2ErrorResponse'
         '429':
           $ref: '#/components/responses/RateLimited'
+      operationId: getCustomFieldsById
+      x-operation-id-source: derived
   /custom-fields:
     get:
       summary: List custom fields
       description: 'Retrieve all custom field definitions for the community, optionally
 
-        filtered by entity type.
-
-        '
+        filtered by entity type.'
       tags:
       - Custom Fields
       parameters:
@@ -104,17 +126,36 @@ paths:
                 $ref: '#/components/schemas/Status'
         '429':
           $ref: '#/components/responses/RateLimited'
+      operationId: getCustomFields
+      x-operation-id-source: derived
 components:
-  headers:
-    X-RateLimit-Remaining:
-      description: The total amount of requests remaining within the interval
-      schema:
-        type: integer
-    X-RateLimit-Limit:
-      description: The total amount of requests permitted within the interval
-      schema:
-        type: integer
   schemas:
+    CustomFieldList:
+      type: object
+      required:
+      - success
+      - data
+      properties:
+        success:
+          type: boolean
+          enum:
+          - true
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiCustomField'
+    CustomFieldResponse:
+      type: object
+      required:
+      - success
+      - data
+      properties:
+        success:
+          type: boolean
+          enum:
+          - true
+        data:
+          $ref: '#/components/schemas/ApiCustomField'
     ApiFieldValue:
       description: A typed custom-field value. The `type` discriminator indicates the value's runtime type.
       oneOf:
@@ -186,64 +227,6 @@ components:
             - boolean
           value:
             type: boolean
-    ApiV2ErrorResponse:
-      type: object
-      required:
-      - success
-      - error
-      properties:
-        success:
-          type: boolean
-          enum:
-          - false
-        error:
-          $ref: '#/components/schemas/ApiV2Error'
-    ApiV2Error:
-      type: object
-      required:
-      - code
-      - message
-      properties:
-        code:
-          type: string
-          description: A machine-readable error code identifying the failure.
-          enum:
-          - invalid_parameters
-          - invalid_organization_id
-          - org_not_found
-          - invalid_contact_id
-          - contact_not_found
-          - invalid_object_id
-          - object_not_found
-          - invalid_object_type_id
-          - object_type_not_found
-          - invalid_segment_id
-          - segment_not_found
-          - invalid_activity_id
-          - activity_not_found
-          - conflict
-          - internal_server_error
-          - invalid_custom_field_id
-          - custom_field_not_found
-          - invalid_prospector_contact_id
-          - prospector_contact_not_found
-          - invalid_prospector_company_id
-          - prospector_company_not_found
-        message:
-          type: string
-          description: A human-readable description of the error.
-    CustomFieldResponse:
-      type: object
-      required:
-      - success
-      - data
-      properties:
-        success:
-          type: boolean
-          enum:
-          - true
-        data:
-          $ref: '#/components/schemas/ApiCustomField'
     ApiCustomField:
       type: object
       required:
@@ -287,8 +270,9 @@ components:
             $ref: '#/components/schemas/ApiFieldValue'
           description: Example values for this field
         description:
-          type: string
-          nullable: true
+          type:
+          - string
+          - 'null'
           description: Human-readable description of the field
         targetSubTypes:
           type: array
@@ -296,26 +280,59 @@ components:
             type: string
           description: Sub-types this field targets
         providedBy:
-          type: string
-          nullable: true
+          type:
+          - string
+          - 'null'
           description: Name of the provider that owns this field, if any
         objectTypeId:
           type: string
           description: Prefixed object type ID (format `cot_<number>`), if this field belongs to a specific object type
-    CustomFieldList:
+    ApiV2Error:
+      type: object
+      required:
+      - code
+      - message
+      properties:
+        code:
+          type: string
+          description: A machine-readable error code identifying the failure.
+          enum:
+          - invalid_parameters
+          - invalid_organization_id
+          - org_not_found
+          - invalid_contact_id
+          - contact_not_found
+          - invalid_object_id
+          - object_not_found
+          - invalid_object_type_id
+          - object_type_not_found
+          - invalid_segment_id
+          - segment_not_found
+          - invalid_activity_id
+          - activity_not_found
+          - conflict
+          - internal_server_error
+          - invalid_custom_field_id
+          - custom_field_not_found
+          - invalid_prospector_contact_id
+          - prospector_contact_not_found
+          - invalid_prospector_company_id
+          - prospector_company_not_found
+        message:
+          type: string
+          description: A human-readable description of the error.
+    ApiV2ErrorResponse:
       type: object
       required:
       - success
-      - data
+      - error
       properties:
         success:
           type: boolean
           enum:
-          - true
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/ApiCustomField'
+          - false
+        error:
+          $ref: '#/components/schemas/ApiV2Error'
     Status:
       type: object
       properties:
@@ -338,6 +355,15 @@ components:
         status: not created
         errors:
         - name is missing
+  headers:
+    X-RateLimit-Remaining:
+      description: The total amount of requests remaining within the interval
+      schema:
+        type: integer
+    X-RateLimit-Limit:
+      description: The total amount of requests permitted within the interval
+      schema:
+        type: integer
   responses:
     RateLimited:
       description: Rate Limited
