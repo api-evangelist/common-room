@@ -56,6 +56,7 @@ tags:
 - CLI
 - SCIM
 - Signal Intelligence
+- Community
 tags_raw:
 - Community Intelligence
 - Go-to-Market
@@ -101,8 +102,6 @@ apis:
     url: overlays/common-room-activities-api-overlay.yaml
   - type: Documentation
     url: https://api.commonroom.io/docs/community.html
-  - type: GraphQL
-    url: graphql/common-room-graphql.md
 - aid: common-room:common-room-contacts-api
   name: Common Room Contacts API
   description: The Contacts API from Common Room — 6 operation(s) for contacts.
@@ -117,8 +116,6 @@ apis:
     url: overlays/common-room-contacts-api-overlay.yaml
   - type: Documentation
     url: https://api.commonroom.io/docs/community.html
-  - type: GraphQL
-    url: graphql/common-room-graphql.md
 - aid: common-room:common-room-custom-fields-api
   name: Common Room Custom Fields API
   description: Operations related to custom field definitions
@@ -133,8 +130,6 @@ apis:
     url: overlays/common-room-custom-fields-api-overlay.yaml
   - type: Documentation
     url: https://api.commonroom.io/docs/community.html
-  - type: GraphQL
-    url: graphql/common-room-graphql.md
 - aid: common-room:common-room-data-available-api
   name: Common Room Data Available API
   description: Notify Common Room that data is available for import
@@ -149,8 +144,6 @@ apis:
     url: overlays/common-room-data-available-api-overlay.yaml
   - type: Documentation
     url: https://api.commonroom.io/docs/community.html
-  - type: GraphQL
-    url: graphql/common-room-graphql.md
 - aid: common-room:common-room-industries-api
   name: Common Room Industries API
   description: Operations related to NAICS industry codes
@@ -165,8 +158,6 @@ apis:
     url: overlays/common-room-industries-api-overlay.yaml
   - type: Documentation
     url: https://api.commonroom.io/docs/community.html
-  - type: GraphQL
-    url: graphql/common-room-graphql.md
 - aid: common-room:common-room-lead-scores-api
   name: Common Room Lead Scores API
   description: Operations related to lead score definitions
@@ -181,8 +172,6 @@ apis:
     url: overlays/common-room-lead-scores-api-overlay.yaml
   - type: Documentation
     url: https://api.commonroom.io/docs/community.html
-  - type: GraphQL
-    url: graphql/common-room-graphql.md
 - aid: common-room:common-room-locations-api
   name: Common Room Locations API
   description: Operations related to location data
@@ -199,8 +188,6 @@ apis:
     url: overlays/common-room-locations-api-overlay.yaml
   - type: Documentation
     url: https://api.commonroom.io/docs/community.html
-  - type: GraphQL
-    url: graphql/common-room-graphql.md
 - aid: common-room:common-room-me-api
   name: Common Room Me API
   description: Information about the authenticated user
@@ -215,8 +202,6 @@ apis:
     url: overlays/common-room-me-api-overlay.yaml
   - type: Documentation
     url: https://api.commonroom.io/docs/community.html
-  - type: GraphQL
-    url: graphql/common-room-graphql.md
 - aid: common-room:common-room-object-types-api
   name: Common Room Object Types API
   description: Operations related to custom object type definitions
@@ -231,8 +216,6 @@ apis:
     url: overlays/common-room-object-types-api-overlay.yaml
   - type: Documentation
     url: https://api.commonroom.io/docs/community.html
-  - type: GraphQL
-    url: graphql/common-room-graphql.md
 - aid: common-room:common-room-objects-api
   name: Common Room Objects API
   description: Operations related to custom objects
@@ -247,8 +230,6 @@ apis:
     url: overlays/common-room-objects-api-overlay.yaml
   - type: Documentation
     url: https://api.commonroom.io/docs/community.html
-  - type: GraphQL
-    url: graphql/common-room-graphql.md
 - aid: common-room:common-room-organizations-api
   name: Common Room Organizations API
   description: Operations related to organization management
@@ -265,8 +246,6 @@ apis:
     url: overlays/common-room-organizations-api-overlay.yaml
   - type: Documentation
     url: https://api.commonroom.io/docs/community.html
-  - type: GraphQL
-    url: graphql/common-room-graphql.md
 - aid: common-room:common-room-prospector-companies-api
   name: Common Room Prospector Companies API
   description: Operations related to prospector company discovery
@@ -281,8 +260,6 @@ apis:
     url: overlays/common-room-prospector-companies-api-overlay.yaml
   - type: Documentation
     url: https://api.commonroom.io/docs/community.html
-  - type: GraphQL
-    url: graphql/common-room-graphql.md
 - aid: common-room:common-room-prospector-contacts-api
   name: Common Room Prospector Contacts API
   description: Operations related to prospector contact discovery
@@ -297,8 +274,6 @@ apis:
     url: overlays/common-room-prospector-contacts-api-overlay.yaml
   - type: Documentation
     url: https://api.commonroom.io/docs/community.html
-  - type: GraphQL
-    url: graphql/common-room-graphql.md
 - aid: common-room:common-room-providers-api
   name: Common Room Providers API
   description: Operations related to signal sources (integrations)
@@ -313,8 +288,6 @@ apis:
     url: overlays/common-room-providers-api-overlay.yaml
   - type: Documentation
     url: https://api.commonroom.io/docs/community.html
-  - type: GraphQL
-    url: graphql/common-room-graphql.md
 - aid: common-room:common-room-right-to-be-forgotten-api
   name: Common Room Right to be Forgotten API
   description: >-
@@ -332,8 +305,6 @@ apis:
     url: overlays/common-room-right-to-be-forgotten-api-overlay.yaml
   - type: Documentation
     url: https://api.commonroom.io/docs/community.html
-  - type: GraphQL
-    url: graphql/common-room-graphql.md
 - aid: common-room:common-room-scim-api
   name: Common Room SCIM API
   description: The SCIM API from Common Room — 2 operation(s) for scim.
@@ -348,8 +319,6 @@ apis:
     url: overlays/common-room-scim-api-overlay.yaml
   - type: Documentation
     url: https://api.commonroom.io/docs/community.html
-  - type: GraphQL
-    url: graphql/common-room-graphql.md
 - aid: common-room:common-room-segments-api
   name: Common Room Segments API
   description: The Segments API from Common Room — 3 operation(s) for segments.
@@ -364,8 +333,6 @@ apis:
     url: overlays/common-room-segments-api-overlay.yaml
   - type: Documentation
     url: https://api.commonroom.io/docs/community.html
-  - type: GraphQL
-    url: graphql/common-room-graphql.md
 - aid: common-room:common-room-tags-api
   name: Common Room Tags API
   description: The Tags API from Common Room — 2 operation(s) for tags.
@@ -380,8 +347,6 @@ apis:
     url: overlays/common-room-tags-api-overlay.yaml
   - type: Documentation
     url: https://api.commonroom.io/docs/community.html
-  - type: GraphQL
-    url: graphql/common-room-graphql.md
 - aid: common-room:common-room-tech-stack-products-api
   name: Common Room Tech Stack Products API
   description: Operations related to technographics and tech stack products
@@ -396,8 +361,6 @@ apis:
     url: overlays/common-room-tech-stack-products-api-overlay.yaml
   - type: Documentation
     url: https://api.commonroom.io/docs/community.html
-  - type: GraphQL
-    url: graphql/common-room-graphql.md
 - aid: common-room:common-room-token-status-api
   name: Common Room Token Status API
   description: The Token Status API from Common Room — 1 operation(s) for token status.
@@ -412,8 +375,6 @@ apis:
     url: overlays/common-room-token-status-api-overlay.yaml
   - type: Documentation
     url: https://api.commonroom.io/docs/community.html
-  - type: GraphQL
-    url: graphql/common-room-graphql.md
 - aid: common-room:common-room-topics-api
   name: Common Room Topics API
   description: Operations related to topics
@@ -430,8 +391,6 @@ apis:
     url: overlays/common-room-topics-api-overlay.yaml
   - type: Documentation
     url: https://api.commonroom.io/docs/community.html
-  - type: GraphQL
-    url: graphql/common-room-graphql.md
 - aid: common-room:common-room-website-visits-api
   name: Common Room Website Visits API
   description: Operations related to website visit tracking
@@ -446,8 +405,6 @@ apis:
     url: overlays/common-room-website-visits-api-overlay.yaml
   - type: Documentation
     url: https://api.commonroom.io/docs/community.html
-  - type: GraphQL
-    url: graphql/common-room-graphql.md
 common:
 - type: AgenticAccess
   url: agentic-access/common-room-agentic-access.yml
