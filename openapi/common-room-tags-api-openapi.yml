@@ -191,16 +191,20 @@ paths:
     - url: https://api.commonroom.io/community/v1
       description: Common Room Core API v1
 components:
-  headers:
-    X-RateLimit-Remaining:
-      description: The total amount of requests remaining within the interval
-      schema:
-        type: integer
-    X-RateLimit-Limit:
-      description: The total amount of requests permitted within the interval
-      schema:
-        type: integer
   schemas:
+    ApiTagUpdateProperties:
+      type: object
+      properties:
+        name:
+          description: Name of the tag
+          type: string
+        description:
+          description: Optional description of the tag
+          type:
+          - string
+          - 'null'
+      required:
+      - name
     ApiTagCreationProperties:
       allOf:
       - $ref: '#/components/schemas/ApiTagUpdateProperties'
@@ -218,19 +222,6 @@ components:
       required:
       - name
       - entityTypes
-    ApiTagUpdateProperties:
-      type: object
-      properties:
-        name:
-          description: Name of the tag
-          type: string
-        description:
-          description: Optional description of the tag
-          type:
-          - string
-          - 'null'
-      required:
-      - name
     ApiTag:
       allOf:
       - $ref: '#/components/schemas/ApiTagCreationProperties'
@@ -252,6 +243,28 @@ components:
       required:
       - id
       - createdAt
+    Status:
+      type: object
+      properties:
+        status:
+          type: string
+          enum:
+          - ok
+          - failure
+          - not-found
+          example: success
+        reason:
+          type: string
+        errors:
+          type: array
+          items:
+            type: string
+          required:
+          - status
+      example:
+        status: not created
+        errors:
+        - name is missing
     TagResponse:
       type: object
       required:
@@ -289,6 +302,32 @@ components:
               - string
               - 'null'
               description: Cursor for pagination; pass as the `cursor` query parameter to fetch the next page.
+    ApiTag_2:
+      type: object
+      required:
+      - id
+      - name
+      properties:
+        id:
+          type: string
+          description: Prefixed tag ID (format `l_<number>`)
+        name:
+          type: string
+          description: The tag's display name
+        description:
+          type:
+          - string
+          - 'null'
+          description: Human-readable description of the tag
+        entityTypes:
+          type: array
+          items:
+            type: string
+            enum:
+            - contact
+            - organization
+            - activity
+          description: Entity types this tag can be applied to
     ApiV2Error:
       type: object
       required:
@@ -323,32 +362,6 @@ components:
         message:
           type: string
           description: A human-readable description of the error.
-    ApiTag_2:
-      type: object
-      required:
-      - id
-      - name
-      properties:
-        id:
-          type: string
-          description: Prefixed tag ID (format `l_<number>`)
-        name:
-          type: string
-          description: The tag's display name
-        description:
-          type:
-          - string
-          - 'null'
-          description: Human-readable description of the tag
-        entityTypes:
-          type: array
-          items:
-            type: string
-            enum:
-            - contact
-            - organization
-            - activity
-          description: Entity types this tag can be applied to
     ApiV2ErrorResponse:
       type: object
       required:
@@ -361,28 +374,6 @@ components:
           - false
         error:
           $ref: '#/components/schemas/ApiV2Error'
-    Status:
-      type: object
-      properties:
-        status:
-          type: string
-          enum:
-          - ok
-          - failure
-          - not-found
-          example: success
-        reason:
-          type: string
-        errors:
-          type: array
-          items:
-            type: string
-          required:
-          - status
-      example:
-        status: not created
-        errors:
-        - name is missing
   responses:
     RateLimited:
       description: Rate Limited
@@ -441,6 +432,15 @@ components:
               docs:
                 type: string
                 description: A link to this API documentation
+  headers:
+    X-RateLimit-Limit:
+      description: The total amount of requests permitted within the interval
+      schema:
+        type: integer
+    X-RateLimit-Remaining:
+      description: The total amount of requests remaining within the interval
+      schema:
+        type: integer
   securitySchemes:
     BearerAuth:
       type: http

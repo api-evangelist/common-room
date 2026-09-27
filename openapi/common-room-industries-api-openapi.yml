@@ -91,32 +91,7 @@ paths:
       operationId: getIndustries
       x-operation-id-source: derived
 components:
-  headers:
-    X-RateLimit-Remaining:
-      description: The total amount of requests remaining within the interval
-      schema:
-        type: integer
-    X-RateLimit-Limit:
-      description: The total amount of requests permitted within the interval
-      schema:
-        type: integer
   schemas:
-    ApiNaicsCode:
-      type: object
-      required:
-      - id
-      - code
-      - name
-      properties:
-        id:
-          type: string
-          description: Prefixed NAICS code ID (format `naics_<number>`)
-        code:
-          type: integer
-          description: The numeric NAICS code
-        name:
-          type: string
-          description: Industry name
     NaicsCodeList:
       type: object
       required:
@@ -142,6 +117,44 @@ components:
               - string
               - 'null'
               description: Cursor for pagination; pass as the `cursor` query parameter to fetch the next page.
+    Status:
+      type: object
+      properties:
+        status:
+          type: string
+          enum:
+          - ok
+          - failure
+          - not-found
+          example: success
+        reason:
+          type: string
+        errors:
+          type: array
+          items:
+            type: string
+          required:
+          - status
+      example:
+        status: not created
+        errors:
+        - name is missing
+    ApiNaicsCode:
+      type: object
+      required:
+      - id
+      - code
+      - name
+      properties:
+        id:
+          type: string
+          description: Prefixed NAICS code ID (format `naics_<number>`)
+        code:
+          type: integer
+          description: The numeric NAICS code
+        name:
+          type: string
+          description: Industry name
     ApiV2Error:
       type: object
       required:
@@ -188,28 +201,6 @@ components:
           - false
         error:
           $ref: '#/components/schemas/ApiV2Error'
-    Status:
-      type: object
-      properties:
-        status:
-          type: string
-          enum:
-          - ok
-          - failure
-          - not-found
-          example: success
-        reason:
-          type: string
-        errors:
-          type: array
-          items:
-            type: string
-          required:
-          - status
-      example:
-        status: not created
-        errors:
-        - name is missing
   responses:
     RateLimited:
       description: Rate Limited
@@ -250,6 +241,15 @@ components:
                   waitMs:
                     type: number
                     description: The amount of time to wait until the next interval
+  headers:
+    X-RateLimit-Limit:
+      description: The total amount of requests permitted within the interval
+      schema:
+        type: integer
+    X-RateLimit-Remaining:
+      description: The total amount of requests remaining within the interval
+      schema:
+        type: integer
   securitySchemes:
     BearerAuth:
       type: http

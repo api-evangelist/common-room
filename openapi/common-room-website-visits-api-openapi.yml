@@ -111,133 +111,6 @@ paths:
       operationId: getWebsiteVisits
       x-operation-id-source: derived
 components:
-  schemas:
-    WebsiteVisitList:
-      type: object
-      required:
-      - success
-      - data
-      - meta
-      properties:
-        success:
-          type: boolean
-          enum:
-          - true
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/ApiWebsiteVisit'
-        meta:
-          type: object
-          properties:
-            nextCursor:
-              type:
-              - string
-              - 'null'
-              description: Cursor for pagination; pass as the `cursor` query parameter to fetch the next page.
-            recordCount:
-              type: integer
-              description: Total number of records matching the query. Only returned when `cols=recordCount` is requested.
-    ApiV2Error:
-      type: object
-      required:
-      - code
-      - message
-      properties:
-        code:
-          type: string
-          description: A machine-readable error code identifying the failure.
-          enum:
-          - invalid_parameters
-          - invalid_organization_id
-          - org_not_found
-          - invalid_contact_id
-          - contact_not_found
-          - invalid_object_id
-          - object_not_found
-          - invalid_object_type_id
-          - object_type_not_found
-          - invalid_segment_id
-          - segment_not_found
-          - invalid_activity_id
-          - activity_not_found
-          - conflict
-          - internal_server_error
-          - invalid_custom_field_id
-          - custom_field_not_found
-          - invalid_prospector_contact_id
-          - prospector_contact_not_found
-          - invalid_prospector_company_id
-          - prospector_company_not_found
-        message:
-          type: string
-          description: A human-readable description of the error.
-    ApiWebsiteVisit:
-      type: object
-      required:
-      - id
-      - visitTime
-      properties:
-        id:
-          type: string
-          description: Prefixed website visit cursor (format `w_<cursor>`)
-        visitTime:
-          type: string
-          format: date-time
-          description: When the visit occurred
-        url:
-          type: string
-          format: uri
-          description: The visited page URL
-        contactId:
-          type: string
-          description: Prefixed contact ID (format `c_<number>`)
-        organizationId:
-          type: string
-          description: Prefixed organization ID (format `o_<number>`)
-    ApiV2ErrorResponse:
-      type: object
-      required:
-      - success
-      - error
-      properties:
-        success:
-          type: boolean
-          enum:
-          - false
-        error:
-          $ref: '#/components/schemas/ApiV2Error'
-    Status:
-      type: object
-      properties:
-        status:
-          type: string
-          enum:
-          - ok
-          - failure
-          - not-found
-          example: success
-        reason:
-          type: string
-        errors:
-          type: array
-          items:
-            type: string
-          required:
-          - status
-      example:
-        status: not created
-        errors:
-        - name is missing
-  headers:
-    X-RateLimit-Remaining:
-      description: The total amount of requests remaining within the interval
-      schema:
-        type: integer
-    X-RateLimit-Limit:
-      description: The total amount of requests permitted within the interval
-      schema:
-        type: integer
   responses:
     RateLimited:
       description: Rate Limited
@@ -278,6 +151,133 @@ components:
                   waitMs:
                     type: number
                     description: The amount of time to wait until the next interval
+  schemas:
+    Status:
+      type: object
+      properties:
+        status:
+          type: string
+          enum:
+          - ok
+          - failure
+          - not-found
+          example: success
+        reason:
+          type: string
+        errors:
+          type: array
+          items:
+            type: string
+          required:
+          - status
+      example:
+        status: not created
+        errors:
+        - name is missing
+    WebsiteVisitList:
+      type: object
+      required:
+      - success
+      - data
+      - meta
+      properties:
+        success:
+          type: boolean
+          enum:
+          - true
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiWebsiteVisit'
+        meta:
+          type: object
+          properties:
+            nextCursor:
+              type:
+              - string
+              - 'null'
+              description: Cursor for pagination; pass as the `cursor` query parameter to fetch the next page.
+            recordCount:
+              type: integer
+              description: Total number of records matching the query. Only returned when `cols=recordCount` is requested.
+    ApiWebsiteVisit:
+      type: object
+      required:
+      - id
+      - visitTime
+      properties:
+        id:
+          type: string
+          description: Prefixed website visit cursor (format `w_<cursor>`)
+        visitTime:
+          type: string
+          format: date-time
+          description: When the visit occurred
+        url:
+          type: string
+          format: uri
+          description: The visited page URL
+        contactId:
+          type: string
+          description: Prefixed contact ID (format `c_<number>`)
+        organizationId:
+          type: string
+          description: Prefixed organization ID (format `o_<number>`)
+    ApiV2Error:
+      type: object
+      required:
+      - code
+      - message
+      properties:
+        code:
+          type: string
+          description: A machine-readable error code identifying the failure.
+          enum:
+          - invalid_parameters
+          - invalid_organization_id
+          - org_not_found
+          - invalid_contact_id
+          - contact_not_found
+          - invalid_object_id
+          - object_not_found
+          - invalid_object_type_id
+          - object_type_not_found
+          - invalid_segment_id
+          - segment_not_found
+          - invalid_activity_id
+          - activity_not_found
+          - conflict
+          - internal_server_error
+          - invalid_custom_field_id
+          - custom_field_not_found
+          - invalid_prospector_contact_id
+          - prospector_contact_not_found
+          - invalid_prospector_company_id
+          - prospector_company_not_found
+        message:
+          type: string
+          description: A human-readable description of the error.
+    ApiV2ErrorResponse:
+      type: object
+      required:
+      - success
+      - error
+      properties:
+        success:
+          type: boolean
+          enum:
+          - false
+        error:
+          $ref: '#/components/schemas/ApiV2Error'
+  headers:
+    X-RateLimit-Limit:
+      description: The total amount of requests permitted within the interval
+      schema:
+        type: integer
+    X-RateLimit-Remaining:
+      description: The total amount of requests remaining within the interval
+      schema:
+        type: integer
   securitySchemes:
     BearerAuth:
       type: http

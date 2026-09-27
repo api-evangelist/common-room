@@ -52,15 +52,6 @@ paths:
     - url: https://api.commonroom.io/community/v1
       description: Common Room Core API v1
 components:
-  headers:
-    X-RateLimit-Remaining:
-      description: The total amount of requests remaining within the interval
-      schema:
-        type: integer
-    X-RateLimit-Limit:
-      description: The total amount of requests permitted within the interval
-      schema:
-        type: integer
   responses:
     RateLimited:
       description: Rate Limited
@@ -102,18 +93,6 @@ components:
                     type: number
                     description: The amount of time to wait until the next interval
   schemas:
-    ApiToken:
-      type: object
-      properties:
-        jti:
-          type: string
-          example: tcpgph92
-        communityName:
-          type: string
-          example: Uncommon
-        communityId:
-          type: string
-          example: 8p980hdo0
     Status:
       type: object
       properties:
@@ -136,6 +115,27 @@ components:
         status: not created
         errors:
         - name is missing
+    ApiToken:
+      type: object
+      properties:
+        jti:
+          type: string
+          example: tcpgph92
+        communityName:
+          type: string
+          example: Uncommon
+        communityId:
+          type: string
+          example: 8p980hdo0
+  headers:
+    X-RateLimit-Limit:
+      description: The total amount of requests permitted within the interval
+      schema:
+        type: integer
+    X-RateLimit-Remaining:
+      description: The total amount of requests remaining within the interval
+      schema:
+        type: integer
   securitySchemes:
     BearerAuth:
       type: http

@@ -202,35 +202,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    ApiLeadScore:
-      type: object
-      required:
-      - scoreId
-      - score
-      - percentile
-      properties:
-        scoreId:
-          type: integer
-          description: The numeric ID of the lead-score definition
-        score:
-          type: number
-          description: The raw score for this contact or organization
-        percentile:
-          type: number
-          description: The percentile rank of the score within the community
-    ApiLocation:
-      type: object
-      description: A best-effort location, with each component populated when known.
-      properties:
-        city:
-          type: string
-          description: City name
-        region:
-          type: string
-          description: State, province, or region name
-        country:
-          type: string
-          description: Country name
     ApiActivity:
       type: object
       required:
@@ -307,6 +278,28 @@ components:
             recordCount:
               type: integer
               description: Total number of records matching the query. Only returned when `cols=recordCount` is requested.
+    Status:
+      type: object
+      properties:
+        status:
+          type: string
+          enum:
+          - ok
+          - failure
+          - not-found
+          example: success
+        reason:
+          type: string
+        errors:
+          type: array
+          items:
+            type: string
+          required:
+          - status
+      example:
+        status: not created
+        errors:
+        - name is missing
     ApiFieldValue:
       description: A typed custom-field value. The `type` discriminator indicates the value's runtime type.
       oneOf:
@@ -378,223 +371,19 @@ components:
             - boolean
           value:
             type: boolean
-    OrganizationResponse:
+    ApiLocation:
       type: object
-      required:
-      - success
-      - data
+      description: A best-effort location, with each component populated when known.
       properties:
-        success:
-          type: boolean
-          enum:
-          - true
-        data:
-          $ref: '#/components/schemas/Organization'
-    ApiV2Error:
-      type: object
-      required:
-      - code
-      - message
-      properties:
-        code:
+        city:
           type: string
-          description: A machine-readable error code identifying the failure.
-          enum:
-          - invalid_parameters
-          - invalid_organization_id
-          - org_not_found
-          - invalid_contact_id
-          - contact_not_found
-          - invalid_object_id
-          - object_not_found
-          - invalid_object_type_id
-          - object_type_not_found
-          - invalid_segment_id
-          - segment_not_found
-          - invalid_activity_id
-          - activity_not_found
-          - conflict
-          - internal_server_error
-          - invalid_custom_field_id
-          - custom_field_not_found
-          - invalid_prospector_contact_id
-          - prospector_contact_not_found
-          - invalid_prospector_company_id
-          - prospector_company_not_found
-        message:
+          description: City name
+        region:
           type: string
-          description: A human-readable description of the error.
-    Organization:
-      type: object
-      required:
-      - id
-      - name
-      - primaryDomain
-      properties:
-        id:
+          description: State, province, or region name
+        country:
           type: string
-          description: Prefixed organization ID (format `o_<number>`)
-        name:
-          type: string
-          description: The organization's name
-        primaryDomain:
-          type: string
-          description: The organization's primary domain name
-        about:
-          type:
-          - string
-          - 'null'
-        contactsCount:
-          type:
-          - integer
-          - 'null'
-        employees:
-          type:
-          - integer
-          - 'null'
-        linkedInUrl:
-          type:
-          - string
-          - 'null'
-        profiles:
-          type: array
-          items:
-            type: object
-            required:
-            - name
-            - type
-            - url
-            properties:
-              name:
-                type: string
-              type:
-                type: string
-              url:
-                type:
-                - string
-                - 'null'
-                format: uri
-        revenueRangeMax:
-          type:
-          - integer
-          - 'null'
-        revenueRangeMin:
-          type:
-          - integer
-          - 'null'
-        subIndustry:
-          type:
-          - string
-          - 'null'
-        location:
-          allOf:
-          - $ref: '#/components/schemas/ApiLocation'
-        customFields:
-          type: object
-          description: Map of custom-field ID (format `cf_<number>`) to its typed value.
-          additionalProperties:
-            $ref: '#/components/schemas/ApiFieldValue'
-        leadScores:
-          type: array
-          items:
-            $ref: '#/components/schemas/ApiLeadScore'
-        researchResults:
-          type: array
-          items:
-            type: object
-            required:
-            - promptId
-            - answer
-            - isPrimaryPrompt
-            properties:
-              promptId:
-                type: string
-              answer:
-                type: string
-              isPrimaryPrompt:
-                type: boolean
-        recentJobOpenings:
-          type: array
-          items:
-            type: object
-            required:
-            - jobTitle
-            - url
-            - firstSeenAt
-            - isClosed
-            - location
-            properties:
-              jobTitle:
-                type: string
-              jobDescription:
-                type:
-                - string
-                - 'null'
-              url:
-                type: string
-                format: uri
-              firstSeenAt:
-                type: string
-              isClosed:
-                type: boolean
-              location:
-                type:
-                - string
-                - 'null'
-        recentNews:
-          type: array
-          items:
-            type: object
-            required:
-            - title
-            - url
-            - publishedAt
-            - category
-            - articleSentence
-            properties:
-              title:
-                type: string
-              url:
-                type: string
-                format: uri
-              publishedAt:
-                type: string
-              category:
-                type: string
-              articleSentence:
-                type:
-                - string
-                - 'null'
-        surgingTopics:
-          type: array
-          description: Bombora surging topic names this organization is showing buyer intent for. Empty unless the Bombora integration is enabled.
-          items:
-            type: string
-        tags:
-          type: array
-          description: Prefixed label IDs (format `l_<number>`)
-          items:
-            type: string
-        topContacts:
-          type: array
-          items:
-            $ref: '#/components/schemas/Contact'
-        url:
-          type: string
-          format: uri
-          description: Common Room URL for this organization
-    ApiV2ErrorResponse:
-      type: object
-      required:
-      - success
-      - error
-      properties:
-        success:
-          type: boolean
-          enum:
-          - false
-        error:
-          $ref: '#/components/schemas/ApiV2Error'
+          description: Country name
     Contact:
       type: object
       required:
@@ -768,37 +557,239 @@ components:
           type: string
           format: uri
           description: Common Room URL for this contact
-    Status:
+    ApiLeadScore:
       type: object
+      required:
+      - scoreId
+      - score
+      - percentile
       properties:
-        status:
+        scoreId:
+          type: integer
+          description: The numeric ID of the lead-score definition
+        score:
+          type: number
+          description: The raw score for this contact or organization
+        percentile:
+          type: number
+          description: The percentile rank of the score within the community
+    Organization:
+      type: object
+      required:
+      - id
+      - name
+      - primaryDomain
+      properties:
+        id:
           type: string
-          enum:
-          - ok
-          - failure
-          - not-found
-          example: success
-        reason:
+          description: Prefixed organization ID (format `o_<number>`)
+        name:
           type: string
-        errors:
+          description: The organization's name
+        primaryDomain:
+          type: string
+          description: The organization's primary domain name
+        about:
+          type:
+          - string
+          - 'null'
+        contactsCount:
+          type:
+          - integer
+          - 'null'
+        employees:
+          type:
+          - integer
+          - 'null'
+        linkedInUrl:
+          type:
+          - string
+          - 'null'
+        profiles:
           type: array
           items:
+            type: object
+            required:
+            - name
+            - type
+            - url
+            properties:
+              name:
+                type: string
+              type:
+                type: string
+              url:
+                type:
+                - string
+                - 'null'
+                format: uri
+        revenueRangeMax:
+          type:
+          - integer
+          - 'null'
+        revenueRangeMin:
+          type:
+          - integer
+          - 'null'
+        subIndustry:
+          type:
+          - string
+          - 'null'
+        location:
+          allOf:
+          - $ref: '#/components/schemas/ApiLocation'
+        customFields:
+          type: object
+          description: Map of custom-field ID (format `cf_<number>`) to its typed value.
+          additionalProperties:
+            $ref: '#/components/schemas/ApiFieldValue'
+        leadScores:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiLeadScore'
+        researchResults:
+          type: array
+          items:
+            type: object
+            required:
+            - promptId
+            - answer
+            - isPrimaryPrompt
+            properties:
+              promptId:
+                type: string
+              answer:
+                type: string
+              isPrimaryPrompt:
+                type: boolean
+        recentJobOpenings:
+          type: array
+          items:
+            type: object
+            required:
+            - jobTitle
+            - url
+            - firstSeenAt
+            - isClosed
+            - location
+            properties:
+              jobTitle:
+                type: string
+              jobDescription:
+                type:
+                - string
+                - 'null'
+              url:
+                type: string
+                format: uri
+              firstSeenAt:
+                type: string
+              isClosed:
+                type: boolean
+              location:
+                type:
+                - string
+                - 'null'
+        recentNews:
+          type: array
+          items:
+            type: object
+            required:
+            - title
+            - url
+            - publishedAt
+            - category
+            - articleSentence
+            properties:
+              title:
+                type: string
+              url:
+                type: string
+                format: uri
+              publishedAt:
+                type: string
+              category:
+                type: string
+              articleSentence:
+                type:
+                - string
+                - 'null'
+        surgingTopics:
+          type: array
+          description: Bombora surging topic names this organization is showing buyer intent for. Empty unless the Bombora integration is enabled.
+          items:
             type: string
-          required:
-          - status
-      example:
-        status: not created
-        errors:
-        - name is missing
-  headers:
-    X-RateLimit-Remaining:
-      description: The total amount of requests remaining within the interval
-      schema:
-        type: integer
-    X-RateLimit-Limit:
-      description: The total amount of requests permitted within the interval
-      schema:
-        type: integer
+        tags:
+          type: array
+          description: Prefixed label IDs (format `l_<number>`)
+          items:
+            type: string
+        topContacts:
+          type: array
+          items:
+            $ref: '#/components/schemas/Contact'
+        url:
+          type: string
+          format: uri
+          description: Common Room URL for this organization
+    OrganizationResponse:
+      type: object
+      required:
+      - success
+      - data
+      properties:
+        success:
+          type: boolean
+          enum:
+          - true
+        data:
+          $ref: '#/components/schemas/Organization'
+    ApiV2Error:
+      type: object
+      required:
+      - code
+      - message
+      properties:
+        code:
+          type: string
+          description: A machine-readable error code identifying the failure.
+          enum:
+          - invalid_parameters
+          - invalid_organization_id
+          - org_not_found
+          - invalid_contact_id
+          - contact_not_found
+          - invalid_object_id
+          - object_not_found
+          - invalid_object_type_id
+          - object_type_not_found
+          - invalid_segment_id
+          - segment_not_found
+          - invalid_activity_id
+          - activity_not_found
+          - conflict
+          - internal_server_error
+          - invalid_custom_field_id
+          - custom_field_not_found
+          - invalid_prospector_contact_id
+          - prospector_contact_not_found
+          - invalid_prospector_company_id
+          - prospector_company_not_found
+        message:
+          type: string
+          description: A human-readable description of the error.
+    ApiV2ErrorResponse:
+      type: object
+      required:
+      - success
+      - error
+      properties:
+        success:
+          type: boolean
+          enum:
+          - false
+        error:
+          $ref: '#/components/schemas/ApiV2Error'
   responses:
     RateLimited:
       description: Rate Limited
@@ -839,6 +830,15 @@ components:
                   waitMs:
                     type: number
                     description: The amount of time to wait until the next interval
+  headers:
+    X-RateLimit-Limit:
+      description: The total amount of requests permitted within the interval
+      schema:
+        type: integer
+    X-RateLimit-Remaining:
+      description: The total amount of requests remaining within the interval
+      schema:
+        type: integer
   securitySchemes:
     BearerAuth:
       type: http

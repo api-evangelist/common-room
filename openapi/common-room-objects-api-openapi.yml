@@ -190,7 +190,67 @@ paths:
       operationId: getObjects
       x-operation-id-source: derived
 components:
+  responses:
+    RateLimited:
+      description: Rate Limited
+      headers:
+        X-RateLimit-Limit:
+          $ref: '#/components/headers/X-RateLimit-Limit'
+        X-RateLimit-Remaining:
+          $ref: '#/components/headers/X-RateLimit-Remaining'
+        X-RateLimit-Reset:
+          description: The datetime in epoch seconds when the interval resets
+          schema:
+            type: integer
+        Retry-After:
+          description: The UTC datetime when the interval resets
+          schema:
+            type: string
+            format: date-time
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              reason:
+                type: string
+              rateLimit:
+                type: object
+                description: A summary of the rate limit encountered, additional information is available in the headers.
+                properties:
+                  intervalLimit:
+                    type: number
+                    description: The total amount of requests permitted within the interval
+                  intervalRemaining:
+                    type: number
+                    description: The amount of requests remaining within the interval
+                  intervalResetSeconds:
+                    type: number
+                    description: The amount of time in seconds representing a single interval
+                  waitMs:
+                    type: number
+                    description: The amount of time to wait until the next interval
   schemas:
+    ApiCustomObject:
+      type: object
+      required:
+      - id
+      - name
+      properties:
+        id:
+          type: string
+          description: Prefixed custom object ID (format `co_<number>`)
+        name:
+          type: string
+          description: The object's display name
+        recordKey:
+          type: string
+          description: External record key for this object
+        customFields:
+          type: object
+          description: Map of custom-field ID (format `cf_<number>`) to its typed value.
+          additionalProperties:
+            $ref: '#/components/schemas/ApiFieldValue'
     CustomObjectList:
       type: object
       required:
@@ -217,6 +277,28 @@ components:
             recordCount:
               type: integer
               description: Total number of records matching the query. Only returned when `cols=recordCount` is requested.
+    Status:
+      type: object
+      properties:
+        status:
+          type: string
+          enum:
+          - ok
+          - failure
+          - not-found
+          example: success
+        reason:
+          type: string
+        errors:
+          type: array
+          items:
+            type: string
+          required:
+          - status
+      example:
+        status: not created
+        errors:
+        - name is missing
     ApiFieldValue:
       description: A typed custom-field value. The `type` discriminator indicates the value's runtime type.
       oneOf:
@@ -300,26 +382,6 @@ components:
           - true
         data:
           $ref: '#/components/schemas/ApiCustomObject'
-    ApiCustomObject:
-      type: object
-      required:
-      - id
-      - name
-      properties:
-        id:
-          type: string
-          description: Prefixed custom object ID (format `co_<number>`)
-        name:
-          type: string
-          description: The object's display name
-        recordKey:
-          type: string
-          description: External record key for this object
-        customFields:
-          type: object
-          description: Map of custom-field ID (format `cf_<number>`) to its typed value.
-          additionalProperties:
-            $ref: '#/components/schemas/ApiFieldValue'
     ApiV2Error:
       type: object
       required:
@@ -366,77 +428,15 @@ components:
           - false
         error:
           $ref: '#/components/schemas/ApiV2Error'
-    Status:
-      type: object
-      properties:
-        status:
-          type: string
-          enum:
-          - ok
-          - failure
-          - not-found
-          example: success
-        reason:
-          type: string
-        errors:
-          type: array
-          items:
-            type: string
-          required:
-          - status
-      example:
-        status: not created
-        errors:
-        - name is missing
   headers:
-    X-RateLimit-Remaining:
-      description: The total amount of requests remaining within the interval
-      schema:
-        type: integer
     X-RateLimit-Limit:
       description: The total amount of requests permitted within the interval
       schema:
         type: integer
-  responses:
-    RateLimited:
-      description: Rate Limited
-      headers:
-        X-RateLimit-Limit:
-          $ref: '#/components/headers/X-RateLimit-Limit'
-        X-RateLimit-Remaining:
-          $ref: '#/components/headers/X-RateLimit-Remaining'
-        X-RateLimit-Reset:
-          description: The datetime in epoch seconds when the interval resets
-          schema:
-            type: integer
-        Retry-After:
-          description: The UTC datetime when the interval resets
-          schema:
-            type: string
-            format: date-time
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              reason:
-                type: string
-              rateLimit:
-                type: object
-                description: A summary of the rate limit encountered, additional information is available in the headers.
-                properties:
-                  intervalLimit:
-                    type: number
-                    description: The total amount of requests permitted within the interval
-                  intervalRemaining:
-                    type: number
-                    description: The amount of requests remaining within the interval
-                  intervalResetSeconds:
-                    type: number
-                    description: The amount of time in seconds representing a single interval
-                  waitMs:
-                    type: number
-                    description: The amount of time to wait until the next interval
+    X-RateLimit-Remaining:
+      description: The total amount of requests remaining within the interval
+      schema:
+        type: integer
   securitySchemes:
     BearerAuth:
       type: http

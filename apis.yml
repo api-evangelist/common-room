@@ -74,6 +74,7 @@ tags_raw:
 - CLI
 - SCIM
 - Signal Intelligence
+- Community
 apis:
 - name: Common Room SCIM API
   description: >-

@@ -65,15 +65,78 @@ paths:
       operationId: getObjectTypes
       x-operation-id-source: derived
 components:
-  headers:
-    X-RateLimit-Remaining:
-      description: The total amount of requests remaining within the interval
-      schema:
-        type: integer
-    X-RateLimit-Limit:
-      description: The total amount of requests permitted within the interval
-      schema:
-        type: integer
+  schemas:
+    ApiObjectType:
+      type: object
+      required:
+      - id
+      - name
+      properties:
+        id:
+          type: string
+          description: Prefixed object type ID (format `cot_<number>`)
+        name:
+          type: string
+          description: The object type's display name
+        assocs:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiObjectTypeAssoc'
+          description: Associations to other entity types
+    Status:
+      type: object
+      properties:
+        status:
+          type: string
+          enum:
+          - ok
+          - failure
+          - not-found
+          example: success
+        reason:
+          type: string
+        errors:
+          type: array
+          items:
+            type: string
+          required:
+          - status
+      example:
+        status: not created
+        errors:
+        - name is missing
+    ObjectTypeList:
+      type: object
+      required:
+      - success
+      - data
+      properties:
+        success:
+          type: boolean
+          enum:
+          - true
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiObjectType'
+    ApiObjectTypeAssoc:
+      type: object
+      required:
+      - objectAssocType
+      - targetEntity
+      - targetObjectTypeId
+      properties:
+        objectAssocType:
+          type: string
+          description: The relationship type
+        targetEntity:
+          type: string
+          description: The target entity name (e.g. `Contact`, `Organization`, or a custom object type name)
+        targetObjectTypeId:
+          type:
+          - string
+          - 'null'
+          description: Prefixed target object type ID (format `cot_<number>`), or null for standard entities
   responses:
     RateLimited:
       description: Rate Limited
@@ -114,78 +177,15 @@ components:
                   waitMs:
                     type: number
                     description: The amount of time to wait until the next interval
-  schemas:
-    ApiObjectTypeAssoc:
-      type: object
-      required:
-      - objectAssocType
-      - targetEntity
-      - targetObjectTypeId
-      properties:
-        objectAssocType:
-          type: string
-          description: The relationship type
-        targetEntity:
-          type: string
-          description: The target entity name (e.g. `Contact`, `Organization`, or a custom object type name)
-        targetObjectTypeId:
-          type:
-          - string
-          - 'null'
-          description: Prefixed target object type ID (format `cot_<number>`), or null for standard entities
-    ObjectTypeList:
-      type: object
-      required:
-      - success
-      - data
-      properties:
-        success:
-          type: boolean
-          enum:
-          - true
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/ApiObjectType'
-    ApiObjectType:
-      type: object
-      required:
-      - id
-      - name
-      properties:
-        id:
-          type: string
-          description: Prefixed object type ID (format `cot_<number>`)
-        name:
-          type: string
-          description: The object type's display name
-        assocs:
-          type: array
-          items:
-            $ref: '#/components/schemas/ApiObjectTypeAssoc'
-          description: Associations to other entity types
-    Status:
-      type: object
-      properties:
-        status:
-          type: string
-          enum:
-          - ok
-          - failure
-          - not-found
-          example: success
-        reason:
-          type: string
-        errors:
-          type: array
-          items:
-            type: string
-          required:
-          - status
-      example:
-        status: not created
-        errors:
-        - name is missing
+  headers:
+    X-RateLimit-Limit:
+      description: The total amount of requests permitted within the interval
+      schema:
+        type: integer
+    X-RateLimit-Remaining:
+      description: The total amount of requests remaining within the interval
+      schema:
+        type: integer
   securitySchemes:
     BearerAuth:
       type: http
