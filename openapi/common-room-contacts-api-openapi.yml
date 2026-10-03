@@ -516,105 +516,7 @@ paths:
     - url: https://api.commonroom.io/community/v2
       description: Common Room API v2
 components:
-  responses:
-    RateLimited:
-      description: Rate Limited
-      headers:
-        X-RateLimit-Limit:
-          $ref: '#/components/headers/X-RateLimit-Limit'
-        X-RateLimit-Remaining:
-          $ref: '#/components/headers/X-RateLimit-Remaining'
-        X-RateLimit-Reset:
-          description: The datetime in epoch seconds when the interval resets
-          schema:
-            type: integer
-        Retry-After:
-          description: The UTC datetime when the interval resets
-          schema:
-            type: string
-            format: date-time
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              reason:
-                type: string
-              rateLimit:
-                type: object
-                description: A summary of the rate limit encountered, additional information is available in the headers.
-                properties:
-                  intervalLimit:
-                    type: number
-                    description: The total amount of requests permitted within the interval
-                  intervalRemaining:
-                    type: number
-                    description: The amount of requests remaining within the interval
-                  intervalResetSeconds:
-                    type: number
-                    description: The amount of time in seconds representing a single interval
-                  waitMs:
-                    type: number
-                    description: The amount of time to wait until the next interval
-    InvalidRequest:
-      description: Invalid Request
-      headers:
-        X-RateLimit-Limit:
-          $ref: '#/components/headers/X-RateLimit-Limit'
-        X-RateLimit-Remaining:
-          $ref: '#/components/headers/X-RateLimit-Remaining'
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              reason:
-                type: string
-                description: A reason of `invalid-request-body` indicates that the request body did not match the schema required by our API docs. Please double-check that your request body matches the schema above, and contact us for help if you continue to experience issues.
-              docs:
-                type: string
-                description: A link to this API documentation
   schemas:
-    ApiTagAssignment:
-      type: object
-      description: Optional List of tags to assign
-      oneOf:
-      - $ref: '#/components/schemas/ApiTagAssignmentById'
-      - $ref: '#/components/schemas/ApiTagAssignmentByName'
-      discriminator:
-        propertyName: type
-        mapping:
-          id: '#/components/schemas/ApiTagAssignmentById'
-          name: '#/components/schemas/ApiTagAssignmentByName'
-    CommunityMember:
-      CommunityMember:
-        type: object
-        properties:
-          id:
-            type: integer
-            example: 147920
-    Status:
-      type: object
-      properties:
-        status:
-          type: string
-          enum:
-          - ok
-          - failure
-          - not-found
-          example: success
-        reason:
-          type: string
-        errors:
-          type: array
-          items:
-            type: string
-          required:
-          - status
-      example:
-        status: not created
-        errors:
-        - name is missing
     ApiTagAssignmentByName:
       type: object
       properties:
@@ -633,57 +535,6 @@ components:
       required:
       - type
       - name
-    ApiCustomFields:
-      type: object
-      description: Optional list of custom fields to update
-      properties:
-        id:
-          description: ID of the custom field to update which you can retrieve using the /members/customFields endpoint.
-          type: number
-        value:
-          type: object
-          description: 'The value of the custom field. Important: Omitting this field will clear the custom field value and cannot be undone.'
-          properties:
-            type:
-              type: string
-              description: The defined type of the custom field
-              enum:
-              - enum
-              - string
-              - date
-              - int
-              - number
-              - url
-              - boolean
-              example: boolean
-            value:
-              description: The updated value of the custom field.
-              example: true
-              oneOf:
-              - type: string
-              - type: number
-              - type: url
-              - type: date
-                description: Only supports ISO 8601 date format (YYYY-MM-DD).
-              - type: boolean
-              - type: array
-                items:
-                  oneOf:
-                  - type: string
-                    description: Only applicable for multivalue string custom fields.
-                  - type: number
-                    description: Only applicable for multi-value number custom fields.
-                  - type: date
-                    description: Only applicable for multivalue date custom fields.
-                  - type: url
-                    description: Only applicable for multivalue URL custom fields.
-                  - type: boolean
-                    description: Only applicable for multivalue boolean custom fields.
-          required:
-          - type
-          - value
-      required:
-      - id
     ApiTagAssignmentById:
       type: object
       properties:
@@ -697,6 +548,13 @@ components:
       required:
       - type
       - id
+    CommunityMember:
+      CommunityMember:
+        type: object
+        properties:
+          id:
+            type: integer
+            example: 147920
     ApiUser:
       type: object
       description: Information about a user. Provide as many fields as possible to enable better matching and merging into a single Common Room profile.
@@ -886,66 +744,90 @@ components:
             $ref: '#/components/schemas/ApiCustomFields'
       required:
       - id
-    ApiActivity:
+    ApiCustomFields:
       type: object
-      required:
-      - id
-      - type
-      - activityTime
+      description: Optional list of custom fields to update
       properties:
         id:
+          description: ID of the custom field to update which you can retrieve using the /members/customFields endpoint.
+          type: number
+        value:
+          type: object
+          description: 'The value of the custom field. Important: Omitting this field will clear the custom field value and cannot be undone.'
+          properties:
+            type:
+              type: string
+              description: The defined type of the custom field
+              enum:
+              - enum
+              - string
+              - date
+              - int
+              - number
+              - url
+              - boolean
+              example: boolean
+            value:
+              description: The updated value of the custom field.
+              example: true
+              oneOf:
+              - type: string
+              - type: number
+              - type: url
+              - type: date
+                description: Only supports ISO 8601 date format (YYYY-MM-DD).
+              - type: boolean
+              - type: array
+                items:
+                  oneOf:
+                  - type: string
+                    description: Only applicable for multivalue string custom fields.
+                  - type: number
+                    description: Only applicable for multi-value number custom fields.
+                  - type: date
+                    description: Only applicable for multivalue date custom fields.
+                  - type: url
+                    description: Only applicable for multivalue URL custom fields.
+                  - type: boolean
+                    description: Only applicable for multivalue boolean custom fields.
+          required:
+          - type
+          - value
+      required:
+      - id
+    ApiTagAssignment:
+      type: object
+      description: Optional List of tags to assign
+      oneOf:
+      - $ref: '#/components/schemas/ApiTagAssignmentById'
+      - $ref: '#/components/schemas/ApiTagAssignmentByName'
+      discriminator:
+        propertyName: type
+        mapping:
+          id: '#/components/schemas/ApiTagAssignmentById'
+          name: '#/components/schemas/ApiTagAssignmentByName'
+    Status:
+      type: object
+      properties:
+        status:
           type: string
-          description: Prefixed activity ID (format `a_<number>`)
-        type:
+          enum:
+          - ok
+          - failure
+          - not-found
+          example: success
+        reason:
           type: string
-          description: Activity type identifier (e.g. `tweet`, `pr_comment`)
-        activityTime:
-          type: string
-          format: date-time
-          description: When the activity occurred
-        contactId:
-          type: string
-          description: Prefixed contact ID (format `c_<number>`)
-        content:
-          type:
-          - string
-          - 'null'
-        isUserInitiated:
-          type: boolean
-        participantCount:
-          type: integer
-        providerId:
-          type: string
-          description: Prefixed signal source ID (format `sig_<number>`)
-        providerName:
-          type:
-          - string
-          - 'null'
-        replyCount:
-          type: integer
-        sentiment:
-          type:
-          - string
-          - 'null'
-        subSourceNames:
+        errors:
           type: array
           items:
             type: string
-        url:
-          type: string
-          format: uri
-    ContactResponse:
-      type: object
-      required:
-      - success
-      - data
-      properties:
-        success:
-          type: boolean
-          enum:
-          - true
-        data:
-          $ref: '#/components/schemas/Contact'
+          required:
+          - status
+      example:
+        status: not created
+        errors:
+        - name is missing
     ApiFieldValue:
       description: A typed custom-field value. The `type` discriminator indicates the value's runtime type.
       oneOf:
@@ -1231,6 +1113,78 @@ components:
           type: string
           format: uri
           description: Common Room URL for this contact
+    ApiActivity:
+      type: object
+      required:
+      - id
+      - type
+      - activityTime
+      properties:
+        id:
+          type: string
+          description: Prefixed activity ID (format `a_<number>`)
+        type:
+          type: string
+          description: Activity type identifier (e.g. `tweet`, `pr_comment`)
+        activityTime:
+          type: string
+          format: date-time
+          description: When the activity occurred
+        contactId:
+          type: string
+          description: Prefixed contact ID (format `c_<number>`)
+        content:
+          type:
+          - string
+          - 'null'
+        isUserInitiated:
+          type: boolean
+        participantCount:
+          type: integer
+        providerId:
+          type: string
+          description: Prefixed signal source ID (format `sig_<number>`)
+        providerName:
+          type:
+          - string
+          - 'null'
+        replyCount:
+          type: integer
+        sentiment:
+          type:
+          - string
+          - 'null'
+        subSourceNames:
+          type: array
+          items:
+            type: string
+        url:
+          type: string
+          format: uri
+    ContactResponse:
+      type: object
+      required:
+      - success
+      - data
+      properties:
+        success:
+          type: boolean
+          enum:
+          - true
+        data:
+          $ref: '#/components/schemas/Contact'
+    ApiV2ErrorResponse:
+      type: object
+      required:
+      - success
+      - error
+      properties:
+        success:
+          type: boolean
+          enum:
+          - false
+        error:
+          $ref: '#/components/schemas/ApiV2Error'
     ApiLeadScore:
       type: object
       required:
@@ -1281,27 +1235,73 @@ components:
         message:
           type: string
           description: A human-readable description of the error.
-    ApiV2ErrorResponse:
-      type: object
-      required:
-      - success
-      - error
-      properties:
-        success:
-          type: boolean
-          enum:
-          - false
-        error:
-          $ref: '#/components/schemas/ApiV2Error'
   headers:
-    X-RateLimit-Limit:
-      description: The total amount of requests permitted within the interval
-      schema:
-        type: integer
     X-RateLimit-Remaining:
       description: The total amount of requests remaining within the interval
       schema:
         type: integer
+    X-RateLimit-Limit:
+      description: The total amount of requests permitted within the interval
+      schema:
+        type: integer
+  responses:
+    RateLimited:
+      description: Rate Limited
+      headers:
+        X-RateLimit-Limit:
+          $ref: '#/components/headers/X-RateLimit-Limit'
+        X-RateLimit-Remaining:
+          $ref: '#/components/headers/X-RateLimit-Remaining'
+        X-RateLimit-Reset:
+          description: The datetime in epoch seconds when the interval resets
+          schema:
+            type: integer
+        Retry-After:
+          description: The UTC datetime when the interval resets
+          schema:
+            type: string
+            format: date-time
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              reason:
+                type: string
+              rateLimit:
+                type: object
+                description: A summary of the rate limit encountered, additional information is available in the headers.
+                properties:
+                  intervalLimit:
+                    type: number
+                    description: The total amount of requests permitted within the interval
+                  intervalRemaining:
+                    type: number
+                    description: The amount of requests remaining within the interval
+                  intervalResetSeconds:
+                    type: number
+                    description: The amount of time in seconds representing a single interval
+                  waitMs:
+                    type: number
+                    description: The amount of time to wait until the next interval
+    InvalidRequest:
+      description: Invalid Request
+      headers:
+        X-RateLimit-Limit:
+          $ref: '#/components/headers/X-RateLimit-Limit'
+        X-RateLimit-Remaining:
+          $ref: '#/components/headers/X-RateLimit-Remaining'
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              reason:
+                type: string
+                description: A reason of `invalid-request-body` indicates that the request body did not match the schema required by our API docs. Please double-check that your request body matches the schema above, and contact us for help if you continue to experience issues.
+              docs:
+                type: string
+                description: A link to this API documentation
   securitySchemes:
     BearerAuth:
       type: http

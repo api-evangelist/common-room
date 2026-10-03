@@ -151,6 +151,18 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    TopicResponse:
+      type: object
+      required:
+      - success
+      - data
+      properties:
+        success:
+          type: boolean
+          enum:
+          - true
+        data:
+          $ref: '#/components/schemas/ApiTopic'
     TopicList:
       type: object
       required:
@@ -177,52 +189,18 @@ components:
             recordCount:
               type: integer
               description: Total number of records matching the query. Only returned when `cols=recordCount` is requested.
-    Status:
-      type: object
-      properties:
-        status:
-          type: string
-          enum:
-          - ok
-          - failure
-          - not-found
-          example: success
-        reason:
-          type: string
-        errors:
-          type: array
-          items:
-            type: string
-          required:
-          - status
-      example:
-        status: not created
-        errors:
-        - name is missing
-    ApiTopic:
-      type: object
-      required:
-      - id
-      - name
-      properties:
-        id:
-          type: string
-          description: Prefixed topic ID (format `tp_<number>`)
-        name:
-          type: string
-          description: The topic's display name
-    TopicResponse:
+    ApiV2ErrorResponse:
       type: object
       required:
       - success
-      - data
+      - error
       properties:
         success:
           type: boolean
           enum:
-          - true
-        data:
-          $ref: '#/components/schemas/ApiTopic'
+          - false
+        error:
+          $ref: '#/components/schemas/ApiV2Error'
     ApiV2Error:
       type: object
       required:
@@ -257,18 +235,49 @@ components:
         message:
           type: string
           description: A human-readable description of the error.
-    ApiV2ErrorResponse:
+    Status:
+      type: object
+      properties:
+        status:
+          type: string
+          enum:
+          - ok
+          - failure
+          - not-found
+          example: success
+        reason:
+          type: string
+        errors:
+          type: array
+          items:
+            type: string
+          required:
+          - status
+      example:
+        status: not created
+        errors:
+        - name is missing
+    ApiTopic:
       type: object
       required:
-      - success
-      - error
+      - id
+      - name
       properties:
-        success:
-          type: boolean
-          enum:
-          - false
-        error:
-          $ref: '#/components/schemas/ApiV2Error'
+        id:
+          type: string
+          description: Prefixed topic ID (format `tp_<number>`)
+        name:
+          type: string
+          description: The topic's display name
+  headers:
+    X-RateLimit-Remaining:
+      description: The total amount of requests remaining within the interval
+      schema:
+        type: integer
+    X-RateLimit-Limit:
+      description: The total amount of requests permitted within the interval
+      schema:
+        type: integer
   responses:
     RateLimited:
       description: Rate Limited
@@ -309,15 +318,6 @@ components:
                   waitMs:
                     type: number
                     description: The amount of time to wait until the next interval
-  headers:
-    X-RateLimit-Limit:
-      description: The total amount of requests permitted within the interval
-      schema:
-        type: integer
-    X-RateLimit-Remaining:
-      description: The total amount of requests remaining within the interval
-      schema:
-        type: integer
   securitySchemes:
     BearerAuth:
       type: http

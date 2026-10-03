@@ -202,104 +202,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    ApiActivity:
-      type: object
-      required:
-      - id
-      - type
-      - activityTime
-      properties:
-        id:
-          type: string
-          description: Prefixed activity ID (format `a_<number>`)
-        type:
-          type: string
-          description: Activity type identifier (e.g. `tweet`, `pr_comment`)
-        activityTime:
-          type: string
-          format: date-time
-          description: When the activity occurred
-        contactId:
-          type: string
-          description: Prefixed contact ID (format `c_<number>`)
-        content:
-          type:
-          - string
-          - 'null'
-        isUserInitiated:
-          type: boolean
-        participantCount:
-          type: integer
-        providerId:
-          type: string
-          description: Prefixed signal source ID (format `sig_<number>`)
-        providerName:
-          type:
-          - string
-          - 'null'
-        replyCount:
-          type: integer
-        sentiment:
-          type:
-          - string
-          - 'null'
-        subSourceNames:
-          type: array
-          items:
-            type: string
-        url:
-          type: string
-          format: uri
-    OrganizationList:
-      type: object
-      required:
-      - success
-      - data
-      - meta
-      properties:
-        success:
-          type: boolean
-          enum:
-          - true
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/Organization'
-        meta:
-          type: object
-          required:
-          - nextCursor
-          properties:
-            nextCursor:
-              type:
-              - string
-              - 'null'
-              description: Cursor for pagination; pass as the `cursor` query parameter to fetch the next page.
-            recordCount:
-              type: integer
-              description: Total number of records matching the query. Only returned when `cols=recordCount` is requested.
-    Status:
-      type: object
-      properties:
-        status:
-          type: string
-          enum:
-          - ok
-          - failure
-          - not-found
-          example: success
-        reason:
-          type: string
-        errors:
-          type: array
-          items:
-            type: string
-          required:
-          - status
-      example:
-        status: not created
-        errors:
-        - name is missing
     ApiFieldValue:
       description: A typed custom-field value. The `type` discriminator indicates the value's runtime type.
       oneOf:
@@ -557,22 +459,54 @@ components:
           type: string
           format: uri
           description: Common Room URL for this contact
-    ApiLeadScore:
+    ApiActivity:
       type: object
       required:
-      - scoreId
-      - score
-      - percentile
+      - id
+      - type
+      - activityTime
       properties:
-        scoreId:
+        id:
+          type: string
+          description: Prefixed activity ID (format `a_<number>`)
+        type:
+          type: string
+          description: Activity type identifier (e.g. `tweet`, `pr_comment`)
+        activityTime:
+          type: string
+          format: date-time
+          description: When the activity occurred
+        contactId:
+          type: string
+          description: Prefixed contact ID (format `c_<number>`)
+        content:
+          type:
+          - string
+          - 'null'
+        isUserInitiated:
+          type: boolean
+        participantCount:
           type: integer
-          description: The numeric ID of the lead-score definition
-        score:
-          type: number
-          description: The raw score for this contact or organization
-        percentile:
-          type: number
-          description: The percentile rank of the score within the community
+        providerId:
+          type: string
+          description: Prefixed signal source ID (format `sig_<number>`)
+        providerName:
+          type:
+          - string
+          - 'null'
+        replyCount:
+          type: integer
+        sentiment:
+          type:
+          - string
+          - 'null'
+        subSourceNames:
+          type: array
+          items:
+            type: string
+        url:
+          type: string
+          format: uri
     Organization:
       type: object
       required:
@@ -732,18 +666,62 @@ components:
           type: string
           format: uri
           description: Common Room URL for this organization
-    OrganizationResponse:
+    ApiLeadScore:
+      type: object
+      required:
+      - scoreId
+      - score
+      - percentile
+      properties:
+        scoreId:
+          type: integer
+          description: The numeric ID of the lead-score definition
+        score:
+          type: number
+          description: The raw score for this contact or organization
+        percentile:
+          type: number
+          description: The percentile rank of the score within the community
+    ApiV2ErrorResponse:
+      type: object
+      required:
+      - success
+      - error
+      properties:
+        success:
+          type: boolean
+          enum:
+          - false
+        error:
+          $ref: '#/components/schemas/ApiV2Error'
+    OrganizationList:
       type: object
       required:
       - success
       - data
+      - meta
       properties:
         success:
           type: boolean
           enum:
           - true
         data:
-          $ref: '#/components/schemas/Organization'
+          type: array
+          items:
+            $ref: '#/components/schemas/Organization'
+        meta:
+          type: object
+          required:
+          - nextCursor
+          properties:
+            nextCursor:
+              type:
+              - string
+              - 'null'
+              description: Cursor for pagination; pass as the `cursor` query parameter to fetch the next page.
+            recordCount:
+              type: integer
+              description: Total number of records matching the query. Only returned when `cols=recordCount` is requested.
     ApiV2Error:
       type: object
       required:
@@ -778,18 +756,49 @@ components:
         message:
           type: string
           description: A human-readable description of the error.
-    ApiV2ErrorResponse:
+    Status:
+      type: object
+      properties:
+        status:
+          type: string
+          enum:
+          - ok
+          - failure
+          - not-found
+          example: success
+        reason:
+          type: string
+        errors:
+          type: array
+          items:
+            type: string
+          required:
+          - status
+      example:
+        status: not created
+        errors:
+        - name is missing
+    OrganizationResponse:
       type: object
       required:
       - success
-      - error
+      - data
       properties:
         success:
           type: boolean
           enum:
-          - false
-        error:
-          $ref: '#/components/schemas/ApiV2Error'
+          - true
+        data:
+          $ref: '#/components/schemas/Organization'
+  headers:
+    X-RateLimit-Remaining:
+      description: The total amount of requests remaining within the interval
+      schema:
+        type: integer
+    X-RateLimit-Limit:
+      description: The total amount of requests permitted within the interval
+      schema:
+        type: integer
   responses:
     RateLimited:
       description: Rate Limited
@@ -830,15 +839,6 @@ components:
                   waitMs:
                     type: number
                     description: The amount of time to wait until the next interval
-  headers:
-    X-RateLimit-Limit:
-      description: The total amount of requests permitted within the interval
-      schema:
-        type: integer
-    X-RateLimit-Remaining:
-      description: The total amount of requests remaining within the interval
-      schema:
-        type: integer
   securitySchemes:
     BearerAuth:
       type: http

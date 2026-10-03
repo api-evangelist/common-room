@@ -130,54 +130,66 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    CustomFieldList:
+    ApiCustomField:
       type: object
       required:
-      - success
-      - data
+      - id
+      - name
+      - entityTypes
+      - keyField
+      - valueType
       properties:
-        success:
-          type: boolean
-          enum:
-          - true
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/ApiCustomField'
-    CustomFieldResponse:
-      type: object
-      required:
-      - success
-      - data
-      properties:
-        success:
-          type: boolean
-          enum:
-          - true
-        data:
-          $ref: '#/components/schemas/ApiCustomField'
-    Status:
-      type: object
-      properties:
-        status:
+        id:
           type: string
-          enum:
-          - ok
-          - failure
-          - not-found
-          example: success
-        reason:
+          description: Prefixed custom field ID (format `cf_<number>`)
+        name:
           type: string
-        errors:
+          description: The custom field's display name
+        entityTypes:
           type: array
           items:
             type: string
-          required:
-          - status
-      example:
-        status: not created
-        errors:
-        - name is missing
+            enum:
+            - contact
+            - object
+            - organization
+          description: Entity types this field applies to
+        keyField:
+          type: boolean
+          description: Whether this is a key field used for deduplication
+        valueType:
+          type: string
+          enum:
+          - string
+          - url
+          - int
+          - number
+          - date
+          - boolean
+          description: The data type of field values
+        sampleValues:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiFieldValue'
+          description: Example values for this field
+        description:
+          type:
+          - string
+          - 'null'
+          description: Human-readable description of the field
+        targetSubTypes:
+          type: array
+          items:
+            type: string
+          description: Sub-types this field targets
+        providedBy:
+          type:
+          - string
+          - 'null'
+          description: Name of the provider that owns this field, if any
+        objectTypeId:
+          type: string
+          description: Prefixed object type ID (format `cot_<number>`), if this field belongs to a specific object type
     ApiFieldValue:
       description: A typed custom-field value. The `type` discriminator indicates the value's runtime type.
       oneOf:
@@ -249,66 +261,30 @@ components:
             - boolean
           value:
             type: boolean
-    ApiCustomField:
+    CustomFieldResponse:
       type: object
       required:
-      - id
-      - name
-      - entityTypes
-      - keyField
-      - valueType
+      - success
+      - data
       properties:
-        id:
-          type: string
-          description: Prefixed custom field ID (format `cf_<number>`)
-        name:
-          type: string
-          description: The custom field's display name
-        entityTypes:
-          type: array
-          items:
-            type: string
-            enum:
-            - contact
-            - object
-            - organization
-          description: Entity types this field applies to
-        keyField:
+        success:
           type: boolean
-          description: Whether this is a key field used for deduplication
-        valueType:
-          type: string
           enum:
-          - string
-          - url
-          - int
-          - number
-          - date
-          - boolean
-          description: The data type of field values
-        sampleValues:
-          type: array
-          items:
-            $ref: '#/components/schemas/ApiFieldValue'
-          description: Example values for this field
-        description:
-          type:
-          - string
-          - 'null'
-          description: Human-readable description of the field
-        targetSubTypes:
-          type: array
-          items:
-            type: string
-          description: Sub-types this field targets
-        providedBy:
-          type:
-          - string
-          - 'null'
-          description: Name of the provider that owns this field, if any
-        objectTypeId:
-          type: string
-          description: Prefixed object type ID (format `cot_<number>`), if this field belongs to a specific object type
+          - true
+        data:
+          $ref: '#/components/schemas/ApiCustomField'
+    ApiV2ErrorResponse:
+      type: object
+      required:
+      - success
+      - error
+      properties:
+        success:
+          type: boolean
+          enum:
+          - false
+        error:
+          $ref: '#/components/schemas/ApiV2Error'
     ApiV2Error:
       type: object
       required:
@@ -343,18 +319,51 @@ components:
         message:
           type: string
           description: A human-readable description of the error.
-    ApiV2ErrorResponse:
+    Status:
+      type: object
+      properties:
+        status:
+          type: string
+          enum:
+          - ok
+          - failure
+          - not-found
+          example: success
+        reason:
+          type: string
+        errors:
+          type: array
+          items:
+            type: string
+          required:
+          - status
+      example:
+        status: not created
+        errors:
+        - name is missing
+    CustomFieldList:
       type: object
       required:
       - success
-      - error
+      - data
       properties:
         success:
           type: boolean
           enum:
-          - false
-        error:
-          $ref: '#/components/schemas/ApiV2Error'
+          - true
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiCustomField'
+  headers:
+    X-RateLimit-Remaining:
+      description: The total amount of requests remaining within the interval
+      schema:
+        type: integer
+    X-RateLimit-Limit:
+      description: The total amount of requests permitted within the interval
+      schema:
+        type: integer
   responses:
     RateLimited:
       description: Rate Limited
@@ -395,15 +404,6 @@ components:
                   waitMs:
                     type: number
                     description: The amount of time to wait until the next interval
-  headers:
-    X-RateLimit-Limit:
-      description: The total amount of requests permitted within the interval
-      schema:
-        type: integer
-    X-RateLimit-Remaining:
-      description: The total amount of requests remaining within the interval
-      schema:
-        type: integer
   securitySchemes:
     BearerAuth:
       type: http

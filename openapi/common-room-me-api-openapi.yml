@@ -65,69 +65,7 @@ paths:
       operationId: getMe
       x-operation-id-source: derived
 components:
-  responses:
-    RateLimited:
-      description: Rate Limited
-      headers:
-        X-RateLimit-Limit:
-          $ref: '#/components/headers/X-RateLimit-Limit'
-        X-RateLimit-Remaining:
-          $ref: '#/components/headers/X-RateLimit-Remaining'
-        X-RateLimit-Reset:
-          description: The datetime in epoch seconds when the interval resets
-          schema:
-            type: integer
-        Retry-After:
-          description: The UTC datetime when the interval resets
-          schema:
-            type: string
-            format: date-time
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              reason:
-                type: string
-              rateLimit:
-                type: object
-                description: A summary of the rate limit encountered, additional information is available in the headers.
-                properties:
-                  intervalLimit:
-                    type: number
-                    description: The total amount of requests permitted within the interval
-                  intervalRemaining:
-                    type: number
-                    description: The amount of requests remaining within the interval
-                  intervalResetSeconds:
-                    type: number
-                    description: The amount of time in seconds representing a single interval
-                  waitMs:
-                    type: number
-                    description: The amount of time to wait until the next interval
   schemas:
-    Status:
-      type: object
-      properties:
-        status:
-          type: string
-          enum:
-          - ok
-          - failure
-          - not-found
-          example: success
-        reason:
-          type: string
-        errors:
-          type: array
-          items:
-            type: string
-          required:
-          - status
-      example:
-        status: not created
-        errors:
-        - name is missing
     MeResponse:
       type: object
       required:
@@ -220,15 +158,77 @@ components:
                   type:
                   - string
                   - 'null'
+    Status:
+      type: object
+      properties:
+        status:
+          type: string
+          enum:
+          - ok
+          - failure
+          - not-found
+          example: success
+        reason:
+          type: string
+        errors:
+          type: array
+          items:
+            type: string
+          required:
+          - status
+      example:
+        status: not created
+        errors:
+        - name is missing
   headers:
-    X-RateLimit-Limit:
-      description: The total amount of requests permitted within the interval
-      schema:
-        type: integer
     X-RateLimit-Remaining:
       description: The total amount of requests remaining within the interval
       schema:
         type: integer
+    X-RateLimit-Limit:
+      description: The total amount of requests permitted within the interval
+      schema:
+        type: integer
+  responses:
+    RateLimited:
+      description: Rate Limited
+      headers:
+        X-RateLimit-Limit:
+          $ref: '#/components/headers/X-RateLimit-Limit'
+        X-RateLimit-Remaining:
+          $ref: '#/components/headers/X-RateLimit-Remaining'
+        X-RateLimit-Reset:
+          description: The datetime in epoch seconds when the interval resets
+          schema:
+            type: integer
+        Retry-After:
+          description: The UTC datetime when the interval resets
+          schema:
+            type: string
+            format: date-time
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              reason:
+                type: string
+              rateLimit:
+                type: object
+                description: A summary of the rate limit encountered, additional information is available in the headers.
+                properties:
+                  intervalLimit:
+                    type: number
+                    description: The total amount of requests permitted within the interval
+                  intervalRemaining:
+                    type: number
+                    description: The amount of requests remaining within the interval
+                  intervalResetSeconds:
+                    type: number
+                    description: The amount of time in seconds representing a single interval
+                  waitMs:
+                    type: number
+                    description: The amount of time to wait until the next interval
   securitySchemes:
     BearerAuth:
       type: http

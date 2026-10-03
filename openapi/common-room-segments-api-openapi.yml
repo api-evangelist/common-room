@@ -299,49 +299,6 @@ components:
       schema:
         type: integer
   schemas:
-    CreateSegmentResponse:
-      type: object
-      required:
-      - success
-      - data
-      properties:
-        success:
-          type: boolean
-          enum:
-          - true
-        data:
-          type: object
-          required:
-          - id
-          - name
-          properties:
-            id:
-              type: string
-              description: Prefixed segment ID (format `s_<number>`)
-            name:
-              type: string
-    Status:
-      type: object
-      properties:
-        status:
-          type: string
-          enum:
-          - ok
-          - failure
-          - not-found
-          example: success
-        reason:
-          type: string
-        errors:
-          type: array
-          items:
-            type: string
-          required:
-          - status
-      example:
-        status: not created
-        errors:
-        - name is missing
     CreateSegmentRequest:
       type: object
       required:
@@ -364,6 +321,44 @@ components:
         objectTypeId:
           type: string
           description: Required when entityType is `object`. Prefixed object type ID (format `cot_<number>`)
+    SegmentResponse:
+      type: object
+      required:
+      - success
+      - data
+      properties:
+        success:
+          type: boolean
+          enum:
+          - true
+        data:
+          $ref: '#/components/schemas/ApiSegment'
+    SegmentList:
+      type: object
+      required:
+      - success
+      - data
+      - meta
+      properties:
+        success:
+          type: boolean
+          enum:
+          - true
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiSegment'
+        meta:
+          type: object
+          properties:
+            nextCursor:
+              type:
+              - string
+              - 'null'
+              description: Cursor for pagination; pass as the `cursor` query parameter to fetch the next page.
+            recordCount:
+              type: integer
+              description: Total number of records matching the query. Only returned when `cols=recordCount` is requested.
     ApiSegment:
       type: object
       required:
@@ -391,7 +386,19 @@ components:
           type: string
           format: uri
           description: Common Room URL for this segment
-    SegmentResponse:
+    ApiV2ErrorResponse:
+      type: object
+      required:
+      - success
+      - error
+      properties:
+        success:
+          type: boolean
+          enum:
+          - false
+        error:
+          $ref: '#/components/schemas/ApiV2Error'
+    CreateSegmentResponse:
       type: object
       required:
       - success
@@ -402,7 +409,16 @@ components:
           enum:
           - true
         data:
-          $ref: '#/components/schemas/ApiSegment'
+          type: object
+          required:
+          - id
+          - name
+          properties:
+            id:
+              type: string
+              description: Prefixed segment ID (format `s_<number>`)
+            name:
+              type: string
     ApiV2Error:
       type: object
       required:
@@ -437,44 +453,28 @@ components:
         message:
           type: string
           description: A human-readable description of the error.
-    ApiV2ErrorResponse:
+    Status:
       type: object
-      required:
-      - success
-      - error
       properties:
-        success:
-          type: boolean
+        status:
+          type: string
           enum:
-          - false
-        error:
-          $ref: '#/components/schemas/ApiV2Error'
-    SegmentList:
-      type: object
-      required:
-      - success
-      - data
-      - meta
-      properties:
-        success:
-          type: boolean
-          enum:
-          - true
-        data:
+          - ok
+          - failure
+          - not-found
+          example: success
+        reason:
+          type: string
+        errors:
           type: array
           items:
-            $ref: '#/components/schemas/ApiSegment'
-        meta:
-          type: object
-          properties:
-            nextCursor:
-              type:
-              - string
-              - 'null'
-              description: Cursor for pagination; pass as the `cursor` query parameter to fetch the next page.
-            recordCount:
-              type: integer
-              description: Total number of records matching the query. Only returned when `cols=recordCount` is requested.
+            type: string
+          required:
+          - status
+      example:
+        status: not created
+        errors:
+        - name is missing
   securitySchemes:
     BearerAuth:
       type: http

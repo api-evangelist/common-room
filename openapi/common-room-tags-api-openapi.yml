@@ -192,6 +192,27 @@ paths:
       description: Common Room Core API v1
 components:
   schemas:
+    ApiTag:
+      allOf:
+      - $ref: '#/components/schemas/ApiTagCreationProperties'
+      - type: object
+        properties:
+          id:
+            description: Unique identifier for this tag
+            type: string
+          createdAt:
+            description: The date-time the tag was created in ISO8601 format
+            type: string
+            format: date-time
+          deletedAt:
+            description: The date-time the tag was deleted in ISO8601 format
+            type:
+            - string
+            - 'null'
+            format: date-time
+      required:
+      - id
+      - createdAt
     ApiTagUpdateProperties:
       type: object
       properties:
@@ -222,49 +243,32 @@ components:
       required:
       - name
       - entityTypes
-    ApiTag:
-      allOf:
-      - $ref: '#/components/schemas/ApiTagCreationProperties'
-      - type: object
-        properties:
-          id:
-            description: Unique identifier for this tag
-            type: string
-          createdAt:
-            description: The date-time the tag was created in ISO8601 format
-            type: string
-            format: date-time
-          deletedAt:
-            description: The date-time the tag was deleted in ISO8601 format
-            type:
-            - string
-            - 'null'
-            format: date-time
+    ApiTag_2:
+      type: object
       required:
       - id
-      - createdAt
-    Status:
-      type: object
+      - name
       properties:
-        status:
+        id:
           type: string
-          enum:
-          - ok
-          - failure
-          - not-found
-          example: success
-        reason:
+          description: Prefixed tag ID (format `l_<number>`)
+        name:
           type: string
-        errors:
+          description: The tag's display name
+        description:
+          type:
+          - string
+          - 'null'
+          description: Human-readable description of the tag
+        entityTypes:
           type: array
           items:
             type: string
-          required:
-          - status
-      example:
-        status: not created
-        errors:
-        - name is missing
+            enum:
+            - contact
+            - organization
+            - activity
+          description: Entity types this tag can be applied to
     TagResponse:
       type: object
       required:
@@ -302,32 +306,18 @@ components:
               - string
               - 'null'
               description: Cursor for pagination; pass as the `cursor` query parameter to fetch the next page.
-    ApiTag_2:
+    ApiV2ErrorResponse:
       type: object
       required:
-      - id
-      - name
+      - success
+      - error
       properties:
-        id:
-          type: string
-          description: Prefixed tag ID (format `l_<number>`)
-        name:
-          type: string
-          description: The tag's display name
-        description:
-          type:
-          - string
-          - 'null'
-          description: Human-readable description of the tag
-        entityTypes:
-          type: array
-          items:
-            type: string
-            enum:
-            - contact
-            - organization
-            - activity
-          description: Entity types this tag can be applied to
+        success:
+          type: boolean
+          enum:
+          - false
+        error:
+          $ref: '#/components/schemas/ApiV2Error'
     ApiV2Error:
       type: object
       required:
@@ -362,18 +352,37 @@ components:
         message:
           type: string
           description: A human-readable description of the error.
-    ApiV2ErrorResponse:
+    Status:
       type: object
-      required:
-      - success
-      - error
       properties:
-        success:
-          type: boolean
+        status:
+          type: string
           enum:
-          - false
-        error:
-          $ref: '#/components/schemas/ApiV2Error'
+          - ok
+          - failure
+          - not-found
+          example: success
+        reason:
+          type: string
+        errors:
+          type: array
+          items:
+            type: string
+          required:
+          - status
+      example:
+        status: not created
+        errors:
+        - name is missing
+  headers:
+    X-RateLimit-Remaining:
+      description: The total amount of requests remaining within the interval
+      schema:
+        type: integer
+    X-RateLimit-Limit:
+      description: The total amount of requests permitted within the interval
+      schema:
+        type: integer
   responses:
     RateLimited:
       description: Rate Limited
@@ -432,15 +441,6 @@ components:
               docs:
                 type: string
                 description: A link to this API documentation
-  headers:
-    X-RateLimit-Limit:
-      description: The total amount of requests permitted within the interval
-      schema:
-        type: integer
-    X-RateLimit-Remaining:
-      description: The total amount of requests remaining within the interval
-      schema:
-        type: integer
   securitySchemes:
     BearerAuth:
       type: http
