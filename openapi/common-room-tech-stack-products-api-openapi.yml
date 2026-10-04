@@ -92,40 +92,37 @@ paths:
       x-operation-id-source: derived
 components:
   headers:
-    X-RateLimit-Remaining:
-      description: The total amount of requests remaining within the interval
-      schema:
-        type: integer
     X-RateLimit-Limit:
       description: The total amount of requests permitted within the interval
       schema:
         type: integer
+    X-RateLimit-Remaining:
+      description: The total amount of requests remaining within the interval
+      schema:
+        type: integer
   schemas:
-    TechStackProductList:
+    Status:
       type: object
-      required:
-      - success
-      - data
-      - meta
       properties:
-        success:
-          type: boolean
+        status:
+          type: string
           enum:
-          - true
-        data:
+          - ok
+          - failure
+          - not-found
+          example: success
+        reason:
+          type: string
+        errors:
           type: array
           items:
-            $ref: '#/components/schemas/ApiTechStackProduct'
-        meta:
-          type: object
+            type: string
           required:
-          - nextCursor
-          properties:
-            nextCursor:
-              type:
-              - string
-              - 'null'
-              description: Cursor for pagination; pass as the `cursor` query parameter to fetch the next page.
+          - status
+      example:
+        status: not created
+        errors:
+        - name is missing
     ApiTechStackProduct:
       type: object
       required:
@@ -188,28 +185,31 @@ components:
         message:
           type: string
           description: A human-readable description of the error.
-    Status:
+    TechStackProductList:
       type: object
+      required:
+      - success
+      - data
+      - meta
       properties:
-        status:
-          type: string
+        success:
+          type: boolean
           enum:
-          - ok
-          - failure
-          - not-found
-          example: success
-        reason:
-          type: string
-        errors:
+          - true
+        data:
           type: array
           items:
-            type: string
+            $ref: '#/components/schemas/ApiTechStackProduct'
+        meta:
+          type: object
           required:
-          - status
-      example:
-        status: not created
-        errors:
-        - name is missing
+          - nextCursor
+          properties:
+            nextCursor:
+              type:
+              - string
+              - 'null'
+              description: Cursor for pagination; pass as the `cursor` query parameter to fetch the next page.
   responses:
     RateLimited:
       description: Rate Limited

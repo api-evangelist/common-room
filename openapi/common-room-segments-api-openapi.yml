@@ -231,6 +231,15 @@ paths:
     - url: https://api.commonroom.io/community/v1
       description: Common Room Core API v1
 components:
+  headers:
+    X-RateLimit-Limit:
+      description: The total amount of requests permitted within the interval
+      schema:
+        type: integer
+    X-RateLimit-Remaining:
+      description: The total amount of requests remaining within the interval
+      schema:
+        type: integer
   responses:
     InvalidRequest:
       description: Invalid Request
@@ -289,38 +298,41 @@ components:
                   waitMs:
                     type: number
                     description: The amount of time to wait until the next interval
-  headers:
-    X-RateLimit-Limit:
-      description: The total amount of requests permitted within the interval
-      schema:
-        type: integer
-    X-RateLimit-Remaining:
-      description: The total amount of requests remaining within the interval
-      schema:
-        type: integer
   schemas:
-    CreateSegmentRequest:
+    Status:
       type: object
-      required:
-      - name
       properties:
-        name:
-          type: string
-          description: The name for the new segment (max 500 characters)
-        description:
-          type: string
-          description: Optional description for the segment (markdown supported)
-        entityType:
+        status:
           type: string
           enum:
-          - contact
-          - object
-          - organization
-          default: contact
-          description: The type of entity this segment will contain
-        objectTypeId:
+          - ok
+          - failure
+          - not-found
+          example: success
+        reason:
           type: string
-          description: Required when entityType is `object`. Prefixed object type ID (format `cot_<number>`)
+        errors:
+          type: array
+          items:
+            type: string
+          required:
+          - status
+      example:
+        status: not created
+        errors:
+        - name is missing
+    ApiV2ErrorResponse:
+      type: object
+      required:
+      - success
+      - error
+      properties:
+        success:
+          type: boolean
+          enum:
+          - false
+        error:
+          $ref: '#/components/schemas/ApiV2Error'
     SegmentResponse:
       type: object
       required:
@@ -333,32 +345,27 @@ components:
           - true
         data:
           $ref: '#/components/schemas/ApiSegment'
-    SegmentList:
+    CreateSegmentResponse:
       type: object
       required:
       - success
       - data
-      - meta
       properties:
         success:
           type: boolean
           enum:
           - true
         data:
-          type: array
-          items:
-            $ref: '#/components/schemas/ApiSegment'
-        meta:
           type: object
+          required:
+          - id
+          - name
           properties:
-            nextCursor:
-              type:
-              - string
-              - 'null'
-              description: Cursor for pagination; pass as the `cursor` query parameter to fetch the next page.
-            recordCount:
-              type: integer
-              description: Total number of records matching the query. Only returned when `cols=recordCount` is requested.
+            id:
+              type: string
+              description: Prefixed segment ID (format `s_<number>`)
+            name:
+              type: string
     ApiSegment:
       type: object
       required:
@@ -386,39 +393,32 @@ components:
           type: string
           format: uri
           description: Common Room URL for this segment
-    ApiV2ErrorResponse:
-      type: object
-      required:
-      - success
-      - error
-      properties:
-        success:
-          type: boolean
-          enum:
-          - false
-        error:
-          $ref: '#/components/schemas/ApiV2Error'
-    CreateSegmentResponse:
+    SegmentList:
       type: object
       required:
       - success
       - data
+      - meta
       properties:
         success:
           type: boolean
           enum:
           - true
         data:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiSegment'
+        meta:
           type: object
-          required:
-          - id
-          - name
           properties:
-            id:
-              type: string
-              description: Prefixed segment ID (format `s_<number>`)
-            name:
-              type: string
+            nextCursor:
+              type:
+              - string
+              - 'null'
+              description: Cursor for pagination; pass as the `cursor` query parameter to fetch the next page.
+            recordCount:
+              type: integer
+              description: Total number of records matching the query. Only returned when `cols=recordCount` is requested.
     ApiV2Error:
       type: object
       required:
@@ -453,28 +453,28 @@ components:
         message:
           type: string
           description: A human-readable description of the error.
-    Status:
+    CreateSegmentRequest:
       type: object
+      required:
+      - name
       properties:
-        status:
+        name:
+          type: string
+          description: The name for the new segment (max 500 characters)
+        description:
+          type: string
+          description: Optional description for the segment (markdown supported)
+        entityType:
           type: string
           enum:
-          - ok
-          - failure
-          - not-found
-          example: success
-        reason:
+          - contact
+          - object
+          - organization
+          default: contact
+          description: The type of entity this segment will contain
+        objectTypeId:
           type: string
-        errors:
-          type: array
-          items:
-            type: string
-          required:
-          - status
-      example:
-        status: not created
-        errors:
-        - name is missing
+          description: Required when entityType is `object`. Prefixed object type ID (format `cot_<number>`)
   securitySchemes:
     BearerAuth:
       type: http

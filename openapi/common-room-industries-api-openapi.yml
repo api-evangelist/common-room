@@ -91,7 +91,54 @@ paths:
       operationId: getIndustries
       x-operation-id-source: derived
 components:
+  headers:
+    X-RateLimit-Limit:
+      description: The total amount of requests permitted within the interval
+      schema:
+        type: integer
+    X-RateLimit-Remaining:
+      description: The total amount of requests remaining within the interval
+      schema:
+        type: integer
   schemas:
+    ApiNaicsCode:
+      type: object
+      required:
+      - id
+      - code
+      - name
+      properties:
+        id:
+          type: string
+          description: Prefixed NAICS code ID (format `naics_<number>`)
+        code:
+          type: integer
+          description: The numeric NAICS code
+        name:
+          type: string
+          description: Industry name
+    Status:
+      type: object
+      properties:
+        status:
+          type: string
+          enum:
+          - ok
+          - failure
+          - not-found
+          example: success
+        reason:
+          type: string
+        errors:
+          type: array
+          items:
+            type: string
+          required:
+          - status
+      example:
+        status: not created
+        errors:
+        - name is missing
     NaicsCodeList:
       type: object
       required:
@@ -117,22 +164,6 @@ components:
               - string
               - 'null'
               description: Cursor for pagination; pass as the `cursor` query parameter to fetch the next page.
-    ApiNaicsCode:
-      type: object
-      required:
-      - id
-      - code
-      - name
-      properties:
-        id:
-          type: string
-          description: Prefixed NAICS code ID (format `naics_<number>`)
-        code:
-          type: integer
-          description: The numeric NAICS code
-        name:
-          type: string
-          description: Industry name
     ApiV2ErrorResponse:
       type: object
       required:
@@ -179,37 +210,6 @@ components:
         message:
           type: string
           description: A human-readable description of the error.
-    Status:
-      type: object
-      properties:
-        status:
-          type: string
-          enum:
-          - ok
-          - failure
-          - not-found
-          example: success
-        reason:
-          type: string
-        errors:
-          type: array
-          items:
-            type: string
-          required:
-          - status
-      example:
-        status: not created
-        errors:
-        - name is missing
-  headers:
-    X-RateLimit-Remaining:
-      description: The total amount of requests remaining within the interval
-      schema:
-        type: integer
-    X-RateLimit-Limit:
-      description: The total amount of requests permitted within the interval
-      schema:
-        type: integer
   responses:
     RateLimited:
       description: Rate Limited

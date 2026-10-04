@@ -53,14 +53,49 @@ paths:
       description: Common Room Core API v1
 components:
   headers:
-    X-RateLimit-Remaining:
-      description: The total amount of requests remaining within the interval
-      schema:
-        type: integer
     X-RateLimit-Limit:
       description: The total amount of requests permitted within the interval
       schema:
         type: integer
+    X-RateLimit-Remaining:
+      description: The total amount of requests remaining within the interval
+      schema:
+        type: integer
+  schemas:
+    Status:
+      type: object
+      properties:
+        status:
+          type: string
+          enum:
+          - ok
+          - failure
+          - not-found
+          example: success
+        reason:
+          type: string
+        errors:
+          type: array
+          items:
+            type: string
+          required:
+          - status
+      example:
+        status: not created
+        errors:
+        - name is missing
+    ApiToken:
+      type: object
+      properties:
+        jti:
+          type: string
+          example: tcpgph92
+        communityName:
+          type: string
+          example: Uncommon
+        communityId:
+          type: string
+          example: 8p980hdo0
   responses:
     RateLimited:
       description: Rate Limited
@@ -101,41 +136,6 @@ components:
                   waitMs:
                     type: number
                     description: The amount of time to wait until the next interval
-  schemas:
-    ApiToken:
-      type: object
-      properties:
-        jti:
-          type: string
-          example: tcpgph92
-        communityName:
-          type: string
-          example: Uncommon
-        communityId:
-          type: string
-          example: 8p980hdo0
-    Status:
-      type: object
-      properties:
-        status:
-          type: string
-          enum:
-          - ok
-          - failure
-          - not-found
-          example: success
-        reason:
-          type: string
-        errors:
-          type: array
-          items:
-            type: string
-          required:
-          - status
-      example:
-        status: not created
-        errors:
-        - name is missing
   securitySchemes:
     BearerAuth:
       type: http

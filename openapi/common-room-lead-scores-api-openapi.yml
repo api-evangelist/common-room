@@ -110,33 +110,38 @@ paths:
       operationId: getLeadScores
       x-operation-id-source: derived
 components:
+  headers:
+    X-RateLimit-Limit:
+      description: The total amount of requests permitted within the interval
+      schema:
+        type: integer
+    X-RateLimit-Remaining:
+      description: The total amount of requests remaining within the interval
+      schema:
+        type: integer
   schemas:
-    LeadScoreDefinitionList:
+    Status:
       type: object
-      required:
-      - success
-      - data
       properties:
-        success:
-          type: boolean
+        status:
+          type: string
           enum:
-          - true
-        data:
+          - ok
+          - failure
+          - not-found
+          example: success
+        reason:
+          type: string
+        errors:
           type: array
           items:
-            $ref: '#/components/schemas/ApiLeadScoreDefinition'
-    LeadScoreDefinitionResponse:
-      type: object
-      required:
-      - success
-      - data
-      properties:
-        success:
-          type: boolean
-          enum:
-          - true
-        data:
-          $ref: '#/components/schemas/ApiLeadScoreDefinition'
+            type: string
+          required:
+          - status
+      example:
+        status: not created
+        errors:
+        - name is missing
     ApiLeadScoreDefinition:
       type: object
       required:
@@ -165,6 +170,18 @@ components:
         isPrimaryScore:
           type: boolean
           description: Whether this is the primary score for its entity type
+    LeadScoreDefinitionResponse:
+      type: object
+      required:
+      - success
+      - data
+      properties:
+        success:
+          type: boolean
+          enum:
+          - true
+        data:
+          $ref: '#/components/schemas/ApiLeadScoreDefinition'
     ApiV2ErrorResponse:
       type: object
       required:
@@ -177,6 +194,20 @@ components:
           - false
         error:
           $ref: '#/components/schemas/ApiV2Error'
+    LeadScoreDefinitionList:
+      type: object
+      required:
+      - success
+      - data
+      properties:
+        success:
+          type: boolean
+          enum:
+          - true
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiLeadScoreDefinition'
     ApiV2Error:
       type: object
       required:
@@ -211,37 +242,6 @@ components:
         message:
           type: string
           description: A human-readable description of the error.
-    Status:
-      type: object
-      properties:
-        status:
-          type: string
-          enum:
-          - ok
-          - failure
-          - not-found
-          example: success
-        reason:
-          type: string
-        errors:
-          type: array
-          items:
-            type: string
-          required:
-          - status
-      example:
-        status: not created
-        errors:
-        - name is missing
-  headers:
-    X-RateLimit-Remaining:
-      description: The total amount of requests remaining within the interval
-      schema:
-        type: integer
-    X-RateLimit-Limit:
-      description: The total amount of requests permitted within the interval
-      schema:
-        type: integer
   responses:
     RateLimited:
       description: Rate Limited
