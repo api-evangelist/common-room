@@ -407,6 +407,9 @@ apis:
   - type: Documentation
     url: https://api.commonroom.io/docs/community.html
 common:
+- type: CapabilityMap
+  url: capabilities/common-room-capability-edges.yml
+  name: Common Room Business Capability Map
 - type: AgenticAccess
   url: agentic-access/common-room-agentic-access.yml
 - type: VulnerabilityDisclosure
