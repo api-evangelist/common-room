@@ -77,3 +77,20 @@ tools:
   description: Provide feedback on query results to improve response quality
   category: feedback
 tool_count: 5
+rfc9728:
+  endpoint: https://mcp.commonroom.io/mcp
+  metadata_url: https://mcp.commonroom.io/.well-known/oauth-protected-resource/mcp
+  discovered_via: WWW-Authenticate resource_metadata on an anonymous POST initialize
+  fetched: '2026-09-25'
+  http_status: 200
+  content_type: application/json
+  document:
+    resource: https://mcp.commonroom.io/mcp
+    authorization_servers:
+    - https://login.commonroom.io/
+    scopes_supported:
+    - openid
+    - profile
+    - email
+    - offline_access
+    resource_name: https://mcp.commonroom.io/

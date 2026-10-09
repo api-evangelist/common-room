@@ -161,3 +161,33 @@ plans:
     agent_surfaces:
       - Common Room MCP
       - CLI
+x-canonical:
+  generated: '2026-10-08'
+  vocabulary: all/0-working/economics/plans-canonical.yml
+  models:
+  - free
+  - subscription
+  units:
+  - period
+  plans:
+  - name: Essential
+    access: other
+    model: subscription
+    model_how: derived
+    units:
+    - period
+    periods: []
+  - name: Advanced
+    access: other
+    model: free
+    model_how: derived
+    units:
+    - period
+    periods: []
+  - name: Enterprise
+    access: other
+    model: free
+    model_how: derived
+    units:
+    - period
+    periods: []
