@@ -3,6 +3,7 @@ method: searched
 checked:
 - https://aws.amazon.com/marketplace/
 - https://hightouch.com/docs/destinations/common-room
+- okta/integrations/okta-integration-edges.yml
 marketplace_apps: []
 edges:
 - partner_name: AWS Marketplace
@@ -38,4 +39,29 @@ edges:
       status: released
   detected_by: sweep-cdp.py
   first_seen: '2026-10-14'
+- partner_name: Okta (own)
+  partner: okta
+  partner_match: mirror
+  mirror_match: domain
+  type: marketplace
+  relationship: platform-app
+  direction: third-party
+  channel: partner-built
+  marketplace: own
+  evidence: https://www.okta.com/integrations/commonroom/
+  mirror_of: okta/integrations/okta-integration-edges.yml
+  apps:
+  - Common Room
+  listing_count: 1
+  detected: '2026-10-14'
+  detected_by: mirror-platform-listings.py
+  category: Single Sign-On
+  badges:
+  - OKTA_VERIFIED
+  features:
+  - CREATE
+  - DEACTIVATE
+  - GROUP_PUSH
+  - SAML
+  - UPDATE
 source: https://hightouch.com/docs/destinations/common-room
