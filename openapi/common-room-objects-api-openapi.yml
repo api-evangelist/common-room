@@ -190,15 +190,6 @@ paths:
       operationId: getObjects
       x-operation-id-source: derived
 components:
-  headers:
-    X-RateLimit-Limit:
-      description: The total amount of requests permitted within the interval
-      schema:
-        type: integer
-    X-RateLimit-Remaining:
-      description: The total amount of requests remaining within the interval
-      schema:
-        type: integer
   schemas:
     ApiCustomObject:
       type: object
@@ -220,6 +211,78 @@ components:
           description: Map of custom-field ID (format `cf_<number>`) to its typed value.
           additionalProperties:
             $ref: '#/components/schemas/ApiFieldValue'
+    CustomObjectResponse:
+      type: object
+      required:
+      - success
+      - data
+      properties:
+        success:
+          type: boolean
+          enum:
+          - true
+        data:
+          $ref: '#/components/schemas/ApiCustomObject'
+    Status:
+      type: object
+      properties:
+        status:
+          type: string
+          enum:
+          - ok
+          - failure
+          - not-found
+          example: success
+        reason:
+          type: string
+        errors:
+          type: array
+          items:
+            type: string
+          required:
+          - status
+      example:
+        status: not created
+        errors:
+        - name is missing
+    ApiV2ErrorResponse:
+      type: object
+      required:
+      - success
+      - error
+      properties:
+        success:
+          type: boolean
+          enum:
+          - false
+        error:
+          $ref: '#/components/schemas/ApiV2Error'
+    CustomObjectList:
+      type: object
+      required:
+      - success
+      - data
+      - meta
+      properties:
+        success:
+          type: boolean
+          enum:
+          - true
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiCustomObject'
+        meta:
+          type: object
+          properties:
+            nextCursor:
+              type:
+              - string
+              - 'null'
+              description: Cursor for pagination; pass as the `cursor` query parameter to fetch the next page.
+            recordCount:
+              type: integer
+              description: Total number of records matching the query. Only returned when `cols=recordCount` is requested.
     ApiFieldValue:
       description: A typed custom-field value. The `type` discriminator indicates the value's runtime type.
       oneOf:
@@ -291,66 +354,6 @@ components:
             - boolean
           value:
             type: boolean
-    Status:
-      type: object
-      properties:
-        status:
-          type: string
-          enum:
-          - ok
-          - failure
-          - not-found
-          example: success
-        reason:
-          type: string
-        errors:
-          type: array
-          items:
-            type: string
-          required:
-          - status
-      example:
-        status: not created
-        errors:
-        - name is missing
-    ApiV2ErrorResponse:
-      type: object
-      required:
-      - success
-      - error
-      properties:
-        success:
-          type: boolean
-          enum:
-          - false
-        error:
-          $ref: '#/components/schemas/ApiV2Error'
-    CustomObjectList:
-      type: object
-      required:
-      - success
-      - data
-      - meta
-      properties:
-        success:
-          type: boolean
-          enum:
-          - true
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/ApiCustomObject'
-        meta:
-          type: object
-          properties:
-            nextCursor:
-              type:
-              - string
-              - 'null'
-              description: Cursor for pagination; pass as the `cursor` query parameter to fetch the next page.
-            recordCount:
-              type: integer
-              description: Total number of records matching the query. Only returned when `cols=recordCount` is requested.
     ApiV2Error:
       type: object
       required:
@@ -385,18 +388,6 @@ components:
         message:
           type: string
           description: A human-readable description of the error.
-    CustomObjectResponse:
-      type: object
-      required:
-      - success
-      - data
-      properties:
-        success:
-          type: boolean
-          enum:
-          - true
-        data:
-          $ref: '#/components/schemas/ApiCustomObject'
   responses:
     RateLimited:
       description: Rate Limited
@@ -437,6 +428,15 @@ components:
                   waitMs:
                     type: number
                     description: The amount of time to wait until the next interval
+  headers:
+    X-RateLimit-Remaining:
+      description: The total amount of requests remaining within the interval
+      schema:
+        type: integer
+    X-RateLimit-Limit:
+      description: The total amount of requests permitted within the interval
+      schema:
+        type: integer
   securitySchemes:
     BearerAuth:
       type: http

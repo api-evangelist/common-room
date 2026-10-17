@@ -126,38 +126,46 @@ paths:
       operationId: getProspectorContacts
       x-operation-id-source: derived
 components:
-  headers:
-    X-RateLimit-Limit:
-      description: The total amount of requests permitted within the interval
-      schema:
-        type: integer
-    X-RateLimit-Remaining:
-      description: The total amount of requests remaining within the interval
-      schema:
-        type: integer
   schemas:
-    Status:
+    ApiLocation:
       type: object
+      description: A best-effort location, with each component populated when known.
       properties:
-        status:
+        city:
           type: string
+          description: City name
+        region:
+          type: string
+          description: State, province, or region name
+        country:
+          type: string
+          description: Country name
+    ProspectorContactList:
+      type: object
+      required:
+      - success
+      - data
+      - meta
+      properties:
+        success:
+          type: boolean
           enum:
-          - ok
-          - failure
-          - not-found
-          example: success
-        reason:
-          type: string
-        errors:
+          - true
+        data:
           type: array
           items:
-            type: string
-          required:
-          - status
-      example:
-        status: not created
-        errors:
-        - name is missing
+            $ref: '#/components/schemas/ApiProspectorContact'
+        meta:
+          type: object
+          properties:
+            nextCursor:
+              type:
+              - string
+              - 'null'
+              description: Cursor for pagination; pass as the `cursor` query parameter to fetch the next page.
+            recordCount:
+              type: integer
+              description: Total number of records matching the query. Only returned when `cols=recordCount` is requested.
     ApiProspectorContact:
       type: object
       required:
@@ -217,19 +225,6 @@ components:
           type:
           - string
           - 'null'
-    ApiLocation:
-      type: object
-      description: A best-effort location, with each component populated when known.
-      properties:
-        city:
-          type: string
-          description: City name
-        region:
-          type: string
-          description: State, province, or region name
-        country:
-          type: string
-          description: Country name
     ApiV2ErrorResponse:
       type: object
       required:
@@ -242,6 +237,28 @@ components:
           - false
         error:
           $ref: '#/components/schemas/ApiV2Error'
+    Status:
+      type: object
+      properties:
+        status:
+          type: string
+          enum:
+          - ok
+          - failure
+          - not-found
+          example: success
+        reason:
+          type: string
+        errors:
+          type: array
+          items:
+            type: string
+          required:
+          - status
+      example:
+        status: not created
+        errors:
+        - name is missing
     ApiV2Error:
       type: object
       required:
@@ -276,32 +293,6 @@ components:
         message:
           type: string
           description: A human-readable description of the error.
-    ProspectorContactList:
-      type: object
-      required:
-      - success
-      - data
-      - meta
-      properties:
-        success:
-          type: boolean
-          enum:
-          - true
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/ApiProspectorContact'
-        meta:
-          type: object
-          properties:
-            nextCursor:
-              type:
-              - string
-              - 'null'
-              description: Cursor for pagination; pass as the `cursor` query parameter to fetch the next page.
-            recordCount:
-              type: integer
-              description: Total number of records matching the query. Only returned when `cols=recordCount` is requested.
   responses:
     RateLimited:
       description: Rate Limited
@@ -342,6 +333,15 @@ components:
                   waitMs:
                     type: number
                     description: The amount of time to wait until the next interval
+  headers:
+    X-RateLimit-Remaining:
+      description: The total amount of requests remaining within the interval
+      schema:
+        type: integer
+    X-RateLimit-Limit:
+      description: The total amount of requests permitted within the interval
+      schema:
+        type: integer
   securitySchemes:
     BearerAuth:
       type: http

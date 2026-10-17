@@ -232,12 +232,12 @@ paths:
       description: Common Room Core API v1
 components:
   headers:
-    X-RateLimit-Limit:
-      description: The total amount of requests permitted within the interval
-      schema:
-        type: integer
     X-RateLimit-Remaining:
       description: The total amount of requests remaining within the interval
+      schema:
+        type: integer
+    X-RateLimit-Limit:
+      description: The total amount of requests permitted within the interval
       schema:
         type: integer
   responses:
@@ -299,6 +299,44 @@ components:
                     type: number
                     description: The amount of time to wait until the next interval
   schemas:
+    SegmentList:
+      type: object
+      required:
+      - success
+      - data
+      - meta
+      properties:
+        success:
+          type: boolean
+          enum:
+          - true
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiSegment'
+        meta:
+          type: object
+          properties:
+            nextCursor:
+              type:
+              - string
+              - 'null'
+              description: Cursor for pagination; pass as the `cursor` query parameter to fetch the next page.
+            recordCount:
+              type: integer
+              description: Total number of records matching the query. Only returned when `cols=recordCount` is requested.
+    ApiV2ErrorResponse:
+      type: object
+      required:
+      - success
+      - error
+      properties:
+        success:
+          type: boolean
+          enum:
+          - false
+        error:
+          $ref: '#/components/schemas/ApiV2Error'
     Status:
       type: object
       properties:
@@ -321,30 +359,6 @@ components:
         status: not created
         errors:
         - name is missing
-    ApiV2ErrorResponse:
-      type: object
-      required:
-      - success
-      - error
-      properties:
-        success:
-          type: boolean
-          enum:
-          - false
-        error:
-          $ref: '#/components/schemas/ApiV2Error'
-    SegmentResponse:
-      type: object
-      required:
-      - success
-      - data
-      properties:
-        success:
-          type: boolean
-          enum:
-          - true
-        data:
-          $ref: '#/components/schemas/ApiSegment'
     CreateSegmentResponse:
       type: object
       required:
@@ -393,32 +407,28 @@ components:
           type: string
           format: uri
           description: Common Room URL for this segment
-    SegmentList:
+    CreateSegmentRequest:
       type: object
       required:
-      - success
-      - data
-      - meta
+      - name
       properties:
-        success:
-          type: boolean
+        name:
+          type: string
+          description: The name for the new segment (max 500 characters)
+        description:
+          type: string
+          description: Optional description for the segment (markdown supported)
+        entityType:
+          type: string
           enum:
-          - true
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/ApiSegment'
-        meta:
-          type: object
-          properties:
-            nextCursor:
-              type:
-              - string
-              - 'null'
-              description: Cursor for pagination; pass as the `cursor` query parameter to fetch the next page.
-            recordCount:
-              type: integer
-              description: Total number of records matching the query. Only returned when `cols=recordCount` is requested.
+          - contact
+          - object
+          - organization
+          default: contact
+          description: The type of entity this segment will contain
+        objectTypeId:
+          type: string
+          description: Required when entityType is `object`. Prefixed object type ID (format `cot_<number>`)
     ApiV2Error:
       type: object
       required:
@@ -453,28 +463,18 @@ components:
         message:
           type: string
           description: A human-readable description of the error.
-    CreateSegmentRequest:
+    SegmentResponse:
       type: object
       required:
-      - name
+      - success
+      - data
       properties:
-        name:
-          type: string
-          description: The name for the new segment (max 500 characters)
-        description:
-          type: string
-          description: Optional description for the segment (markdown supported)
-        entityType:
-          type: string
+        success:
+          type: boolean
           enum:
-          - contact
-          - object
-          - organization
-          default: contact
-          description: The type of entity this segment will contain
-        objectTypeId:
-          type: string
-          description: Required when entityType is `object`. Prefixed object type ID (format `cot_<number>`)
+          - true
+        data:
+          $ref: '#/components/schemas/ApiSegment'
   securitySchemes:
     BearerAuth:
       type: http
