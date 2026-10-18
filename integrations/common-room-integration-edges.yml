@@ -5,6 +5,7 @@ checked:
 - https://hightouch.com/docs/destinations/common-room
 - https://zapier.com/api/v4/apps/
 - okta/integrations/okta-integration-edges.yml
+- slack/integrations/slack-integration-edges.yml
 marketplace_apps: []
 edges:
 - partner_name: AWS Marketplace
@@ -90,4 +91,21 @@ edges:
     builder: unknown (not in the directory record)
   detected_by: sweep-workflow-automation.py
   first_seen: '2026-10-15'
+- partner_name: Slack (own)
+  partner: slack
+  partner_match: mirror
+  mirror_match: domain
+  type: marketplace
+  relationship: platform-app
+  direction: third-party
+  channel: partner-built
+  marketplace: own
+  evidence: https://slack.com/marketplace/A0B7REQJ14N-common-room
+  mirror_of: slack/integrations/slack-integration-edges.yml
+  apps:
+  - Common Room
+  listing_count: 1
+  detected: '2026-10-18'
+  detected_by: mirror-platform-listings.py
+  category: Slack app
 source: https://hightouch.com/docs/destinations/common-room
