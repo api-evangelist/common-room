@@ -85,6 +85,10 @@ apis:
   tags:
   - SCIM
   - User Provisioning
+  - Identity and Access Management
+  tags_raw:
+  - SCIM
+  - User Provisioning
   - Identity Management
   properties:
   - type: Documentation
