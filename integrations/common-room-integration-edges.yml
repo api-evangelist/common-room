@@ -3,12 +3,7 @@ method: searched
 checked:
 - https://api.nuget.org/v3
 - https://aws.amazon.com/marketplace/
-- https://cdn.winget.microsoft.com/cache
 - https://crates.io/api/v1
-- https://formulae.brew.sh/api/cask.json
-- https://formulae.brew.sh/api/formula.json
-- https://github.com/ScoopInstaller/Extras
-- https://github.com/ScoopInstaller/Main
 - https://hightouch.com/docs/destinations/common-room
 - https://proxy.golang.org
 - https://pypi.org/pypi
@@ -18,6 +13,17 @@ checked:
 - https://zapier.com/api/v4/apps/
 - okta/integrations/okta-integration-edges.yml
 - slack/integrations/slack-integration-edges.yml
+- https://cdn.winget.microsoft.com/cache
+- https://formulae.brew.sh/api/cask.json
+- https://formulae.brew.sh/api/formula.json
+- https://github.com/ScoopInstaller/Extras
+- https://github.com/ScoopInstaller/Main
+- https://a16z.com/portfolio/
+- https://www.battery.com/company/
+- https://www.battery.com/wp-admin/admin-ajax.php
+- https://www.indexventures.com/companies/
+- https://www.sequoiacap.com/our-companies/
+- https://www.sequoiacap.com/sitemap.xml
 marketplace_apps: []
 edges:
 - partner_name: AWS Marketplace
@@ -180,4 +186,31 @@ edges:
     detected: '2026-10-20'
   detected_by: sweep-official-clis.py
   first_seen: '2026-10-20'
+- partner_name: Index Ventures
+  partner: index-ventures
+  partner_match: register
+  type: register
+  channel: standard-directory
+  relationship: standard-participant
+  direction: partner-built
+  evidence: https://www.indexventures.com/companies/common-room/
+  category: vc portfolio participation
+  contract_reference:
+    register: Index Ventures companies (indexventures.com/companies/)
+    standard: null
+    spec_file: null
+    role: vc-portfolio-company
+    registered_name: Common Room
+    register_id: https://www.indexventures.com/companies/common-room/
+    register_country: null
+    register_website: https://commonroom.io/
+    matched_domain: commonroom.io
+    matched_by: domain
+    signal_note: 'participation only: the venture firm''s own published portfolio lists the company (investment);
+      an ownership and participation record, not conformance or certification'
+    detected_by: sweep-vc-portfolios.py
+    detected: '2026-10-21'
+    sector: business-applications
+  detected_by: sweep-vc-portfolios.py
+  first_seen: '2026-10-21'
 source: https://hightouch.com/docs/destinations/common-room
